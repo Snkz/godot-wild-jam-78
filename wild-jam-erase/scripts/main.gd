@@ -4,13 +4,19 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-# Create a new instance of the Mob scene.
-	for i in range(10):
-		for j in range(10):
+	var screen_res = get_viewport().get_visible_rect().size
+	print ("SCREEN RES", screen_res)
+
+	for i in range(1, 10):
+		for j in range(1, 10):
 			var creature = creature_scene.instantiate()
-			var player_position = $player.position
 			creature.position = Vector2(i * 100, j * 100)
-			creature.name = "creature " + str(i) + str(j)
+			creature.name = "creature " + str(i) + ":" + str(j)
 
 			# Spawn the creature by adding it to the Main scene.
 			add_child(creature)
+
+func _unhandled_input(event):
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_ESCAPE:
+			get_tree().quit()
