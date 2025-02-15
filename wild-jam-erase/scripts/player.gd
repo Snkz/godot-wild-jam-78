@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-func _unhandled_input(event):
-	if event is InputEventKey:
-		if event.pressed and event.keycode == KEY_ESCAPE:
-			get_tree().quit()
+func _process(delta: float) -> void:
+	var mouseposition = get_viewport().get_mouse_position()
+	self.position = mouseposition
