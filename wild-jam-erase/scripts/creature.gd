@@ -5,7 +5,7 @@ signal creature_selected(Creature, Vector2)
 signal creature_highlighted(bool)
 var index : Vector2
 
-enum State { IDLE, WANDER, CAUGHT }
+enum State { IDLE, WANDER, CAUGHT, DUST }
 var current_state = State.IDLE
 
 @export var base_idle_time := 3.0
@@ -30,6 +30,9 @@ func _ready() -> void:
 	_start_idle()
 
 func _on_creature_highlighted(state) -> void:
+	if current_state == State.DUST:
+		return
+		
 	_start_idle()
 	if (state): 
 		current_state = State.CAUGHT
@@ -42,6 +45,8 @@ func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void
 			creature_selected.emit(self, index)
 
 func _change_state() -> void:
+	if current_state == State.DUST:
+		return
 	if current_state == State.IDLE and randf() < wander_chance:
 		current_state = State.WANDER
 		direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
@@ -55,6 +60,14 @@ func _start_idle() -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	direction = Vector2.ZERO
 	timer.start(base_idle_time + randf_range(-time_variation, time_variation))
+
+func _start_dust() -> void:
+	current_state = State.DUST
+	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
+	$AnimatedSprite2D.play(&"dust")
+	await $AnimatedSprite2D.animation_finished  
+
+	self.queue_free()
 
 func _physics_process(delta: float) -> void:
 	if current_state == State.WANDER:

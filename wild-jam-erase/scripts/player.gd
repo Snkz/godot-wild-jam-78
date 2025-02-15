@@ -10,6 +10,5 @@ func _physics_process(delta: float) -> void:
 func _on_body_entered(body: Node2D) -> void:
 	body.emit_signal("creature_highlighted", true)
 
-
 func _on_body_exited(body: Node2D) -> void:
 	body.emit_signal("creature_highlighted", false)

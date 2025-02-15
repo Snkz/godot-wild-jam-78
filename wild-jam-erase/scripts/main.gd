@@ -46,9 +46,10 @@ func _process(delta):
 
 func _on_creature_selected(node, index):
 	if node == selected_creature:
-		node.queue_free()
-		
-	selected_creature = node
+		selected_creature = null
+		node._start_dust()
+	else:
+		selected_creature = node
 	
 func _unhandled_input(event):
 	if event is InputEventKey:
