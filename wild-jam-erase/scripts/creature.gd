@@ -2,9 +2,10 @@ class_name Creature
 extends CharacterBody2D
 
 signal creature_selected(Creature, Vector2)
+signal creature_highlighted(bool)
 var index : Vector2
 
-enum State { IDLE, WANDER }
+enum State { IDLE, WANDER, CAUGHT }
 var current_state = State.IDLE
 
 @export var base_idle_time := 3.0
@@ -18,11 +19,23 @@ var timer := Timer.new()
 
 func _ready() -> void:
 	randomize()
+	modulate = Color(1, 1, 1, 0.1)
+	connect("creature_highlighted", _on_creature_highlighted)
+
 	var offset : float = randf_range(0, $AnimatedSprite2D.sprite_frames.get_frame_count($AnimatedSprite2D.animation))
 	$AnimatedSprite2D.set_frame_and_progress(offset, offset)
 	add_child(timer)
 	timer.timeout.connect(_change_state)
 	_start_idle()
+
+func _on_creature_highlighted(state) -> void:
+	modulate = Color(1, 1, 1, 0.1)
+	current_state = State.IDLE
+	direction = Vector2.ZERO
+	timer.start(base_idle_time + randf_range(-time_variation, time_variation))
+	if (state): 
+		current_state = State.CAUGHT
+		modulate = Color(1, 1, 1, 1)
 
 func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouse:
@@ -34,6 +47,8 @@ func _change_state() -> void:
 		current_state = State.WANDER
 		direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
 		timer.start(base_wander_time + randf_range(-time_variation, time_variation))
+	elif current_state == State.CAUGHT:
+		print("POFF")
 	else:
 		_start_idle()
 
