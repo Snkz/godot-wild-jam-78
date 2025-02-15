@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bwdlgjhs2b4wn"]
+[gd_scene load_steps=9 format=3 uid="uid://bwdlgjhs2b4wn"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_shfmo"]
 [ext_resource type="Texture2D" uid="uid://b4vng7xgqdi8h" path="res://assets/creature_cat.png" id="2_q16qe"]
@@ -6,16 +6,45 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_swmom"]
 size = Vector2(118, 121)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_klgju"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_u6fbk"]
+atlas = ExtResource("2_q16qe")
+region = Rect2(0, 0, 16, 16)
 
-[node name="creature" type="CharacterBody2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fwg0u"]
+atlas = ExtResource("2_q16qe")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kiwdj"]
+atlas = ExtResource("2_q16qe")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q8ub8"]
+atlas = ExtResource("2_q16qe")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q53y4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u6fbk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fwg0u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kiwdj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q8ub8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.0
+}]
+
+[node name="Creature" type="CharacterBody2D"]
 input_pickable = true
 script = ExtResource("1_shfmo")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -24.2)
-scale = Vector2(3, 3)
-texture = ExtResource("2_q16qe")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -24)
@@ -23,5 +52,7 @@ scale = Vector2(0.4, 0.4)
 shape = SubResource("RectangleShape2D_swmom")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -8)
-sprite_frames = SubResource("SpriteFrames_klgju")
+position = Vector2(0, -24)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_q53y4")
+autoplay = "default"
