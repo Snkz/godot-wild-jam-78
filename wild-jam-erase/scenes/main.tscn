@@ -8,6 +8,9 @@
 [node name="main" type="Node2D"]
 script = ExtResource("1_w64oe")
 creature_scene = ExtResource("2_panp8")
+grid_height = 7
+grid_width = 8
+playable_area_offset = Vector2(0, 16)
 
 [node name="player" parent="." instance=ExtResource("1_bdlqp")]
 position = Vector2(577, 311)

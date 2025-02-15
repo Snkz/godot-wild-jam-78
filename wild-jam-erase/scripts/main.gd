@@ -1,21 +1,38 @@
 extends Node2D
 
 @export var creature_scene: PackedScene
+@export var grid_height: int
+@export var grid_width: int
+@export var playable_area_offset: Vector2
+
+var selected_creature: Creature
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var screen_res = get_viewport().get_visible_rect().size
-	print ("SCREEN RES", screen_res)
-
-	for i in range(1, 10):
-		for j in range(1, 10):
+	var screen_res = Vector2()
+	screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
+	screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
+	
+	for i in range(1, grid_width):
+		for j in range(1, grid_height):
 			var creature = creature_scene.instantiate()
-			creature.position = Vector2(i * 100, j * 100)
+			creature.position = Vector2(i * screen_res.x / grid_width + playable_area_offset.x, j * screen_res.y / grid_height + playable_area_offset.y)
 			creature.name = "creature " + str(i) + ":" + str(j)
+			creature.index = Vector2(i, j)
 
 			# Spawn the creature by adding it to the Main scene.
+			creature.add_to_group("creatures")
 			add_child(creature)
+			var creatures = get_tree().get_nodes_in_group("creatures")
+			for c in creatures: 
+				c.connect("creature_selected", _on_creature_selected)
 
+func _on_creature_selected(node, index):
+	if node == selected_creature:
+		node.queue_free()
+		
+	selected_creature = node
+	
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_ESCAPE:
