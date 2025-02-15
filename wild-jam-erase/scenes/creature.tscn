@@ -3,9 +3,6 @@
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_shfmo"]
 [ext_resource type="Texture2D" uid="uid://b4vng7xgqdi8h" path="res://assets/creature_cat.png" id="2_q16qe"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_swmom"]
-size = Vector2(118, 121)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_u6fbk"]
 atlas = ExtResource("2_q16qe")
 region = Rect2(0, 0, 16, 16)
@@ -42,17 +39,20 @@ animations = [{
 "speed": 7.0
 }]
 
-[node name="Creature" type="CharacterBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_swmom"]
+size = Vector2(118, 121)
+
+[node name="creature" type="CharacterBody2D"]
 input_pickable = true
 script = ExtResource("1_shfmo")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -24)
-scale = Vector2(0.4, 0.4)
-shape = SubResource("RectangleShape2D_swmom")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -24)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_q53y4")
 autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -24)
+scale = Vector2(0.4, 0.4)
+shape = SubResource("RectangleShape2D_swmom")

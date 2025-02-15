@@ -6,15 +6,24 @@ extends Node2D
 @export var playable_area_offset: Vector2
 
 var selected_creature: Creature
+var rng = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var screen_res = Vector2()
 	screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
 	screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
+	var max_excluded = 6
+	var exlusion_threshold = 0.25
+
 	
 	for i in range(1, grid_width):
 		for j in range(1, grid_height):
+			var excluded_threshold = rng.randf_range(0, 1.0)
+			if max_excluded > 0 and excluded_threshold < exlusion_threshold:
+				max_excluded = max_excluded -1;
+				continue
+				
 			var creature = creature_scene.instantiate()
 			creature.position = Vector2(i * screen_res.x / grid_width + playable_area_offset.x, j * screen_res.y / grid_height + playable_area_offset.y)
 			creature.name = "creature " + str(i) + ":" + str(j)
