@@ -16,8 +16,6 @@ func _ready() -> void:
 	var max_excluded = 16
 	var exclusion_threshold = 0.30
 	
-	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-	
 	for i in range(1, grid_width):
 		for j in range(1, grid_height):
 			var excluded_threshold = rng.randf_range(0, 1.0)
@@ -36,6 +34,15 @@ func _ready() -> void:
 			var creatures = get_tree().get_nodes_in_group("creatures")
 			for c in creatures: 
 				c.connect("creature_selected", _on_creature_selected)
+
+func _process(delta):
+	var window_rect = get_viewport().get_visible_rect()
+	var mouse_pos = get_viewport().get_mouse_position()
+
+	if window_rect.has_point(mouse_pos):
+		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _on_creature_selected(node, index):
 	if node == selected_creature:
