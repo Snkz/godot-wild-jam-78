@@ -13,14 +13,13 @@ func _ready() -> void:
 	var screen_res = Vector2()
 	screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
 	screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
-	var max_excluded = 6
-	var exlusion_threshold = 0.25
-
+	var max_excluded = 16
+	var exclusion_threshold = 0.30
 	
 	for i in range(1, grid_width):
 		for j in range(1, grid_height):
 			var excluded_threshold = rng.randf_range(0, 1.0)
-			if max_excluded > 0 and excluded_threshold < exlusion_threshold:
+			if max_excluded > 0 and excluded_threshold < exclusion_threshold:
 				max_excluded = max_excluded -1;
 				continue
 				

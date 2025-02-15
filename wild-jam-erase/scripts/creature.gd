@@ -31,10 +31,10 @@ func _ready() -> void:
 func _on_creature_highlighted(state) -> void:
 	modulate = Color(1, 1, 1, 0.1)
 	current_state = State.IDLE
-	direction = Vector2.ZERO
-	timer.start(base_idle_time + randf_range(-time_variation, time_variation))
+	$AnimatedSprite2D.play(&"idle")
 	if (state): 
 		current_state = State.CAUGHT
+		$AnimatedSprite2D.play(&"caught")
 		modulate = Color(1, 1, 1, 1)
 
 func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
@@ -47,8 +47,6 @@ func _change_state() -> void:
 		current_state = State.WANDER
 		direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
 		timer.start(base_wander_time + randf_range(-time_variation, time_variation))
-	elif current_state == State.CAUGHT:
-		print("POFF")
 	else:
 		_start_idle()
 
