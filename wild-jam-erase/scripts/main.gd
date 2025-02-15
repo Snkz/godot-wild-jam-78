@@ -28,7 +28,7 @@ func _ready() -> void:
 			creature.position = Vector2(i * screen_res.x / grid_width + playable_area_offset.x, j * screen_res.y / grid_height + playable_area_offset.y)
 			creature.name = "creature " + str(i) + ":" + str(j)
 			creature.index = Vector2(i, j)
-			creature.modulate = Color(1, 1, 1, 0.25)
+			creature.modulate = Color(1, 1, 1, 0.1)
 
 			# Spawn the creature by adding it to the Main scene.
 			creature.add_to_group("creatures")

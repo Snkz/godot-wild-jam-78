@@ -47,15 +47,15 @@ input_pickable = true
 script = ExtResource("1_shfmo")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -24)
-scale = Vector2(3, 3)
+position = Vector2(0, -40)
+scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
 animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -24)
-scale = Vector2(0.4, 0.4)
+position = Vector2(0, -37)
+scale = Vector2(0.6, 0.6)
 shape = SubResource("RectangleShape2D_swmom")
 
 [connection signal="ready" from="." to="." method="_on_ready"]

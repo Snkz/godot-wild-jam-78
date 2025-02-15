@@ -4,19 +4,47 @@ extends CharacterBody2D
 signal creature_selected(Creature, Vector2)
 var index : Vector2
 
-#func _mouse_enter() -> void:
-#	print("hello ", self.name)
-	
-#func _mouse_exit() -> void:
-#	print("bye ", self.name)
+enum State { IDLE, WANDER }
+var current_state = State.IDLE
+
+@export var base_idle_time := 3.0
+@export var base_wander_time := 2.0
+@export var time_variation := 1.0
+@export var speed := 30.0
+@export var wander_chance := 0.3
+
+var direction := Vector2.ZERO
+var timer := Timer.new()
+
+func _ready() -> void:
+	randomize()
+	var offset : float = randf_range(0, $AnimatedSprite2D.sprite_frames.get_frame_count($AnimatedSprite2D.animation))
+	$AnimatedSprite2D.set_frame_and_progress(offset, offset)
+	add_child(timer)
+	timer.timeout.connect(_change_state)
+	_start_idle()
 
 func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouse:
 		if event.is_pressed():
 			creature_selected.emit(self, index)
-			
 
-func _on_ready() -> void:
-	randomize()
-	var offset : float = randf_range(0, $AnimatedSprite2D.sprite_frames.get_frame_count($AnimatedSprite2D.animation))
-	$AnimatedSprite2D.set_frame_and_progress(offset, offset)
+func _change_state() -> void:
+	if current_state == State.IDLE and randf() < wander_chance:
+		current_state = State.WANDER
+		direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
+		timer.start(base_wander_time + randf_range(-time_variation, time_variation))
+	else:
+		_start_idle()
+
+func _start_idle() -> void:
+	current_state = State.IDLE
+	direction = Vector2.ZERO
+	timer.start(base_idle_time + randf_range(-time_variation, time_variation))
+
+func _physics_process(delta: float) -> void:
+	if current_state == State.WANDER:
+		velocity = direction * speed
+		move_and_slide()
+	else:
+		velocity = Vector2.ZERO
