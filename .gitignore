@@ -1,3 +1,4 @@
 *.o
 *.import
 *.DS_Store
+*.aseprite

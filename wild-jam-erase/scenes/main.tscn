@@ -1,10 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://yxis2j80giwn"]
+[gd_scene load_steps=8 format=3 uid="uid://yxis2j80giwn"]
 
 [ext_resource type="PackedScene" uid="uid://dewg4bjcsybcx" path="res://scenes/player.tscn" id="1_bdlqp"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_w64oe"]
 [ext_resource type="PackedScene" uid="uid://bwdlgjhs2b4wn" path="res://scenes/creature.tscn" id="2_panp8"]
 [ext_resource type="Texture2D" uid="uid://d2c5y52grhh6h" path="res://assets/background.png" id="4_31bdv"]
 [ext_resource type="Texture2D" uid="uid://de1qvfnf3y1y5" path="res://assets/spot_light.webp" id="5_h1d2l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bnkbg"]
+size = Vector2(1280, 27.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8wnw2"]
+size = Vector2(28, 960)
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_w64oe")
@@ -36,3 +42,23 @@ scale = Vector2(0.2, 0.2)
 range_item_cull_mask = 2
 texture = ExtResource("5_h1d2l")
 texture_scale = 5.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="Top" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(640, -13.75)
+shape = SubResource("RectangleShape2D_bnkbg")
+
+[node name="Bottom" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(640, 973.625)
+shape = SubResource("RectangleShape2D_bnkbg")
+
+[node name="Right" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1294, 480)
+shape = SubResource("RectangleShape2D_8wnw2")
+
+[node name="Left" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-14, 480)
+shape = SubResource("RectangleShape2D_8wnw2")
+
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
