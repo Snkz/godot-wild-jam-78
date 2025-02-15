@@ -38,7 +38,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_q8ub8")
 }],
 "loop": true,
-"name": &"default",
+"name": &"idle",
 "speed": 7.0
 }]
 
@@ -55,4 +55,7 @@ shape = SubResource("RectangleShape2D_swmom")
 position = Vector2(0, -24)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-autoplay = "default"
+animation = &"idle"
+autoplay = "idle"
+
+[connection signal="ready" from="." to="." method="_on_ready"]
