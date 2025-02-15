@@ -30,8 +30,7 @@ func _ready() -> void:
 
 func _on_creature_highlighted(state) -> void:
 	modulate = Color(1, 1, 1, 0.1)
-	current_state = State.IDLE
-	$AnimatedSprite2D.play(&"idle")
+	_start_idle()
 	if (state): 
 		current_state = State.CAUGHT
 		$AnimatedSprite2D.play(&"caught")
@@ -52,6 +51,7 @@ func _change_state() -> void:
 
 func _start_idle() -> void:
 	current_state = State.IDLE
+	$AnimatedSprite2D.play(&"idle")
 	direction = Vector2.ZERO
 	timer.start(base_idle_time + randf_range(-time_variation, time_variation))
 
