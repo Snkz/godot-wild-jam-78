@@ -1,13 +1,3 @@
-[gd_scene load_steps=3 format=3 uid="uid://dewg4bjcsybcx"]
-
-[ext_resource type="Script" path="res://scripts/playable_area.gd" id="2_5ncnf"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ybbkv"]
+[gd_scene format=3 uid="uid://dewg4bjcsybcx"]
 
 [node name="Player" type="CharacterBody2D"]
-
-[node name="PlayableArea" type="Area2D" parent="."]
-script = ExtResource("2_5ncnf")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayableArea"]
-shape = SubResource("RectangleShape2D_ybbkv")
