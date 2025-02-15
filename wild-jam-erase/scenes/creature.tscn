@@ -36,7 +36,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
-"speed": 7.0
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_swmom"]
@@ -51,6 +51,7 @@ position = Vector2(0, -24)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_q53y4")
 animation = &"idle"
+autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -24)
