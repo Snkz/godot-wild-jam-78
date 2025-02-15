@@ -19,7 +19,6 @@ var timer := Timer.new()
 
 func _ready() -> void:
 	randomize()
-	modulate = Color(1, 1, 1, 0.1)
 	connect("creature_highlighted", _on_creature_highlighted)
 
 	var offset : float = randf_range(0, $AnimatedSprite2D.sprite_frames.get_frame_count($AnimatedSprite2D.animation))
@@ -29,12 +28,10 @@ func _ready() -> void:
 	_start_idle()
 
 func _on_creature_highlighted(state) -> void:
-	modulate = Color(1, 1, 1, 0.1)
 	_start_idle()
 	if (state): 
 		current_state = State.CAUGHT
 		$AnimatedSprite2D.play(&"caught")
-		modulate = Color(1, 1, 1, 1)
 
 func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouse:
