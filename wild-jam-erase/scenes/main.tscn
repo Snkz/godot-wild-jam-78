@@ -13,7 +13,6 @@ playable_area_offset = Vector2(0, 16)
 
 [node name="player" parent="." instance=ExtResource("1_bdlqp")]
 position = Vector2(0, 9)
-input_pickable = true
 
 [node name="timer" type="Timer" parent="."]
 autostart = true

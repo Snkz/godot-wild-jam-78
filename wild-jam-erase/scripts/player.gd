@@ -8,7 +8,7 @@ func _physics_process(delta: float) -> void:
 	self.position = mouseposition
 
 func _on_body_entered(body: Node2D) -> void:
-	print("ENTERED", body, body.name)
+	body.modulate = Color(1, 1, 1, 1);
 
 func _on_body_exited(body: Node2D) -> void:
-	print("EXIT", body, body.name)
+	body.modulate = Color(1, 1, 1, 0.25);
