@@ -1,15 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://yxis2j80giwn"]
+[gd_scene load_steps=4 format=3 uid="uid://yxis2j80giwn"]
 
 [ext_resource type="PackedScene" uid="uid://dewg4bjcsybcx" path="res://scenes/player.tscn" id="1_bdlqp"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_w64oe"]
 [ext_resource type="PackedScene" uid="uid://bwdlgjhs2b4wn" path="res://scenes/creature.tscn" id="2_panp8"]
 
 [node name="main" type="Node2D"]
+script = ExtResource("1_w64oe")
+creature_scene = ExtResource("2_panp8")
 
-[node name="Player" parent="." instance=ExtResource("1_bdlqp")]
+[node name="player" parent="." instance=ExtResource("1_bdlqp")]
 position = Vector2(577, 311)
 
-[node name="creature" parent="." instance=ExtResource("2_panp8")]
-position = Vector2(259, 316)
+[node name="timer" type="Timer" parent="."]
+autostart = true
 
-[node name="creature2" parent="." instance=ExtResource("2_panp8")]
-position = Vector2(706, 335)
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
