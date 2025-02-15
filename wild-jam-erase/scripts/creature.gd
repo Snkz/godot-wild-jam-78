@@ -24,6 +24,7 @@ func _ready() -> void:
 
 	var offset : float = randf_range(0, $AnimatedSprite2D.sprite_frames.get_frame_count($AnimatedSprite2D.animation))
 	$AnimatedSprite2D.set_frame_and_progress(offset, offset)
+	$AnimatedSprite2D.material = $AnimatedSprite2D.material.duplicate()
 	add_child(timer)
 	timer.timeout.connect(_change_state)
 	_start_idle()
@@ -33,6 +34,7 @@ func _on_creature_highlighted(state) -> void:
 	_start_idle()
 	if (state): 
 		current_state = State.CAUGHT
+		$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
 		$AnimatedSprite2D.play(&"caught")
 		modulate = Color(1, 1, 1, 1)
 
@@ -52,6 +54,7 @@ func _change_state() -> void:
 func _start_idle() -> void:
 	current_state = State.IDLE
 	$AnimatedSprite2D.play(&"idle")
+	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	direction = Vector2.ZERO
 	timer.start(base_idle_time + randf_range(-time_variation, time_variation))
 
