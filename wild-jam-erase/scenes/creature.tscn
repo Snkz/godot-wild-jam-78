@@ -35,7 +35,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_q8ub8")
 }],
 "loop": true,
-"name": &"default",
+"name": &"idle",
 "speed": 7.0
 }]
 
@@ -50,9 +50,11 @@ script = ExtResource("1_shfmo")
 position = Vector2(0, -24)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-autoplay = "default"
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -24)
 scale = Vector2(0.4, 0.4)
 shape = SubResource("RectangleShape2D_swmom")
+
+[connection signal="ready" from="." to="." method="_on_ready"]
