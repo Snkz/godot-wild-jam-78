@@ -11,10 +11,11 @@ input_pickable = true
 script = ExtResource("1_shfmo")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -32)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_q16qe")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 0.5)
+position = Vector2(0, -32)
 scale = Vector2(0.5, 0.5)
 shape = SubResource("RectangleShape2D_swmom")
