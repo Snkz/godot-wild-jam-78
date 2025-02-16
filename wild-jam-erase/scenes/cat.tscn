@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bgst6dmo3siqb"]
+[gd_scene load_steps=23 format=3 uid="uid://bwdlgjhs2b4wn"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_shfmo"]
 [ext_resource type="Texture2D" uid="uid://cmvliwdm4r581" path="res://assets/creature_cat.png" id="2_q16qe"]
@@ -68,6 +68,10 @@ region = Rect2(48, 0, 24, 24)
 [sub_resource type="AtlasTexture" id="AtlasTexture_hals7"]
 atlas = ExtResource("2_q16qe")
 region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oyt7w"]
+atlas = ExtResource("2_q16qe")
+region = Rect2(0, 48, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q53y4"]
 animations = [{
@@ -147,6 +151,14 @@ animations = [{
 "loop": true,
 "name": &"run",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oyt7w")
+}],
+"loop": false,
+"name": &"selected",
+"speed": 10.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mio5p"]
@@ -156,14 +168,17 @@ height = 93.3333
 [node name="cat" type="CharacterBody2D"]
 input_pickable = true
 script = ExtResource("1_shfmo")
+base_idle_time = 1.0
 fear_chance = 1.0
+fear_speed = 80.0
+fear_distance_min_threshold = 10
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_30h38")
 position = Vector2(5.96046e-08, 4.76837e-07)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"caught"
+animation = &"selected"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

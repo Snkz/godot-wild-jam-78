@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dano28iaqfkrk"]
+[gd_scene load_steps=24 format=3 uid="uid://bihdkd2udbepv"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_3urrw"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_1y0tu"]
@@ -69,6 +69,10 @@ region = Rect2(48, 24, 24, 24)
 [sub_resource type="AtlasTexture" id="AtlasTexture_jyoho"]
 atlas = ExtResource("3_xgvbe")
 region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pfqj"]
+atlas = ExtResource("3_xgvbe")
+region = Rect2(0, 48, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q53y4"]
 animations = [{
@@ -148,6 +152,14 @@ animations = [{
 "loop": true,
 "name": &"run",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0pfqj")
+}],
+"loop": false,
+"name": &"selected",
+"speed": 10.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mio5p"]
@@ -155,16 +167,21 @@ radius = 31.6667
 height = 93.3333
 
 [node name="dog" type="CharacterBody2D"]
+z_index = 50
+z_as_relative = false
 input_pickable = true
 script = ExtResource("1_3urrw")
-fear_chance = 1.0
+base_idle_time = 1.0
+chase_chance = 1.0
+chase_speed = 100.0
+base_chase_time = 3.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_30h38")
 position = Vector2(5.96046e-08, 4.76837e-07)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"dust"
+animation = &"selected"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

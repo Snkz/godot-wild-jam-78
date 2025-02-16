@@ -10,7 +10,7 @@ signal creature_deleted(a, b)
 var index : int
 var colour : Color
 
-enum BehaviourState { IDLE, WANDER, CAUGHT, DUST, FEAR, CHASE, REVEAL }
+enum BehaviourState { IDLE, WANDER, CAUGHT, DUST, FEAR, CHASE, REVEAL, SELECTED }
 var current_behaviour = BehaviourState.IDLE
 
 @export var base_idle_time := 3.0
@@ -57,6 +57,9 @@ func _on_creature_highlighted(state) -> void:
 	if current_behaviour == BehaviourState.DUST:
 		return
 		
+	if current_behaviour == BehaviourState.SELECTED:
+		return
+		
 	if current_behaviour == BehaviourState.REVEAL:
 		clear_reveal()
 	
@@ -65,6 +68,8 @@ func _on_creature_highlighted(state) -> void:
 	if (state): 
 		current_behaviour = BehaviourState.CAUGHT
 		$AnimatedSprite2D.play(&"caught")
+		await $AnimatedSprite2D.animation_finished
+		start_idle()
 		
 func _on_nearest_creature_highlighted(state) -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
@@ -83,21 +88,26 @@ func _on_nearest_creature_highlighted(state) -> void:
 			tween_hover.kill()
 		tween_hover = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
 		tween_hover.tween_property(self, "scale", Vector2(1.1, 1.1), 0.6)
-
+		
 func _on_creature_matched(node, selected, matched) -> void:
 	var creature_layer = get_parent()
 	creature_layer.layer = 0
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
+	start_idle()
 	if selected:
+		creature_layer.layer = 2
 		if reveal_colour_on_click and not matched:
+			current_behaviour = BehaviourState.SELECTED
+			$AnimatedSprite2D.play(&"selected")
+
 			start_reveal()
 		elif explode_on_click:
 			start_dust()
 		else:
-			$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
-			creature_layer.layer = 2
+			current_behaviour = BehaviourState.SELECTED
+			$AnimatedSprite2D.play(&"selected")
+			timer.stop()
 
-	
 	if (selected and matched):
 		start_dust()
 
@@ -115,13 +125,17 @@ func clear_reveal() -> void:
 	var canvas = self.get_parent().get_parent().get_parent()
 	var ysort = self.get_parent().get_parent()
 	for child in ysort.get_children():
-		child.layer = 0
+		if self.get_parent() != child and current_behaviour != BehaviourState.SELECTED:
+			child.layer = 0
 	
 	canvas.layer = 0;
 	current_behaviour = BehaviourState.IDLE
 
 func _on_timeout() -> void:
 	if current_behaviour == BehaviourState.DUST:
+		return
+		
+	if current_behaviour == BehaviourState.SELECTED:
 		return
 		
 	if current_behaviour == BehaviourState.REVEAL:
@@ -165,10 +179,10 @@ func start_wander() -> void:
 		
 
 func init_chase() -> bool:
-	if current_behaviour != BehaviourState.IDLE or current_behaviour != BehaviourState.WANDER:
+	if current_behaviour != BehaviourState.IDLE and current_behaviour != BehaviourState.WANDER:
 		return false
 		
-	var player = self.get_node("../../../player")
+	var player = self.get_tree().root.get_node("main/player")
 	var distance = player.position.distance_to(self.position)
 	if distance > chase_distance_min_threshold and distance < chase_distance_max_threshold and randf() < chase_chance:
 		current_behaviour = BehaviourState.CHASE
@@ -187,7 +201,7 @@ func start_chase() -> void:
 	else:
 		$AnimatedSprite2D.flip_h = true
 	
-	var player = self.get_node("../../../player")
+	var player = self.get_tree().root.get_node("main/player")
 	var distance = player.position.distance_to(self.position)
 	direction = (player.position - self.position).normalized()
 
@@ -195,10 +209,10 @@ func start_chase() -> void:
 		direction = Vector2.ZERO
 	
 func init_fear() -> bool:
-	if current_behaviour != BehaviourState.IDLE or current_behaviour != BehaviourState.WANDER:
+	if current_behaviour != BehaviourState.IDLE and current_behaviour != BehaviourState.WANDER:
 		return false
 	
-	var player = self.get_node("../../../player")
+	var player = self.get_tree().root.get_node("main/player")
 	var distance = player.position.distance_to(self.position)
 	if distance > fear_distance_min_threshold and distance < fear_distance_max_threshold and randf() < fear_chance:
 		current_behaviour = BehaviourState.FEAR
@@ -217,7 +231,7 @@ func start_fear() -> void:
 	else:
 		$AnimatedSprite2D.flip_h = true
 	
-	var player = self.get_node("../../../player")
+	var player = self.get_tree().root.get_node("main/player")
 	var distance = player.position.distance_to(self.position)
 	direction = -1.0 * (player.position - self.position).normalized()
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b13q08enc4ju"]
+[gd_scene load_steps=20 format=3 uid="uid://b13q08enc4ju"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_wjevb"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_d17i1"]
@@ -25,6 +25,22 @@ region = Rect2(48, 0, 24, 24)
 atlas = ExtResource("2_o2mid")
 region = Rect2(72, 0, 24, 24)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_4w7el"]
+atlas = ExtResource("2_o2mid")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t3qjy"]
+atlas = ExtResource("2_o2mid")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dfohe"]
+atlas = ExtResource("2_o2mid")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j01pm"]
+atlas = ExtResource("2_o2mid")
+region = Rect2(72, 0, 24, 24)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_pedyw"]
 atlas = ExtResource("2_o2mid")
 region = Rect2(0, 24, 24, 24)
@@ -40,6 +56,10 @@ region = Rect2(48, 24, 24, 24)
 [sub_resource type="AtlasTexture" id="AtlasTexture_uakkq"]
 atlas = ExtResource("2_o2mid")
 region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0tkh8"]
+atlas = ExtResource("2_o2mid")
+region = Rect2(0, 48, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q53y4"]
 animations = [{
@@ -79,16 +99,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 3.0,
-"texture": SubResource("AtlasTexture_4ja1i")
+"texture": SubResource("AtlasTexture_4w7el")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_u757l")
+"texture": SubResource("AtlasTexture_t3qjy")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_47on3")
+"texture": SubResource("AtlasTexture_dfohe")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bwv6x")
+"texture": SubResource("AtlasTexture_j01pm")
 }],
 "loop": true,
 "name": &"idle",
@@ -110,6 +130,14 @@ animations = [{
 "loop": true,
 "name": &"run",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0tkh8")
+}],
+"loop": false,
+"name": &"selected",
+"speed": 10.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qn57g"]
@@ -119,19 +147,20 @@ height = 86.6667
 [node name="bird" type="CharacterBody2D"]
 input_pickable = true
 script = ExtResource("1_wjevb")
+base_idle_time = 2.0
 wander_chance = 0.5
 base_wander_time = 5.0
-chase_chance = 1.0
+chase_chance = 0.5
 chase_distance_max_threshold = 300
 chase_speed = 100.0
-base_chase_time = 0.5
+fear_chance = 0.5
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_30h38")
 position = Vector2(-1, -2)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"run"
+animation = &"caught"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

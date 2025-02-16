@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bg6m51wnph64s"]
+[gd_scene load_steps=17 format=3 uid="uid://bg6m51wnph64s"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_2qv5k"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_cbj4e"]
@@ -26,10 +26,6 @@ region = Rect2(48, 0, 24, 24)
 atlas = ExtResource("3_i58pk")
 region = Rect2(72, 0, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ywmpv"]
-atlas = ExtResource("3_ktthu")
-region = Rect2(0, 48, 24, 24)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_6fhhv"]
 atlas = ExtResource("3_ktthu")
 region = Rect2(24, 48, 24, 24)
@@ -46,13 +42,9 @@ region = Rect2(72, 48, 24, 24)
 atlas = ExtResource("3_ktthu")
 region = Rect2(96, 48, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lxaan"]
-atlas = ExtResource("3_ktthu")
-region = Rect2(120, 48, 24, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xa6nu"]
-atlas = ExtResource("3_ktthu")
-region = Rect2(144, 48, 24, 24)
+[sub_resource type="AtlasTexture" id="AtlasTexture_gp8sk"]
+atlas = ExtResource("3_i58pk")
+region = Rect2(0, 24, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q53y4"]
 animations = [{
@@ -75,9 +67,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ywmpv")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_6fhhv")
 }, {
 "duration": 1.0,
@@ -88,12 +77,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_evook")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lxaan")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xa6nu")
 }],
 "loop": false,
 "name": &"dust",
@@ -132,6 +115,14 @@ animations = [{
 "loop": true,
 "name": &"run",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gp8sk")
+}],
+"loop": false,
+"name": &"selected",
+"speed": 10.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mio5p"]
@@ -141,7 +132,7 @@ height = 93.3333
 [node name="ghost" type="CharacterBody2D"]
 input_pickable = true
 script = ExtResource("1_2qv5k")
-fear_chance = 1.0
+fear_chance = 0.5
 reveal_colour_on_click = true
 base_reveal_time = 5.0
 
@@ -150,7 +141,7 @@ material = SubResource("ShaderMaterial_30h38")
 position = Vector2(5.96046e-08, 4.76837e-07)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"run"
+animation = &"selected"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
