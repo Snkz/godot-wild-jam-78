@@ -5,8 +5,6 @@ signal creature_highlighted(bool)
 signal nearest_creature_highlighted(bool)
 signal creature_matched(a, b, c)
 signal creature_deleted(a, b)
-signal creature_reveal()
-signal creature_revealed(index)
 
 
 var index : int
@@ -36,15 +34,16 @@ var current_behaviour = BehaviourState.IDLE
 
 var tween_hover: Tween
 var direction := Vector2.ZERO
-var timer := Timer.new()
+var timer = null
 
 func _ready() -> void:
 	randomize()
+	timer = Timer.new()
+	clear_reveal()
 	
 	connect("creature_highlighted", _on_creature_highlighted)
 	connect("nearest_creature_highlighted", _on_nearest_creature_highlighted)
 	connect("creature_matched", _on_creature_matched)
-	connect("creature_reveal", _on_creature_reveal)
 
 	var offset : float = randf_range(0, $AnimatedSprite2D.sprite_frames.get_frame_count($AnimatedSprite2D.animation))
 	$AnimatedSprite2D.set_frame_and_progress(offset, offset)
@@ -57,6 +56,9 @@ func _ready() -> void:
 func _on_creature_highlighted(state) -> void:
 	if current_behaviour == BehaviourState.DUST:
 		return
+		
+	if current_behaviour == BehaviourState.REVEAL:
+		clear_reveal()
 	
 	start_idle()
 	
@@ -71,6 +73,9 @@ func _on_nearest_creature_highlighted(state) -> void:
 	tween_hover = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
 	tween_hover.tween_property(self, "scale", Vector2.ONE, 0.4)
 	
+	if current_behaviour == BehaviourState.REVEAL:
+		clear_reveal()
+	
 	if (state): 
 		$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
 		if tween_hover and tween_hover.is_running():
@@ -81,8 +86,8 @@ func _on_nearest_creature_highlighted(state) -> void:
 func _on_creature_matched(node, selected, matched) -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	if selected:
-		if reveal_colour_on_click:
-			creature_revealed.emit(index)
+		if reveal_colour_on_click and not matched:
+			start_reveal()
 		elif explode_on_click:
 			start_dust()
 		else:
@@ -91,19 +96,18 @@ func _on_creature_matched(node, selected, matched) -> void:
 	if (selected and matched):
 		start_dust()
 
-func _on_creature_reveal() -> void:
-	var canvas = self.get_parent()
+func start_reveal() -> void:
+	var canvas = self.get_parent().get_parent()
 	assert(canvas.layer != null)
 	canvas.layer = 2;
 	current_behaviour = BehaviourState.REVEAL
 	timer.start(base_reveal_time + randf_range(-time_variation, time_variation))
 
 func clear_reveal() -> void:
-	var canvas = self.get_parent()
+	var canvas = self.get_parent().get_parent()
 	assert(canvas.layer != null)
 	canvas.layer = 0;
 	current_behaviour = BehaviourState.IDLE
-
 
 func _on_timeout() -> void:
 	if current_behaviour == BehaviourState.DUST:

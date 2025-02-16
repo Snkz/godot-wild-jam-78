@@ -94,43 +94,62 @@ func generate_grid() -> void:
 			creature_colour = Color(0.0, 1.0, 0.0)
 			creature_picks.green += 1
 			creature_spawn.creature_scene = green_creature_scene
+			creature_spawn.layer = "green"
 		elif abs(result) < red_noise_threshold and creature_picks.red < red_num_creatures:
 			creature_colour = Color(1.0, 0.0, 0.0)
 			creature_picks.red += 1
 			creature_spawn.creature_scene = red_creature_scene
+			creature_spawn.layer = "red"
+
 		elif abs(result) < blue_noise_threshold and creature_picks.blue < blue_num_creatures:
 			creature_colour = Color(0.0, 0.0, 1.0)
 			creature_picks.blue += 1
 			creature_spawn.creature_scene = blue_creature_scene
+			creature_spawn.layer = "blue"
+
 		elif abs(result) < white_noise_threshold and creature_picks.white < white_num_creatures:
 			creature_colour = Color(1.0, 1.0, 1.0)
 			creature_picks.white += 1
 			creature_spawn.creature_scene = white_creature_scene
+			creature_spawn.layer = "white"
+
 		elif abs(result) < yellow_noise_threshold and creature_picks.yellow < yellow_num_creatures:
 			creature_colour = Color(1.0, 1.0, 0.0)
 			creature_picks.yellow += 1
 			creature_spawn.creature_scene = yellow_creature_scene
+			creature_spawn.layer = "yellow"
+
 		# Now just fill in the spawns
 		elif creature_picks.green < green_num_creatures:
 			creature_colour = Color(0.0, 1.0, 0.0)
 			creature_picks.green += 1
 			creature_spawn.creature_scene = green_creature_scene
+			creature_spawn.layer = "green"
+
 		elif red_noise_threshold and creature_picks.red < red_num_creatures:
 			creature_colour = Color(1.0, 0.0, 0.0)
 			creature_picks.red += 1
 			creature_spawn.creature_scene = red_creature_scene
+			creature_spawn.layer = "red"
+
 		elif blue_noise_threshold and creature_picks.blue < blue_num_creatures:
 			creature_colour = Color(0.0, 0.0, 1.0)
 			creature_picks.blue += 1
 			creature_spawn.creature_scene = blue_creature_scene
+			creature_spawn.layer = "blue"
+
 		elif white_noise_threshold and creature_picks.white < white_num_creatures:
 			creature_colour = Color(0.0, 0.0, 0.0)
 			creature_picks.white += 1
 			creature_spawn.creature_scene = white_creature_scene
+			creature_spawn.layer = "white"
+
 		elif yellow_noise_threshold and creature_picks.yellow < yellow_num_creatures:
 			creature_colour = Color(1.0, 1.0, 0.0)
 			creature_picks.yellow += 1
 			creature_spawn.creature_scene = yellow_creature_scene
+			creature_spawn.layer = "yellow"
+
 
 		creature_spawn.colour = creature_colour
 	
@@ -157,13 +176,12 @@ func generate_creatures() -> void:
 			# Spawn the creature by adding it to the Main scene.
 			creature.add_to_group("creatures")
 
-			var ysort = self.get_node("entity_layer/ysort")
+			var ysort = self.get_node("creatures/" + info.layer + "/ysort")
 			ysort.add_child(creature)
 
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	for c in creatures: 
 		c.connect("creature_deleted", _on_creature_deleted)
-		c.connect("creature_revealed", _on_creature_revealed)
 		
 
 # Called when the node enters the scene tree for the first time.
@@ -195,13 +213,6 @@ func get_creature_info(index) -> Dictionary:
 			return creature_spawn
 			
 	return {index: null}
-
-func _on_creature_revealed(index) -> void:
-	var node_info = get_creature_info(index)
-	assert(node_info)
-	#for creature_spawn in creature_spawns:
-	#	if creature_spawn.colour == node_info.colour and creature_spawn.node:
-	#		creature_spawn.node.emit_signal("creature_reveal")
 
 func _on_creature_selected(node, index) -> void:
 	var node_info = get_creature_info(index)
