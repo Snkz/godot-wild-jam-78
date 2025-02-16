@@ -25,6 +25,7 @@ autostart = true
 position = Vector2(636, 476)
 
 [node name="foreground" parent="." instance=ExtResource("4_g3e8d")]
+layer = 1
 
 [node name="entity_layer" type="CanvasLayer" parent="."]
 layer = 0
@@ -34,6 +35,7 @@ offset_left = -123.0
 offset_top = -115.0
 offset_right = 1407.0
 offset_bottom = 1112.0
+mouse_filter = 1
 color = Color(0.984314, 0.968627, 0.952941, 1)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
