@@ -48,7 +48,7 @@ func _on_body_exited(body: Node2D) -> void:
 		
 func _physics_process(delta: float) -> void:
 	var mouse_position = get_viewport().get_mouse_position()
-	self.position = lerp(self.position, mouse_position, lerp_speed * delta)
+	self.position = lerp(self.position, mouse_position, lerp_speed * 2 * delta)
 	set_nearest()
 	
 	if is_increasing:

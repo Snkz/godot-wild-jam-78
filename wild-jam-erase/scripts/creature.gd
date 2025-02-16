@@ -77,5 +77,9 @@ func _physics_process(delta: float) -> void:
 	if current_state == State.WANDER:
 		velocity = direction * speed
 		move_and_slide()
+		if direction.x < 0:
+			$AnimatedSprite2D.flip_h = true
+		else:
+			$AnimatedSprite2D.flip_h = false
 	else:
 		velocity = Vector2.ZERO

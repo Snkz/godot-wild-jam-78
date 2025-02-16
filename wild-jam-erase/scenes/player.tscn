@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_o3o8q"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_eiewv"]
-radius = 824.816
+radius = 19.0263
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_niil5"]
 
@@ -14,6 +14,7 @@ noise = SubResource("FastNoiseLite_niil5")
 script = ExtResource("1_o3o8q")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(5, 5)
 shape = SubResource("CircleShape2D_eiewv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
