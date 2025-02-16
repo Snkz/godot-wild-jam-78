@@ -1,7 +1,6 @@
 class_name Creature
 extends CharacterBody2D
 
-signal creature_selected(Creature, Vector2)
 signal creature_highlighted(bool)
 signal nearest_creature_highlighted(bool)
 
@@ -48,11 +47,6 @@ func _on_nearest_creature_highlighted(state) -> void:
 
 	if (state): 
 		$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
-
-func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
-	if event is InputEventMouse:
-		if event.is_pressed():
-			creature_selected.emit(self, index)
 
 func _change_state() -> void:
 	if current_state == State.DUST:

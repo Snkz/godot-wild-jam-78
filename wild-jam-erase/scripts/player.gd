@@ -1,5 +1,6 @@
 extends Area2D
 
+signal creature_selected(Creature, Vector2)
 var nearest_selection = null
 var nearest_threshold = 1.0
 var active_bodies = []
@@ -19,7 +20,12 @@ func set_nearest() -> void:
 			
 		nearest_selection = current_selection
 		nearest_selection.emit_signal("nearest_creature_highlighted", true)
-	
+		
+func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
+	if event is InputEventMouse:
+		if event.is_pressed() and nearest_selection:
+			creature_selected.emit(nearest_selection, nearest_selection.index)
+
 func _on_body_entered(body: Node2D) -> void:
 	body.emit_signal("creature_highlighted", true)
 	active_bodies.push_back(body)
