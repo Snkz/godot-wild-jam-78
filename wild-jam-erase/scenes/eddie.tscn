@@ -141,8 +141,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_aaexp"]
-radius = 30.0
-height = 80.0
+radius = 20.0
+height = 48.0
 
 [node name="eddie" type="CharacterBody2D"]
 collision_mask = 3
@@ -153,12 +153,13 @@ explode_on_click = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_30h38")
-scale = Vector2(4.08333, 4.08333)
+scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_7r80j")
-animation = &"idle"
+animation = &"caught"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 14)
 shape = SubResource("CapsuleShape2D_aaexp")
 
 [connection signal="ready" from="." to="." method="_on_ready"]

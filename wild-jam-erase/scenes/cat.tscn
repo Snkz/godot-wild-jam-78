@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bgst6dmo3siqb"]
+[gd_scene load_steps=23 format=3 uid="uid://bwdlgjhs2b4wn"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_shfmo"]
 [ext_resource type="Texture2D" uid="uid://cmvliwdm4r581" path="res://assets/creature_cat.png" id="2_q16qe"]
@@ -162,8 +162,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mio5p"]
-radius = 31.6667
-height = 93.3333
+radius = 18.0
+height = 46.0
 
 [node name="cat" type="CharacterBody2D"]
 collision_mask = 3
@@ -176,12 +176,13 @@ fear_distance_min_threshold = 10
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_30h38")
-scale = Vector2(3.91667, 3.91667)
+scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"selected"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 12)
 shape = SubResource("CapsuleShape2D_mio5p")
 
 [connection signal="ready" from="." to="." method="_on_ready"]

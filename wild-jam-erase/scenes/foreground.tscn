@@ -26,7 +26,7 @@ layer = 2
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
 material = SubResource("ShaderMaterial_c2bfv")
-position = Vector2(640, 480)
+position = Vector2(720, 540)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_wihgx")
 script = ExtResource("2_sdhut")

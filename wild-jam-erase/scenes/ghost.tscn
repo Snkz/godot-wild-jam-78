@@ -1,9 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://bg6m51wnph64s"]
+[gd_scene load_steps=18 format=3 uid="uid://bg6m51wnph64s"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_2qv5k"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_cbj4e"]
 [ext_resource type="Texture2D" uid="uid://cqghcnsj8aiwn" path="res://assets/creature_ghost.png" id="3_i58pk"]
-[ext_resource type="Texture2D" uid="uid://cmvliwdm4r581" path="res://assets/creature_cat.png" id="3_ktthu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_30h38"]
 shader = ExtResource("2_cbj4e")
@@ -26,21 +25,29 @@ region = Rect2(48, 0, 24, 24)
 atlas = ExtResource("3_i58pk")
 region = Rect2(72, 0, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6fhhv"]
-atlas = ExtResource("3_ktthu")
+[sub_resource type="AtlasTexture" id="AtlasTexture_yer4o"]
+atlas = ExtResource("3_i58pk")
+region = Rect2(0, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qyrd5"]
+atlas = ExtResource("3_i58pk")
 region = Rect2(24, 48, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2kpja"]
-atlas = ExtResource("3_ktthu")
+[sub_resource type="AtlasTexture" id="AtlasTexture_fe8ef"]
+atlas = ExtResource("3_i58pk")
 region = Rect2(48, 48, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_68o53"]
-atlas = ExtResource("3_ktthu")
+[sub_resource type="AtlasTexture" id="AtlasTexture_c7mxh"]
+atlas = ExtResource("3_i58pk")
 region = Rect2(72, 48, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_evook"]
-atlas = ExtResource("3_ktthu")
+[sub_resource type="AtlasTexture" id="AtlasTexture_4pxwe"]
+atlas = ExtResource("3_i58pk")
 region = Rect2(96, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ak8p"]
+atlas = ExtResource("3_i58pk")
+region = Rect2(120, 48, 24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gp8sk"]
 atlas = ExtResource("3_i58pk")
@@ -67,16 +74,22 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6fhhv")
+"texture": SubResource("AtlasTexture_yer4o")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_2kpja")
+"texture": SubResource("AtlasTexture_qyrd5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_68o53")
+"texture": SubResource("AtlasTexture_fe8ef")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_evook")
+"texture": SubResource("AtlasTexture_c7mxh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4pxwe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ak8p")
 }],
 "loop": false,
 "name": &"dust",
@@ -126,8 +139,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mio5p"]
-radius = 31.6667
-height = 93.3333
+radius = 17.0
+height = 50.0
 
 [node name="ghost" type="CharacterBody2D"]
 collision_mask = 3
@@ -139,12 +152,13 @@ base_reveal_time = 5.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_30h38")
-scale = Vector2(5.45833, 5.45833)
+scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"selected"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 7)
 shape = SubResource("CapsuleShape2D_mio5p")
 
 [connection signal="ready" from="." to="." method="_on_ready"]
