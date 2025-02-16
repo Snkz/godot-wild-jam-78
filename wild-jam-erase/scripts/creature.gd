@@ -115,11 +115,12 @@ func init_wander() -> bool:
 	
 func start_wander() -> void:
 	velocity = direction * wander_speed
+	$AnimatedSprite2D.play(&"run")
 	move_and_slide()
 	if direction.x < 0:
-		$AnimatedSprite2D.flip_h = true
-	else:
 		$AnimatedSprite2D.flip_h = false
+	else:
+		$AnimatedSprite2D.flip_h = true
 		
 
 func init_chase() -> bool:
@@ -135,11 +136,12 @@ func init_chase() -> bool:
 	
 func start_chase() -> void:
 	velocity = direction * chase_speed
+	$AnimatedSprite2D.play(&"run")
 	move_and_slide()
 	if direction.x < 0:
-		$AnimatedSprite2D.flip_h = true
-	else:
 		$AnimatedSprite2D.flip_h = false
+	else:
+		$AnimatedSprite2D.flip_h = true
 	
 	var player = self.get_node("../../player")
 	var distance = player.position.distance_to(self.position)
@@ -161,11 +163,12 @@ func init_fear() -> bool:
 	
 func start_fear() -> void:
 	velocity = direction * fear_speed
+	$AnimatedSprite2D.play(&"run")
 	move_and_slide()
 	if direction.x < 0:
-		$AnimatedSprite2D.flip_h = true
-	else:
 		$AnimatedSprite2D.flip_h = false
+	else:
+		$AnimatedSprite2D.flip_h = true
 	
 	var player = self.get_node("../../player")
 	var distance = player.position.distance_to(self.position)
