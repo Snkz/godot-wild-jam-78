@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bwdlgjhs2b4wn" path="res://scenes/creature.tscn" id="2_panp8"]
 [ext_resource type="Texture2D" uid="uid://b1f8sxn6nn28q" path="res://assets/background.png" id="4_31bdv"]
 [ext_resource type="Script" path="res://scripts/mask.gd" id="5_105ye"]
-[ext_resource type="Shader" path="res://scenes/mask.gdshader" id="5_v5w2r"]
+[ext_resource type="Shader" path="res://shaders/mask.gdshader" id="5_v5w2r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g0mn2"]
 shader = ExtResource("5_v5w2r")
