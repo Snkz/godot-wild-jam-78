@@ -157,8 +157,8 @@ func generate_creatures() -> void:
 			# Spawn the creature by adding it to the Main scene.
 			creature.add_to_group("creatures")
 
-			var entity_layer = self.get_node("entity_layer")
-			entity_layer.add_child(creature)
+			var ysort = self.get_node("entity_layer/ysort")
+			ysort.add_child(creature)
 
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	for c in creatures: 

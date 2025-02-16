@@ -153,7 +153,7 @@ animations = [{
 radius = 31.6667
 height = 93.3333
 
-[node name="cat" type="CharacterBody2D"]
+[node name="creature" type="CharacterBody2D"]
 input_pickable = true
 script = ExtResource("1_shfmo")
 fear_chance = 1.0
@@ -163,7 +163,7 @@ material = SubResource("ShaderMaterial_30h38")
 position = Vector2(5.96046e-08, 4.76837e-07)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"caught"
+animation = &"run"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

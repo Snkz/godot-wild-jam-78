@@ -124,7 +124,7 @@ func start_wander() -> void:
 		
 
 func init_chase() -> bool:
-	var player = self.get_node("../../player")
+	var player = self.get_node("../../../player")
 	var distance = player.position.distance_to(self.position)
 	if distance > chase_distance_min_threshold and distance < chase_distance_max_threshold and randf() < chase_chance:
 		current_behaviour = BehaviourState.CHASE
@@ -143,7 +143,7 @@ func start_chase() -> void:
 	else:
 		$AnimatedSprite2D.flip_h = true
 	
-	var player = self.get_node("../../player")
+	var player = self.get_node("../../../player")
 	var distance = player.position.distance_to(self.position)
 	direction = (player.position - self.position).normalized()
 
@@ -151,7 +151,7 @@ func start_chase() -> void:
 		direction = Vector2.ZERO
 	
 func init_fear() -> bool:
-	var player = self.get_node("../../player")
+	var player = self.get_node("../../../player")
 	var distance = player.position.distance_to(self.position)
 	if distance > fear_distance_min_threshold and distance < fear_distance_max_threshold and randf() < fear_chance:
 		current_behaviour = BehaviourState.FEAR
@@ -170,7 +170,7 @@ func start_fear() -> void:
 	else:
 		$AnimatedSprite2D.flip_h = true
 	
-	var player = self.get_node("../../player")
+	var player = self.get_node("../../../player")
 	var distance = player.position.distance_to(self.position)
 	direction = -1.0 * (player.position - self.position).normalized()
 

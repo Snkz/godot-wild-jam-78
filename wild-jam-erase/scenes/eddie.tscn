@@ -155,7 +155,7 @@ material = SubResource("ShaderMaterial_30h38")
 position = Vector2(0, -40)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_7r80j")
-animation = &"run"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
