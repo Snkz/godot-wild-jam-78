@@ -33,16 +33,21 @@ var selected_creature: Creature
 var rng = RandomNumberGenerator.new()
 var creature_spawns = []
 var matched_count = 0
+var game_time = 0.0
 
-signal gameover()
+signal gameover(int, float)
 
 func _on_creature_deleted(node, index) -> void:
+	matched_count = matched_count + 1
+
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	var count = len(creatures)
+
 	if node == selected_creature:
 		selected_creature = null
+	
 	if count <= 0:
-		gameover.emit()
+		gameover.emit(matched_count, game_time)
 		
 func _on_restart() -> void:
 	var creatures = get_tree().get_nodes_in_group("creatures")
@@ -51,9 +56,10 @@ func _on_restart() -> void:
 	
 	creature_spawns = []
 	matched_count = 0
+	game_time = 0.0
+	selected_creature = null
 	generate_creatures()
 	
-
 func generate_grid() -> void:
 	var screen_res = Vector2()
 	screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
@@ -174,6 +180,7 @@ func _ready() -> void:
 func _process(delta):
 	var window_rect = get_viewport().get_visible_rect()
 	var mouse_pos = get_viewport().get_mouse_position()
+	game_time = game_time + delta
 
 	if window_rect.has_point(mouse_pos):
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
@@ -207,12 +214,12 @@ func _on_creature_selected(node, index):
 		selected_creature.emit_signal("creature_matched", selected_creature, true, true)
 		selected_creature = null
 		print("MATCH", index, node_info.colour, selected_info.index, selected_info.colour)
-		matched_count = matched_count + 2
 	elif node_info.colour != selected_info.colour:
 		selected_creature.emit_signal("creature_matched", selected_creature, false, false)
 		node.emit_signal("creature_matched", selected_creature, false, false)
 		selected_creature = null
 		print("NO MATCH", index, node_info.colour, " ", selected_info.colour)
+		gameover.emit(matched_count, game_time)
 	else:
 		assert(false)
 	

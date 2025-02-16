@@ -26,6 +26,7 @@ var current_behaviour = BehaviourState.IDLE
 @export var fear_distance_min_threshold := 50
 @export var fear_distance_max_threshold := 200
 @export var base_fear_time := 2.0
+@export var explode_on_click := false
 
 var tween_hover: Tween
 var direction := Vector2.ZERO
@@ -72,16 +73,15 @@ func _on_nearest_creature_highlighted(state) -> void:
 
 func _on_creature_matched(node, selected, matched) -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
-
 	if selected:
-		$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
-
-	print(name, " ", "selected: ", selected, "matched: ", matched)
+		if explode_on_click:
+			start_dust()
+		else:
+			$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
 	
 	if (selected and matched):
 		start_dust()
 	
-
 func _on_timeout() -> void:
 	if current_behaviour == BehaviourState.DUST:
 		return

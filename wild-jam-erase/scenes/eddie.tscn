@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://7totvlvqqayc"]
+[gd_scene load_steps=19 format=3 uid="uid://dgxjem5f4j2ci"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_fx8j0"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_1sosv"]
@@ -130,6 +130,8 @@ height = 80.0
 [node name="eddie" type="CharacterBody2D"]
 input_pickable = true
 script = ExtResource("1_fx8j0")
+fear_chance = 0.25
+explode_on_click = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_30h38")
