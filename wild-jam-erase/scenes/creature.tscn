@@ -140,6 +140,7 @@ height = 93.3333
 input_pickable = true
 script = ExtResource("1_shfmo")
 fear_chance = 1.0
+reveal_colour_on_click = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_30h38")

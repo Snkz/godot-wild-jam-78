@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://b4qcfxfu18v6d" path="res://scenes/gameover.tscn" id="3_80ec5"]
 [ext_resource type="PackedScene" uid="uid://dgxjem5f4j2ci" path="res://scenes/eddie.tscn" id="3_bysk2"]
 [ext_resource type="Texture2D" uid="uid://b1f8sxn6nn28q" path="res://assets/background.png" id="4_31bdv"]
-[ext_resource type="PackedScene" path="res://scenes/foreground.tscn" id="4_g3e8d"]
+[ext_resource type="PackedScene" uid="uid://bp2s3n2m5gb46" path="res://scenes/foreground.tscn" id="4_g3e8d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bnkbg"]
 size = Vector2(1280, 27.25)

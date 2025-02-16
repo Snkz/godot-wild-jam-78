@@ -151,7 +151,7 @@ func generate_creatures() -> void:
 			creature.name = "creature " + str(info.index)
 			creature.index = info.index
 			creature.position = info.position
-			#creature.modulate = info.colour
+			creature.colour = info.colour
 			info.node = creature
 
 			# Spawn the creature by adding it to the Main scene.
@@ -163,6 +163,7 @@ func generate_creatures() -> void:
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	for c in creatures: 
 		c.connect("creature_deleted", _on_creature_deleted)
+		c.connect("creature_revealed", _on_creature_revealed)
 		
 
 # Called when the node enters the scene tree for the first time.
@@ -195,15 +196,22 @@ func get_creature_info(index) -> Dictionary:
 			
 	return {index: null}
 
-func _on_creature_selected(node, index):
+func _on_creature_revealed(index) -> void:
+	var node_info = get_creature_info(index)
+	assert(node_info)
+	#for creature_spawn in creature_spawns:
+	#	if creature_spawn.colour == node_info.colour and creature_spawn.node:
+	#		creature_spawn.node.emit_signal("creature_reveal")
+
+func _on_creature_selected(node, index) -> void:
 	var node_info = get_creature_info(index)
 	var selected_info = {}
 	if selected_creature:
 		selected_info = get_creature_info(selected_creature.index)
 	
 	if selected_creature == null:
-		node.emit_signal("creature_matched", selected_creature, true, false)
 		selected_creature = node
+		node.emit_signal("creature_matched", selected_creature, true, false)
 		print("NEW", index, node_info.colour)
 	elif selected_creature.index == index:
 		node.emit_signal("creature_matched", selected_creature, false, false)

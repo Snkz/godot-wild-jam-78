@@ -5,10 +5,14 @@ signal creature_highlighted(bool)
 signal nearest_creature_highlighted(bool)
 signal creature_matched(a, b, c)
 signal creature_deleted(a, b)
+signal creature_reveal()
+signal creature_revealed(index)
+
 
 var index : int
+var colour : Color
 
-enum BehaviourState { IDLE, WANDER, CAUGHT, DUST, FEAR, CHASE }
+enum BehaviourState { IDLE, WANDER, CAUGHT, DUST, FEAR, CHASE, REVEAL }
 var current_behaviour = BehaviourState.IDLE
 
 @export var base_idle_time := 3.0
@@ -27,6 +31,8 @@ var current_behaviour = BehaviourState.IDLE
 @export var fear_distance_max_threshold := 200
 @export var base_fear_time := 2.0
 @export var explode_on_click := false
+@export var reveal_colour_on_click := false
+@export var base_reveal_time := 1.0
 
 var tween_hover: Tween
 var direction := Vector2.ZERO
@@ -38,6 +44,7 @@ func _ready() -> void:
 	connect("creature_highlighted", _on_creature_highlighted)
 	connect("nearest_creature_highlighted", _on_nearest_creature_highlighted)
 	connect("creature_matched", _on_creature_matched)
+	connect("creature_reveal", _on_creature_reveal)
 
 	var offset : float = randf_range(0, $AnimatedSprite2D.sprite_frames.get_frame_count($AnimatedSprite2D.animation))
 	$AnimatedSprite2D.set_frame_and_progress(offset, offset)
@@ -74,17 +81,36 @@ func _on_nearest_creature_highlighted(state) -> void:
 func _on_creature_matched(node, selected, matched) -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	if selected:
-		if explode_on_click:
+		if reveal_colour_on_click:
+			creature_revealed.emit(index)
+		elif explode_on_click:
 			start_dust()
 		else:
 			$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
 	
 	if (selected and matched):
 		start_dust()
-	
+
+func _on_creature_reveal() -> void:
+	var canvas = self.get_parent()
+	assert(canvas.layer != null)
+	canvas.layer = 2;
+	current_behaviour = BehaviourState.REVEAL
+	timer.start(base_reveal_time + randf_range(-time_variation, time_variation))
+
+func clear_reveal() -> void:
+	var canvas = self.get_parent()
+	assert(canvas.layer != null)
+	canvas.layer = 0;
+	current_behaviour = BehaviourState.IDLE
+
+
 func _on_timeout() -> void:
 	if current_behaviour == BehaviourState.DUST:
 		return
+		
+	if current_behaviour == BehaviourState.REVEAL:
+		clear_reveal()
 	
 	var result = init_chase() or init_fear() or init_wander()
 	if not result:
@@ -101,8 +127,8 @@ func start_dust() -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	$AnimatedSprite2D.play(&"dust")
 	await $AnimatedSprite2D.animation_finished  
-	creature_deleted.emit(self, index)
 	self.queue_free()
+	creature_deleted.emit(self, index)
 
 func init_wander() -> bool:
 	if current_behaviour == BehaviourState.IDLE and randf() < wander_chance:
@@ -123,6 +149,9 @@ func start_wander() -> void:
 		
 
 func init_chase() -> bool:
+	if current_behaviour != BehaviourState.IDLE or current_behaviour != BehaviourState.WANDER:
+		return false
+		
 	var player = self.get_node("../../player")
 	var distance = player.position.distance_to(self.position)
 	if distance > chase_distance_min_threshold and distance < chase_distance_max_threshold and randf() < chase_chance:
@@ -149,6 +178,9 @@ func start_chase() -> void:
 		direction = Vector2.ZERO
 	
 func init_fear() -> bool:
+	if current_behaviour != BehaviourState.IDLE or current_behaviour != BehaviourState.WANDER:
+		return false
+	
 	var player = self.get_node("../../player")
 	var distance = player.position.distance_to(self.position)
 	if distance > fear_distance_min_threshold and distance < fear_distance_max_threshold and randf() < fear_chance:

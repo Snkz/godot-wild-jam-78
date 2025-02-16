@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b5ps2m82hwhgu"]
+[gd_scene load_steps=6 format=3 uid="uid://bp2s3n2m5gb46"]
 
 [ext_resource type="Shader" path="res://shaders/mask.gdshader" id="1_dbqac"]
 [ext_resource type="Script" path="res://scripts/mask.gd" id="2_sdhut"]
