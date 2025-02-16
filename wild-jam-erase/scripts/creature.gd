@@ -36,7 +36,8 @@ func _ready() -> void:
 func _on_creature_highlighted(state) -> void:
 	if current_state == State.DUST:
 		return
-		
+	
+	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	_start_idle()
 	
 	if (state): 

@@ -30,7 +30,9 @@ func _ready() -> void:
 
 			# Spawn the creature by adding it to the Main scene.
 			creature.add_to_group("creatures")
-			add_child(creature)
+			var entity_layer = self.get_node("entity_layer")
+			entity_layer.add_child(creature)
+			#add_child(creature)
 			var creatures = get_tree().get_nodes_in_group("creatures")
 			for c in creatures: 
 				c.connect("creature_selected", _on_creature_selected)
