@@ -18,7 +18,7 @@ void fragment() {
     float gridSize = 5.0;
     vec2 gridPos = floor(p / gridSize) * gridSize;
     float randOffset = random(gridPos) * gridSize * 2.0;
-    float adjustedRadius = holeRadius + randOffset - gridSize * 0.25;
+    float adjustedRadius = holeRadius + randOffset - gridSize * 1.0;
 
     float dist = length(gridPos - holeCenter);
     COLOR.a = step(adjustedRadius, dist);

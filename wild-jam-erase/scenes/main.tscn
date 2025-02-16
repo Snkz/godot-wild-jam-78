@@ -38,7 +38,7 @@ material = SubResource("ShaderMaterial_g0mn2")
 offset_right = 1280.0
 offset_bottom = 960.0
 mouse_filter = 1
-color = Color(0.138068, 0.232533, 0.245952, 1)
+color = Color(0.12549, 0.156863, 0.239216, 1)
 script = ExtResource("5_105ye")
 
 [node name="entity_layer" type="CanvasLayer" parent="."]
