@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var creature_scene: PackedScene
+@export var gameover_scene: PackedScene
 @export var grid_height: int
 @export var grid_width: int
 @export var playable_area_offset: Vector2
@@ -19,7 +20,16 @@ extends Node2D
 var selected_creature: Creature
 var rng = RandomNumberGenerator.new()
 var creature_spawns = []
+var matched_count = 0
 
+func _on_creature_deleted(node, index) -> void:
+	var creatures = get_tree().get_nodes_in_group("creatures")
+	var count = len(creatures)
+	print("CREATURED DIED: ", count, " REMAINING")
+	if count <= 0:
+		var gameover = gameover_scene.instantiate()
+		get_tree().paused = true
+	
 func generate_grid() -> void:
 	var screen_res = Vector2()
 	screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
@@ -114,6 +124,9 @@ func _ready() -> void:
 
 			# Spawn the creature by adding it to the Main scene.
 			creature.add_to_group("creatures")
+			var creatures = get_tree().get_nodes_in_group("creatures")
+			for c in creatures: 
+				c.connect("creature_deleted", _on_creature_deleted)
 
 			var entity_layer = self.get_node("entity_layer")
 			entity_layer.add_child(creature)
@@ -154,6 +167,7 @@ func _on_creature_selected(node, index):
 		selected_creature.emit_signal("creature_matched", selected_creature, true, true)
 		selected_creature = null
 		print("MATCH", index, node_info.colour, selected_info.index, selected_info.colour)
+		matched_count = matched_count + 2
 	elif node_info.colour != selected_info.colour:
 		selected_creature.emit_signal("creature_matched", selected_creature, false, false)
 		node.emit_signal("creature_matched", selected_creature, false, false)

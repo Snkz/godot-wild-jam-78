@@ -4,6 +4,8 @@ extends CharacterBody2D
 signal creature_highlighted(bool)
 signal nearest_creature_highlighted(bool)
 signal creature_matched(a, b, c)
+signal creature_deleted(a, b)
+
 
 var index : int
 
@@ -83,7 +85,7 @@ func _start_dust() -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	$AnimatedSprite2D.play(&"dust")
 	await $AnimatedSprite2D.animation_finished  
-
+	creature_deleted.emit(self, index)
 	self.queue_free()
 
 func _physics_process(delta: float) -> void:

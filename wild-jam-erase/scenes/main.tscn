@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://yxis2j80giwn"]
+[gd_scene load_steps=9 format=3 uid="uid://yxis2j80giwn"]
 
 [ext_resource type="PackedScene" uid="uid://dewg4bjcsybcx" path="res://scenes/player.tscn" id="1_bdlqp"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_w64oe"]
 [ext_resource type="PackedScene" uid="uid://bwdlgjhs2b4wn" path="res://scenes/creature.tscn" id="2_panp8"]
+[ext_resource type="PackedScene" uid="uid://b4qcfxfu18v6d" path="res://scenes/gameover.tscn" id="3_80ec5"]
 [ext_resource type="Texture2D" uid="uid://b1f8sxn6nn28q" path="res://assets/background.png" id="4_31bdv"]
 [ext_resource type="PackedScene" path="res://scenes/foreground.tscn" id="4_g3e8d"]
 
@@ -13,8 +14,10 @@ size = Vector2(1280, 27.25)
 size = Vector2(28, 960)
 
 [node name="main" type="Node2D"]
+process_mode = 1
 script = ExtResource("1_w64oe")
 creature_scene = ExtResource("2_panp8")
+gameover_scene = ExtResource("3_80ec5")
 grid_height = 7
 grid_width = 8
 playable_area_offset = Vector2(0, 16)
