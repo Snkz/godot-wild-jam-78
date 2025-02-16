@@ -150,12 +150,14 @@ func generate_creatures() -> void:
 
 			# Spawn the creature by adding it to the Main scene.
 			creature.add_to_group("creatures")
-			var creatures = get_tree().get_nodes_in_group("creatures")
-			for c in creatures: 
-				c.connect("creature_deleted", _on_creature_deleted)
 
 			var entity_layer = self.get_node("entity_layer")
 			entity_layer.add_child(creature)
+
+	var creatures = get_tree().get_nodes_in_group("creatures")
+	for c in creatures: 
+		c.connect("creature_deleted", _on_creature_deleted)
+		
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
