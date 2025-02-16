@@ -9,14 +9,16 @@ signal creature_deleted(a, b)
 
 var index : int
 
-enum State { IDLE, WANDER, CAUGHT, DUST }
-var current_state = State.IDLE
+enum BehaviourState { IDLE, WANDER, CAUGHT, DUST, FEAR, CHASE }
+var current_behaviour = BehaviourState.IDLE
 
 @export var base_idle_time := 3.0
 @export var base_wander_time := 2.0
 @export var time_variation := 1.0
 @export var speed := 30.0
 @export var wander_chance := 0.3
+@export var chase_chance := 0.0
+@export var fear_chance := 0.0
 
 var tween_hover: Tween
 
@@ -35,17 +37,17 @@ func _ready() -> void:
 	$AnimatedSprite2D.set_frame_and_progress(offset, offset)
 	$AnimatedSprite2D.material = $AnimatedSprite2D.material.duplicate()
 	add_child(timer)
-	timer.timeout.connect(_change_state)
-	_start_idle()
+	timer.timeout.connect(_on_timeout)
+	start_idle()
 
 func _on_creature_highlighted(state) -> void:
-	if current_state == State.DUST:
+	if current_behaviour == BehaviourState.DUST:
 		return
 	
-	_start_idle()
+	start_idle()
 	
 	if (state): 
-		current_state = State.CAUGHT
+		current_behaviour = BehaviourState.CAUGHT
 		$AnimatedSprite2D.play(&"caught")
 		
 func _on_nearest_creature_highlighted(state) -> void:
@@ -71,40 +73,67 @@ func _on_creature_matched(node, selected, matched) -> void:
 	print(name, " ", "selected: ", selected, "matched: ", matched)
 	
 	if (selected and matched):
-		_start_dust()
+		start_dust()
 	
 
-func _change_state() -> void:
-	if current_state == State.DUST:
+func _on_timeout() -> void:
+	if current_behaviour == BehaviourState.DUST:
 		return
-	if current_state == State.IDLE and randf() < wander_chance:
-		current_state = State.WANDER
-		direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
-		timer.start(base_wander_time + randf_range(-time_variation, time_variation))
-	else:
-		_start_idle()
+	
+	var result = init_wander() or init_chase() or init_fear()
+	if not result:
+		start_idle()
 
-func _start_idle() -> void:
-	current_state = State.IDLE
+func start_idle() -> void:
+	current_behaviour = BehaviourState.IDLE
 	$AnimatedSprite2D.play(&"idle")
 	direction = Vector2.ZERO
 	timer.start(base_idle_time + randf_range(-time_variation, time_variation))
 
-func _start_dust() -> void:
-	current_state = State.DUST
+func start_dust() -> void:
+	current_behaviour = BehaviourState.DUST
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	$AnimatedSprite2D.play(&"dust")
 	await $AnimatedSprite2D.animation_finished  
 	creature_deleted.emit(self, index)
 	self.queue_free()
 
+func init_wander() -> bool:
+	if current_behaviour == BehaviourState.IDLE and randf() < wander_chance:
+		current_behaviour = BehaviourState.WANDER
+		direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
+		timer.start(base_wander_time + randf_range(-time_variation, time_variation))
+		return true
+	
+	return false
+	
+func start_wander() -> void:
+	velocity = direction * speed
+	move_and_slide()
+	if direction.x < 0:
+		$AnimatedSprite2D.flip_h = true
+	else:
+		$AnimatedSprite2D.flip_h = false
+		
+
+func init_chase() -> bool:
+	return false
+	
+func start_chase() -> void:
+	pass
+	
+func init_fear() -> bool:
+	return false
+	
+func start_fear() -> void:
+	pass
+
 func _physics_process(delta: float) -> void:
-	if current_state == State.WANDER:
-		velocity = direction * speed
-		move_and_slide()
-		if direction.x < 0:
-			$AnimatedSprite2D.flip_h = true
-		else:
-			$AnimatedSprite2D.flip_h = false
+	if current_behaviour == BehaviourState.WANDER:
+		start_wander()
+	elif current_behaviour == BehaviourState.CHASE:
+		start_chase()
+	elif current_behaviour == BehaviourState.FEAR:
+		start_fear()
 	else:
 		velocity = Vector2.ZERO

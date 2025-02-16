@@ -1,28 +1,22 @@
-[gd_scene load_steps=11 format=3 uid="uid://b13q08enc4ju"]
+[gd_scene load_steps=8 format=3 uid="uid://dxc5kh782tlm4"]
 
-[ext_resource type="Script" path="res://scripts/creature.gd" id="1_rtvgd"]
-[ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_0s5e6"]
-[ext_resource type="Texture2D" uid="uid://bqci0pq5syrq" path="res://assets/creature_bird.png" id="3_ecltq"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_30h38"]
-shader = ExtResource("2_0s5e6")
-shader_parameter/line_color = Color(0.909804, 0.733333, 0.0941176, 1)
-shader_parameter/line_thickness = 0.0
+[ext_resource type="PackedScene" uid="uid://bwdlgjhs2b4wn" path="res://scenes/creature.tscn" id="1_fhtxw"]
+[ext_resource type="Texture2D" uid="uid://bqci0pq5syrq" path="res://assets/creature_bird.png" id="2_o2mid"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4ja1i"]
-atlas = ExtResource("3_ecltq")
+atlas = ExtResource("2_o2mid")
 region = Rect2(0, 0, 24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bwv6x"]
-atlas = ExtResource("3_ecltq")
+atlas = ExtResource("2_o2mid")
 region = Rect2(24, 0, 24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u757l"]
-atlas = ExtResource("3_ecltq")
+atlas = ExtResource("2_o2mid")
 region = Rect2(48, 0, 24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_47on3"]
-atlas = ExtResource("3_ecltq")
+atlas = ExtResource("2_o2mid")
 region = Rect2(72, 0, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q53y4"]
@@ -79,24 +73,10 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_swmom"]
-size = Vector2(118, 121)
+[node name="bird" instance=ExtResource("1_fhtxw")]
+base_wander_time = 5.0
+speed = 50.0
+wander_chance = 0.5
 
-[node name="bird" type="CharacterBody2D"]
-input_pickable = true
-script = ExtResource("1_rtvgd")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-material = SubResource("ShaderMaterial_30h38")
-position = Vector2(0, -40)
-scale = Vector2(5, 5)
+[node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"caught"
-autoplay = "idle"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -37)
-scale = Vector2(0.6, 0.6)
-shape = SubResource("RectangleShape2D_swmom")
-
-[connection signal="ready" from="." to="." method="_on_ready"]
