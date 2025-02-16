@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://yxis2j80giwn"]
+[gd_scene load_steps=9 format=3 uid="uid://yxis2j80giwn"]
 
 [ext_resource type="PackedScene" uid="uid://dewg4bjcsybcx" path="res://scenes/player.tscn" id="1_bdlqp"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_w64oe"]
 [ext_resource type="PackedScene" uid="uid://bwdlgjhs2b4wn" path="res://scenes/creature.tscn" id="2_panp8"]
-[ext_resource type="Texture2D" uid="uid://b1f8sxn6nn28q" path="res://assets/background.png" id="4_31bdv"]
 [ext_resource type="Script" path="res://scripts/mask.gd" id="5_105ye"]
 [ext_resource type="Shader" path="res://shaders/mask.gdshader" id="5_v5w2r"]
 
@@ -45,11 +44,12 @@ script = ExtResource("5_105ye")
 [node name="entity_layer" type="CanvasLayer" parent="."]
 layer = 0
 
-[node name="background" type="Sprite2D" parent="."]
-light_mask = 3
-position = Vector2(640, 480)
-scale = Vector2(5, 5)
-texture = ExtResource("4_31bdv")
+[node name="background" type="ColorRect" parent="."]
+offset_left = -123.0
+offset_top = -115.0
+offset_right = 1407.0
+offset_bottom = 1112.0
+color = Color(0.984314, 0.968627, 0.952941, 1)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
