@@ -1,20 +1,33 @@
 extends Node2D
 
-@export var creature_scene: PackedScene
 @export var grid_height: int
 @export var grid_width: int
 @export var playable_area_offset: Vector2
 
-@export var num_green_creatures := 6
+@export_group("green", "green_")
+@export var green_num_creatures := 6
 @export var green_noise_threshold := 0.05
-@export var num_red_creatures := 8
+@export var green_creature_scene: PackedScene
+
+@export_group("red", "red_")
+@export var red_num_creatures := 8
 @export var red_noise_threshold := 0.2
-@export var num_blue_creatures := 14
+@export var red_creature_scene: PackedScene
+
+@export_group("blue", "blue_")
+@export var blue_num_creatures := 14
 @export var blue_noise_threshold := 0.55
-@export var num_white_creatures := 4
+@export var blue_creature_scene: PackedScene
+
+@export_group("white", "white_")
+@export var white_num_creatures := 4
 @export var white_noise_threshold := 0.7
-@export var num_yellow_creatures := 2
+@export var white_creature_scene: PackedScene
+
+@export_group("yellow", "yellow_")
+@export var yellow_num_creatures := 2
 @export var yellow_noise_threshold := 1.0
+@export var yellow_creature_scene: PackedScene
 
 var selected_creature: Creature
 var rng = RandomNumberGenerator.new()
@@ -26,6 +39,8 @@ signal gameover()
 func _on_creature_deleted(node, index) -> void:
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	var count = len(creatures)
+	if node == selected_creature:
+		selected_creature = null
 	if count <= 0:
 		gameover.emit()
 		
@@ -69,37 +84,47 @@ func generate_grid() -> void:
 	for creature_spawn in creature_spawns:
 		var result = creature_spawn.noise
 		var creature_colour = null
-		if abs(result) < green_noise_threshold and creature_picks.green < num_green_creatures:
+		if abs(result) < green_noise_threshold and creature_picks.green < green_num_creatures:
 			creature_colour = Color(0.0, 1.0, 0.0)
 			creature_picks.green += 1
-		elif abs(result) < red_noise_threshold and creature_picks.red < num_red_creatures:
+			creature_spawn.creature_scene = green_creature_scene
+		elif abs(result) < red_noise_threshold and creature_picks.red < red_num_creatures:
 			creature_colour = Color(1.0, 0.0, 0.0)
 			creature_picks.red += 1
-		elif abs(result) < blue_noise_threshold and creature_picks.blue < num_blue_creatures:
+			creature_spawn.creature_scene = red_creature_scene
+		elif abs(result) < blue_noise_threshold and creature_picks.blue < blue_num_creatures:
 			creature_colour = Color(0.0, 0.0, 1.0)
 			creature_picks.blue += 1
-		elif abs(result) < white_noise_threshold and creature_picks.white < num_white_creatures:
+			creature_spawn.creature_scene = blue_creature_scene
+		elif abs(result) < white_noise_threshold and creature_picks.white < white_num_creatures:
 			creature_colour = Color(1.0, 1.0, 1.0)
 			creature_picks.white += 1
-		elif abs(result) < yellow_noise_threshold and creature_picks.yellow < num_yellow_creatures:
+			creature_spawn.creature_scene = white_creature_scene
+		elif abs(result) < yellow_noise_threshold and creature_picks.yellow < yellow_num_creatures:
 			creature_colour = Color(1.0, 1.0, 0.0)
 			creature_picks.yellow += 1
+			creature_spawn.creature_scene = yellow_creature_scene
 		# Now just fill in the spawns
-		elif creature_picks.green < num_green_creatures:
+		elif creature_picks.green < green_num_creatures:
 			creature_colour = Color(0.0, 1.0, 0.0)
 			creature_picks.green += 1
-		elif red_noise_threshold and creature_picks.red < num_red_creatures:
+			creature_spawn.creature_scene = green_creature_scene
+		elif red_noise_threshold and creature_picks.red < red_num_creatures:
 			creature_colour = Color(1.0, 0.0, 0.0)
 			creature_picks.red += 1
-		elif blue_noise_threshold and creature_picks.blue < num_blue_creatures:
+			creature_spawn.creature_scene = red_creature_scene
+		elif blue_noise_threshold and creature_picks.blue < blue_num_creatures:
 			creature_colour = Color(0.0, 0.0, 1.0)
 			creature_picks.blue += 1
-		elif white_noise_threshold and creature_picks.white < num_white_creatures:
+			creature_spawn.creature_scene = blue_creature_scene
+		elif white_noise_threshold and creature_picks.white < white_num_creatures:
 			creature_colour = Color(0.0, 0.0, 0.0)
 			creature_picks.white += 1
-		elif yellow_noise_threshold and creature_picks.yellow < num_yellow_creatures:
+			creature_spawn.creature_scene = white_creature_scene
+		elif yellow_noise_threshold and creature_picks.yellow < yellow_num_creatures:
 			creature_colour = Color(1.0, 1.0, 0.0)
 			creature_picks.yellow += 1
+			creature_spawn.creature_scene = yellow_creature_scene
 
 		creature_spawn.colour = creature_colour
 	
@@ -116,7 +141,7 @@ func generate_creatures() -> void:
 			if info.colour == null:
 				continue
 			
-			var creature = creature_scene.instantiate()
+			var creature = info.creature_scene.instantiate()
 			creature.name = "creature " + str(info.index)
 			creature.index = info.index
 			creature.position = info.position
@@ -187,7 +212,7 @@ func _on_creature_selected(node, index):
 		selected_creature = null
 		print("NO MATCH", index, node_info.colour, " ", selected_info.colour)
 	else:
-		print("ERROR")
+		assert(false)
 	
 func _unhandled_input(event):
 	if event is InputEventKey:
