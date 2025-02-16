@@ -6,7 +6,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_30h38"]
 shader = ExtResource("2_wagvb")
-shader_parameter/line_color = Color(0.389465, 0.736381, 0.771617, 1)
+shader_parameter/line_color = Color(0.909804, 0.733333, 0.0941176, 1)
 shader_parameter/line_thickness = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d1rwh"]
@@ -144,7 +144,7 @@ material = SubResource("ShaderMaterial_30h38")
 position = Vector2(0, -40)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"dust"
+animation = &"caught"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

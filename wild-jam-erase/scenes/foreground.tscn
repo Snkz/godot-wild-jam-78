@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://b5ps2m82hwhgu"]
 
 [ext_resource type="Shader" path="res://shaders/mask.gdshader" id="1_dbqac"]
-[ext_resource type="Texture2D" uid="uid://b1f8sxn6nn28q" path="res://assets/background.png" id="1_yrb7o"]
 [ext_resource type="Script" path="res://scripts/mask.gd" id="2_sdhut"]
+[ext_resource type="Texture2D" uid="uid://c6q2lqxuy51rk" path="res://assets/foreground.png" id="2_sgdyt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c2bfv"]
 shader = ExtResource("1_dbqac")
@@ -13,7 +13,7 @@ shader_parameter/holeRadius = null
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_yrb7o")
+"texture": ExtResource("2_sgdyt")
 }],
 "loop": true,
 "name": &"default",
