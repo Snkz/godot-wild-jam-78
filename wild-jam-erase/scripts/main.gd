@@ -117,9 +117,9 @@ func _ready() -> void:
 
 			var entity_layer = self.get_node("entity_layer")
 			entity_layer.add_child(creature)
-			#var creatures = get_tree().get_nodes_in_group("creatures")
-			#for c in creatures: 
-				#c.connect("creature_selected", _on_creature_selected)
+			var creatures = get_tree().get_nodes_in_group("creatures")
+			for c in creatures: 
+				c.connect("creature_selected", _on_creature_selected)
 
 func _process(delta):
 	var window_rect = get_viewport().get_visible_rect()

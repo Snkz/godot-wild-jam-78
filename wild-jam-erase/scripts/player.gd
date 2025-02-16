@@ -1,6 +1,7 @@
 extends Area2D
 
 signal creature_selected(Creature, Vector2)
+
 var nearest_selection = null
 var nearest_threshold = 1.0
 var active_bodies = []

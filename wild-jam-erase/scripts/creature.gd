@@ -49,6 +49,9 @@ func _on_nearest_creature_highlighted(state) -> void:
 	if (state): 
 		$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
 
+func _on_creature_selected(node, index) -> void:
+	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
+
 func _change_state() -> void:
 	if current_state == State.DUST:
 		return
