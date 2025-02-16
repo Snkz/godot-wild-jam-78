@@ -18,8 +18,8 @@ func set_nearest() -> void:
 	var current_selection = null
 	
 	for body in active_bodies:
-		var current_distance = nearest_selection.position.distance_to(self.position) if nearest_selection else 100000.0
-		var body_distance = body.position.distance_to(self.position)
+		var current_distance = nearest_selection.global_position.distance_to(self.position) if nearest_selection else 100000.0
+		var body_distance = body.global_position.distance_to(self.position)
 		if current_distance > (body_distance + nearest_threshold):
 			current_selection = body
 	

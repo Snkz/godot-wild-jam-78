@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bwdlgjhs2b4wn"]
+[gd_scene load_steps=23 format=3 uid="uid://bgst6dmo3siqb"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_shfmo"]
 [ext_resource type="Texture2D" uid="uid://cmvliwdm4r581" path="res://assets/creature_cat.png" id="2_q16qe"]
@@ -166,6 +166,7 @@ radius = 31.6667
 height = 93.3333
 
 [node name="cat" type="CharacterBody2D"]
+collision_mask = 3
 input_pickable = true
 script = ExtResource("1_shfmo")
 base_idle_time = 1.0

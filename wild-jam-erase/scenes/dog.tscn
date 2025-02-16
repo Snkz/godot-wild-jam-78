@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bihdkd2udbepv"]
+[gd_scene load_steps=24 format=3 uid="uid://dano28iaqfkrk"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_3urrw"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_1y0tu"]
@@ -169,6 +169,7 @@ height = 93.3333
 [node name="dog" type="CharacterBody2D"]
 z_index = 50
 z_as_relative = false
+collision_mask = 3
 input_pickable = true
 script = ExtResource("1_3urrw")
 base_idle_time = 1.0
