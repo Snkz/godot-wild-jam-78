@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 signal creature_highlighted(bool)
 signal nearest_creature_highlighted(bool)
+signal creature_matched(a, b, c)
 
 var index : int
 
@@ -23,7 +24,7 @@ func _ready() -> void:
 	
 	connect("creature_highlighted", _on_creature_highlighted)
 	connect("nearest_creature_highlighted", _on_nearest_creature_highlighted)
-
+	connect("creature_matched", _on_creature_matched)
 
 	var offset : float = randf_range(0, $AnimatedSprite2D.sprite_frames.get_frame_count($AnimatedSprite2D.animation))
 	$AnimatedSprite2D.set_frame_and_progress(offset, offset)
@@ -49,8 +50,17 @@ func _on_nearest_creature_highlighted(state) -> void:
 	if (state): 
 		$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
 
-func _on_creature_selected(node, index) -> void:
-	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
+func _on_creature_matched(node, selected, matched) -> void:
+	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
+
+	if selected:
+		$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
+
+	print(name, " ", "selected: ", selected, "matched: ", matched)
+	
+	if (selected and matched):
+		_start_dust()
+	
 
 func _change_state() -> void:
 	if current_state == State.DUST:

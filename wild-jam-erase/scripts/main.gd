@@ -32,7 +32,6 @@ func generate_grid() -> void:
 	var index = 0
 	for i in range(1, grid_width):
 		for j in range(1, grid_height):
-			index = index + 1
 			var random_offset_scale = 5.0
 			var random_offset_x = rng.randf_range(-screen_res.x / grid_width / random_offset_scale, 
 				screen_res.x / grid_width / random_offset_scale)
@@ -44,6 +43,7 @@ func generate_grid() -> void:
 			var result = noise.get_noise_2d(position.x, position.y)
 			var creature_colour = null
 			creature_spawns.push_back({"position" : position, "noise" : result, "colour": creature_colour, "index" : index})
+			index = index + 1
 
 	# Randomly spawn monsters
 	creature_spawns.shuffle()
@@ -98,17 +98,17 @@ func _ready() -> void:
 	var index = 0
 	for i in range(1, grid_width):
 		for j in range(1, grid_height):
-			var creature = creature_scene.instantiate()
 			var info = creature_spawns[index];
+			index = index + 1
 			if info.colour == null:
 				continue
-				
-			creature.name = "creature " + str(index)
-			creature.index = index
+			
+			var creature = creature_scene.instantiate()
+			creature.name = "creature " + str(info.index)
+			creature.index = info.index
 			creature.position = info.position
 			creature.modulate = info.colour
-
-			index = index + 1
+			info.node = creature
 
 			# Spawn the creature by adding it to the Main scene.
 			creature.add_to_group("creatures")
@@ -117,10 +117,7 @@ func _ready() -> void:
 
 			var entity_layer = self.get_node("entity_layer")
 			entity_layer.add_child(creature)
-			var creatures = get_tree().get_nodes_in_group("creatures")
-			for c in creatures: 
-				c.connect("creature_selected", _on_creature_selected)
-
+			
 func _process(delta):
 	var window_rect = get_viewport().get_visible_rect()
 	var mouse_pos = get_viewport().get_mouse_position()
@@ -130,12 +127,38 @@ func _process(delta):
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
+func get_creature_info(index) -> Dictionary:
+	for creature_spawn in creature_spawns:
+		if creature_spawn.index == index:
+			print("CREATURE FOUND: ", index, " ", creature_spawn)
+			return creature_spawn
+			
+	return {index: null}
+
 func _on_creature_selected(node, index):
-	if node == selected_creature:
-		selected_creature = null
-		node._start_dust()
-	else:
+	var node_info = get_creature_info(index)
+	var selected_info = get_creature_info(selected_creature.index) if selected_creature else {}
+	
+	if selected_creature == null:
+		node.emit_signal("creature_matched", selected_creature, true, false)
 		selected_creature = node
+		print("NEW", index, node_info.colour)
+	elif selected_creature.index == index:
+		node.emit_signal("creature_matched", selected_creature, false, false)
+		selected_creature = null
+		print("SAME", index, node_info.colour)
+	elif node_info.colour == selected_info.colour:
+		node.emit_signal("creature_matched", selected_creature, true, true)
+		selected_creature.emit_signal("creature_matched", selected_creature, true, true)
+		selected_creature = null
+		print("MATCH", index, node_info.colour, selected_info.index, selected_info.colour)
+	elif node_info.colour != selected_info.colour:
+		selected_creature.emit_signal("creature_matched", selected_creature, false, false)
+		node.emit_signal("creature_matched", selected_creature, false, false)
+		selected_creature = null
+		print("NO MATCH", index, node_info.colour, " ", selected_info.colour)
+	else:
+		print("ERROR")
 	
 func _unhandled_input(event):
 	if event is InputEventKey:

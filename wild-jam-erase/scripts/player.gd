@@ -29,6 +29,11 @@ func set_nearest() -> void:
 			
 		nearest_selection = current_selection
 		nearest_selection.emit_signal("nearest_creature_highlighted", true)
+		
+	elif len(active_bodies) == 0:
+		if nearest_selection:
+			nearest_selection.emit_signal("nearest_creature_highlighted", false)
+		nearest_selection = null
 
 func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouse:
