@@ -18,6 +18,9 @@ var current_state = State.IDLE
 @export var speed := 30.0
 @export var wander_chance := 0.3
 
+var tween_hover: Tween
+
+
 var direction := Vector2.ZERO
 var timer := Timer.new()
 
@@ -39,7 +42,6 @@ func _on_creature_highlighted(state) -> void:
 	if current_state == State.DUST:
 		return
 	
-	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	_start_idle()
 	
 	if (state): 
@@ -48,9 +50,17 @@ func _on_creature_highlighted(state) -> void:
 		
 func _on_nearest_creature_highlighted(state) -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
-
+	if tween_hover and tween_hover.is_running():
+		tween_hover.kill()
+	tween_hover = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
+	tween_hover.tween_property(self, "scale", Vector2.ONE, 0.4)
+	
 	if (state): 
 		$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
+		if tween_hover and tween_hover.is_running():
+			tween_hover.kill()
+		tween_hover = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
+		tween_hover.tween_property(self, "scale", Vector2(1.1, 1.1), 0.6)
 
 func _on_creature_matched(node, selected, matched) -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)

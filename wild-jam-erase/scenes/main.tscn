@@ -3,9 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://dewg4bjcsybcx" path="res://scenes/player.tscn" id="1_bdlqp"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_w64oe"]
 [ext_resource type="PackedScene" uid="uid://bwdlgjhs2b4wn" path="res://scenes/creature.tscn" id="2_panp8"]
-[ext_resource type="PackedScene" uid="uid://b4qcfxfu18v6d" path="res://scenes/gameover.tscn" id="3_80ec5"]
+[ext_resource type="PackedScene" path="res://scenes/gameover.tscn" id="3_80ec5"]
 [ext_resource type="Texture2D" uid="uid://b1f8sxn6nn28q" path="res://assets/background.png" id="4_31bdv"]
-[ext_resource type="PackedScene" path="res://scenes/foreground.tscn" id="4_g3e8d"]
+[ext_resource type="PackedScene" uid="uid://b5ps2m82hwhgu" path="res://scenes/foreground.tscn" id="4_g3e8d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bnkbg"]
 size = Vector2(1280, 27.25)
