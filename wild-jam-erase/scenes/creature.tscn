@@ -1,9 +1,8 @@
-[gd_scene load_steps=23 format=3 uid="uid://bwdlgjhs2b4wn"]
+[gd_scene load_steps=22 format=3 uid="uid://bwdlgjhs2b4wn"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_shfmo"]
 [ext_resource type="Texture2D" uid="uid://cmvliwdm4r581" path="res://assets/creature_cat.png" id="2_q16qe"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_wagvb"]
-[ext_resource type="Texture2D" uid="uid://bqci0pq5syrq" path="res://assets/creature_bird.png" id="4_t36ri"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_30h38"]
 shader = ExtResource("2_wagvb")
@@ -54,20 +53,20 @@ region = Rect2(120, 48, 24, 24)
 atlas = ExtResource("2_q16qe")
 region = Rect2(144, 48, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rvyb6"]
-atlas = ExtResource("4_t36ri")
+[sub_resource type="AtlasTexture" id="AtlasTexture_ut2xf"]
+atlas = ExtResource("2_q16qe")
 region = Rect2(0, 0, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_cvj0p"]
-atlas = ExtResource("4_t36ri")
+[sub_resource type="AtlasTexture" id="AtlasTexture_3p2xd"]
+atlas = ExtResource("2_q16qe")
 region = Rect2(24, 0, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_731hv"]
-atlas = ExtResource("4_t36ri")
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ott3"]
+atlas = ExtResource("2_q16qe")
 region = Rect2(48, 0, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0r6iy"]
-atlas = ExtResource("4_t36ri")
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4tgu"]
+atlas = ExtResource("2_q16qe")
 region = Rect2(72, 0, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q53y4"]
@@ -117,16 +116,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 3.0,
-"texture": SubResource("AtlasTexture_rvyb6")
+"texture": SubResource("AtlasTexture_ut2xf")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_cvj0p")
+"texture": SubResource("AtlasTexture_3p2xd")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_731hv")
+"texture": SubResource("AtlasTexture_8ott3")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0r6iy")
+"texture": SubResource("AtlasTexture_h4tgu")
 }],
 "loop": true,
 "name": &"idle",
@@ -145,7 +144,7 @@ material = SubResource("ShaderMaterial_30h38")
 position = Vector2(0, -40)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"caught"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
