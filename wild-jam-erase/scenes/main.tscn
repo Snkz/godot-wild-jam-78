@@ -2,20 +2,20 @@
 
 [ext_resource type="PackedScene" uid="uid://dewg4bjcsybcx" path="res://scenes/player.tscn" id="1_bdlqp"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_w64oe"]
-[ext_resource type="PackedScene" uid="uid://bgst6dmo3siqb" path="res://scenes/cat.tscn" id="2_panp8"]
+[ext_resource type="PackedScene" uid="uid://bwdlgjhs2b4wn" path="res://scenes/cat.tscn" id="2_panp8"]
 [ext_resource type="PackedScene" uid="uid://b13q08enc4ju" path="res://scenes/bird.tscn" id="3_3u1q3"]
 [ext_resource type="PackedScene" uid="uid://b4qcfxfu18v6d" path="res://scenes/gameover.tscn" id="3_80ec5"]
 [ext_resource type="PackedScene" uid="uid://7totvlvqqayc" path="res://scenes/eddie.tscn" id="3_bysk2"]
 [ext_resource type="PackedScene" uid="uid://bg6m51wnph64s" path="res://scenes/ghost.tscn" id="4_2bbtr"]
 [ext_resource type="Texture2D" uid="uid://b1f8sxn6nn28q" path="res://assets/background.png" id="4_31bdv"]
 [ext_resource type="PackedScene" uid="uid://bp2s3n2m5gb46" path="res://scenes/foreground.tscn" id="4_g3e8d"]
-[ext_resource type="PackedScene" uid="uid://dano28iaqfkrk" path="res://scenes/dog.tscn" id="6_md2jr"]
+[ext_resource type="PackedScene" uid="uid://bihdkd2udbepv" path="res://scenes/dog.tscn" id="6_md2jr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bnkbg"]
-size = Vector2(1280, 60)
+size = Vector2(1440, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8wnw2"]
-size = Vector2(80, 957)
+size = Vector2(80, 1080)
 
 [node name="main" type="Node2D"]
 process_mode = 1
@@ -58,7 +58,7 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="Top" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(799, 88.25)
+position = Vector2(800, 88)
 shape = SubResource("RectangleShape2D_bnkbg")
 
 [node name="Bottom" type="CollisionShape2D" parent="StaticBody2D"]
@@ -66,7 +66,7 @@ position = Vector2(800, 1108)
 shape = SubResource("RectangleShape2D_bnkbg")
 
 [node name="Right" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(1480, 599.5)
+position = Vector2(1480, 598)
 shape = SubResource("RectangleShape2D_8wnw2")
 
 [node name="Left" type="CollisionShape2D" parent="StaticBody2D"]

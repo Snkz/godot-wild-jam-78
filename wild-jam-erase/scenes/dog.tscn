@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dano28iaqfkrk"]
+[gd_scene load_steps=24 format=3 uid="uid://bihdkd2udbepv"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_3urrw"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_1y0tu"]
