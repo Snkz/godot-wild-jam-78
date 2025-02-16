@@ -1,24 +1,20 @@
 [gd_scene load_steps=3 format=3 uid="uid://b4qcfxfu18v6d"]
 
-[ext_resource type="Texture2D" uid="uid://d1ynh1qio2j41" path="res://icon.svg" id="1_40wgs"]
+[ext_resource type="Script" path="res://scripts/gameover.gd" id="1_l5aed"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_duasc"]
+font_color = Color(0, 0, 0, 1)
 
-[node name="gameover" type="Node2D"]
+[node name="gameover" type="CanvasLayer"]
 process_mode = 2
+layer = 2
+script = ExtResource("1_l5aed")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(700, 400)
-texture = ExtResource("1_40wgs")
-
-[node name="Label" type="Label" parent="Sprite2D"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -45.0
-offset_top = -100.0
-offset_right = -81.0
-offset_bottom = -205.0
+[node name="Label" type="Label" parent="."]
+anchors_preset = -1
+anchor_right = 0.072
+offset_right = -0.160004
+offset_bottom = 23.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "GAME OVER"

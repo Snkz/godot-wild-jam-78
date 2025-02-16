@@ -17,7 +17,6 @@ size = Vector2(28, 960)
 process_mode = 1
 script = ExtResource("1_w64oe")
 creature_scene = ExtResource("2_panp8")
-gameover_scene = ExtResource("3_80ec5")
 grid_height = 7
 grid_width = 8
 playable_area_offset = Vector2(0, 16)
@@ -27,6 +26,11 @@ autostart = true
 
 [node name="player" parent="." instance=ExtResource("1_bdlqp")]
 position = Vector2(636, 476)
+
+[node name="gameover" parent="." instance=ExtResource("3_80ec5")]
+visible = false
+offset = Vector2(640, 480)
+transform = Transform2D(1, 0, 0, 1, 640, 480)
 
 [node name="foreground" parent="." instance=ExtResource("4_g3e8d")]
 layer = 1

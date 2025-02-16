@@ -6,6 +6,7 @@
 radius = 19.0263
 
 [node name="player" type="Area2D"]
+process_mode = 3
 script = ExtResource("1_o3o8q")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
