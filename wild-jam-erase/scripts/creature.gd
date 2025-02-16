@@ -41,6 +41,7 @@ func _ready() -> void:
 	var offset : float = randf_range(0, $AnimatedSprite2D.sprite_frames.get_frame_count($AnimatedSprite2D.animation))
 	$AnimatedSprite2D.set_frame_and_progress(offset, offset)
 	$AnimatedSprite2D.material = $AnimatedSprite2D.material.duplicate()
+	$AnimatedSprite2D.material.set_shader_parameter("line_color", Vector4.ONE)
 	add_child(timer)
 	timer.timeout.connect(_on_timeout)
 	start_idle()

@@ -1,0 +1,146 @@
+[gd_scene load_steps=19 format=3 uid="uid://7totvlvqqayc"]
+
+[ext_resource type="Script" path="res://scripts/creature.gd" id="1_fx8j0"]
+[ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_1sosv"]
+[ext_resource type="Texture2D" uid="uid://dp4okbaq3h3ma" path="res://assets/creature_eddie.png" id="3_ixt8m"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_30h38"]
+shader = ExtResource("2_1sosv")
+shader_parameter/line_color = Color(0.909804, 0.733333, 0.0941176, 1)
+shader_parameter/line_thickness = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qgf83"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_efity"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c7pso"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jq7pt"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vehlh"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s0gj7"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wgbn4"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cd6jk"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nfn7k"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(96, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s3o1v"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(120, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ktb06"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(144, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4bbi"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(168, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7r80j"]
+animations = [{
+"frames": [{
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_qgf83")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_efity")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c7pso")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jq7pt")
+}],
+"loop": false,
+"name": &"caught",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vehlh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s0gj7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wgbn4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cd6jk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfn7k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s3o1v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ktb06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x4bbi")
+}],
+"loop": false,
+"name": &"dust",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_qgf83")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_efity")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c7pso")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jq7pt")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_swmom"]
+size = Vector2(118, 121)
+
+[node name="eddie" type="CharacterBody2D"]
+input_pickable = true
+script = ExtResource("1_fx8j0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_30h38")
+position = Vector2(0, -40)
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_7r80j")
+animation = &"dust"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -37)
+scale = Vector2(0.6, 0.6)
+shape = SubResource("RectangleShape2D_swmom")
+
+[connection signal="ready" from="." to="." method="_on_ready"]
