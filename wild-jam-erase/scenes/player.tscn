@@ -1,14 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dewg4bjcsybcx"]
+[gd_scene load_steps=3 format=3 uid="uid://dewg4bjcsybcx"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_o3o8q"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_eiewv"]
 radius = 19.0263
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_niil5"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mi04r"]
-noise = SubResource("FastNoiseLite_niil5")
 
 [node name="player" type="Area2D"]
 script = ExtResource("1_o3o8q")
@@ -16,9 +11,6 @@ script = ExtResource("1_o3o8q")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(5, 5)
 shape = SubResource("CircleShape2D_eiewv")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("NoiseTexture2D_mi04r")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

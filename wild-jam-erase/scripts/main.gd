@@ -9,26 +9,30 @@ extends Node2D
 @export var green_noise_threshold := 0.05
 @export var num_red_creatures := 8
 @export var red_noise_threshold := 0.2
-@export var num_blue_creatures := 16
+@export var num_blue_creatures := 14
 @export var blue_noise_threshold := 0.55
+@export var num_white_creatures := 4
+@export var white_noise_threshold := 0.7
 @export var num_yellow_creatures := 2
 @export var yellow_noise_threshold := 1.0
 
 var selected_creature: Creature
 var rng = RandomNumberGenerator.new()
-
 var creature_spawns = []
+
 func generate_grid() -> void:
 	var screen_res = Vector2()
 	screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
 	screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
 	var noise = FastNoiseLite.new()
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
-	var creature_picks = {"yellow": 0, "blue": 0, "green": 0, "red": 0}
+	var creature_picks = {"yellow": 0, "blue": 0, "green": 0, "red": 0, "white": 0}
 	
 	# Generate positions for all grid slots
+	var index = 0
 	for i in range(1, grid_width):
 		for j in range(1, grid_height):
+			index = index + 1
 			var random_offset_scale = 5.0
 			var random_offset_x = rng.randf_range(-screen_res.x / grid_width / random_offset_scale, 
 				screen_res.x / grid_width / random_offset_scale)
@@ -39,22 +43,48 @@ func generate_grid() -> void:
 	
 			var result = noise.get_noise_2d(position.x, position.y)
 			var creature_colour = null
-			if abs(result) < green_noise_threshold and creature_picks.green < num_green_creatures:
-				creature_colour = "green"
-				creature_picks.green += 1
-			elif abs(result) < red_noise_threshold and creature_picks.red < num_red_creatures:
-				creature_colour = "red"
-				creature_picks.red += 1
-			elif abs(result) < blue_noise_threshold and creature_picks.blue < num_blue_creatures:
-				creature_colour = "blue"
-				creature_picks.blue += 1
-			elif abs(result) < yellow_noise_threshold and creature_picks.yellow < num_yellow_creatures:
-				creature_colour = "yellow"
-				creature_picks.yellow += 1
+			creature_spawns.push_back({"position" : position, "noise" : result, "colour": creature_colour, "index" : index})
 
-			creature_spawns = {"position" : position, "noise" : result}
+	# Randomly spawn monsters
+	creature_spawns.shuffle()
+	for creature_spawn in creature_spawns:
+		var result = creature_spawn.noise
+		var creature_colour = null
+		if abs(result) < green_noise_threshold and creature_picks.green < num_green_creatures:
+			creature_colour = Color(0.0, 1.0, 0.0)
+			creature_picks.green += 1
+		elif abs(result) < red_noise_threshold and creature_picks.red < num_red_creatures:
+			creature_colour = Color(1.0, 0.0, 0.0)
+			creature_picks.red += 1
+		elif abs(result) < blue_noise_threshold and creature_picks.blue < num_blue_creatures:
+			creature_colour = Color(0.0, 0.0, 1.0)
+			creature_picks.blue += 1
+		elif abs(result) < white_noise_threshold and creature_picks.white < num_white_creatures:
+			creature_colour = Color(1.0, 1.0, 1.0)
+			creature_picks.white += 1
+		elif abs(result) < yellow_noise_threshold and creature_picks.yellow < num_yellow_creatures:
+			creature_colour = Color(1.0, 1.0, 0.0)
+			creature_picks.yellow += 1
+		# Now just fill in the spawns
+		elif creature_picks.green < num_green_creatures:
+			creature_colour = Color(0.0, 1.0, 0.0)
+			creature_picks.green += 1
+		elif red_noise_threshold and creature_picks.red < num_red_creatures:
+			creature_colour = Color(1.0, 0.0, 0.0)
+			creature_picks.red += 1
+		elif blue_noise_threshold and creature_picks.blue < num_blue_creatures:
+			creature_colour = Color(0.0, 0.0, 1.0)
+			creature_picks.blue += 1
+		elif white_noise_threshold and creature_picks.white < num_white_creatures:
+			creature_colour = Color(0.0, 0.0, 0.0)
+			creature_picks.white += 1
+		elif yellow_noise_threshold and creature_picks.yellow < num_yellow_creatures:
+			creature_colour = Color(1.0, 1.0, 0.0)
+			creature_picks.yellow += 1
+
+		creature_spawn.colour = creature_colour
 	
-	print("CREATURE", creature_picks)
+	print(creature_picks)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var screen_res = Vector2()
@@ -65,25 +95,20 @@ func _ready() -> void:
 	
 	generate_grid()
 	
+	var index = 0
 	for i in range(1, grid_width):
 		for j in range(1, grid_height):
-			var excluded_threshold = rng.randf_range(0, 1.0)
-			if max_excluded > 0 and excluded_threshold < exclusion_threshold:
-				max_excluded = max_excluded -1;
+			var creature = creature_scene.instantiate()
+			var info = creature_spawns[index];
+			if info.colour == null:
 				continue
 				
-			var creature = creature_scene.instantiate()
-			var random_offset_scale = 5.0
-			
-			var random_offset_x = rng.randf_range(-screen_res.x / grid_width / random_offset_scale, 
-				screen_res.x / grid_width / random_offset_scale)
-			var random_offset_y = rng.randf_range(-screen_res.y / grid_height / random_offset_scale, 
-				screen_res.y / grid_height / random_offset_scale)
+			creature.name = "creature " + str(index)
+			creature.index = index
+			creature.position = info.position
+			creature.modulate = info.colour
 
-			creature.position = Vector2(i * screen_res.x / grid_width + playable_area_offset.x + random_offset_x,
-			 j * screen_res.y / grid_height + playable_area_offset.y + random_offset_y)
-			creature.name = "creature " + str(i) + ":" + str(j)
-			creature.index = Vector2(i, j)
+			index = index + 1
 
 			# Spawn the creature by adding it to the Main scene.
 			creature.add_to_group("creatures")

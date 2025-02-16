@@ -4,7 +4,7 @@ extends CharacterBody2D
 signal creature_highlighted(bool)
 signal nearest_creature_highlighted(bool)
 
-var index : Vector2
+var index : int
 
 enum State { IDLE, WANDER, CAUGHT, DUST }
 var current_state = State.IDLE
@@ -20,7 +20,7 @@ var timer := Timer.new()
 
 func _ready() -> void:
 	randomize()
-
+	
 	connect("creature_highlighted", _on_creature_highlighted)
 	connect("nearest_creature_highlighted", _on_nearest_creature_highlighted)
 
