@@ -141,18 +141,19 @@ func init_wander() -> bool:
 	
 func start_wander() -> void:
 	velocity = direction * wander_speed
+	$AnimatedSprite2D.play(&"run")
 	move_and_slide()
 	if direction.x < 0:
-		$AnimatedSprite2D.flip_h = true
-	else:
 		$AnimatedSprite2D.flip_h = false
+	else:
+		$AnimatedSprite2D.flip_h = true
 		
 
 func init_chase() -> bool:
 	if current_behaviour != BehaviourState.IDLE or current_behaviour != BehaviourState.WANDER:
 		return false
 		
-	var player = self.get_node("../../player")
+	var player = self.get_node("../../../player")
 	var distance = player.position.distance_to(self.position)
 	if distance > chase_distance_min_threshold and distance < chase_distance_max_threshold and randf() < chase_chance:
 		current_behaviour = BehaviourState.CHASE
@@ -164,13 +165,14 @@ func init_chase() -> bool:
 	
 func start_chase() -> void:
 	velocity = direction * chase_speed
+	$AnimatedSprite2D.play(&"run")
 	move_and_slide()
 	if direction.x < 0:
-		$AnimatedSprite2D.flip_h = true
-	else:
 		$AnimatedSprite2D.flip_h = false
+	else:
+		$AnimatedSprite2D.flip_h = true
 	
-	var player = self.get_node("../../player")
+	var player = self.get_node("../../../player")
 	var distance = player.position.distance_to(self.position)
 	direction = (player.position - self.position).normalized()
 
@@ -181,7 +183,7 @@ func init_fear() -> bool:
 	if current_behaviour != BehaviourState.IDLE or current_behaviour != BehaviourState.WANDER:
 		return false
 	
-	var player = self.get_node("../../player")
+	var player = self.get_node("../../../player")
 	var distance = player.position.distance_to(self.position)
 	if distance > fear_distance_min_threshold and distance < fear_distance_max_threshold and randf() < fear_chance:
 		current_behaviour = BehaviourState.FEAR
@@ -193,13 +195,14 @@ func init_fear() -> bool:
 	
 func start_fear() -> void:
 	velocity = direction * fear_speed
+	$AnimatedSprite2D.play(&"run")
 	move_and_slide()
 	if direction.x < 0:
-		$AnimatedSprite2D.flip_h = true
-	else:
 		$AnimatedSprite2D.flip_h = false
+	else:
+		$AnimatedSprite2D.flip_h = true
 	
-	var player = self.get_node("../../player")
+	var player = self.get_node("../../../player")
 	var distance = player.position.distance_to(self.position)
 	direction = -1.0 * (player.position - self.position).normalized()
 

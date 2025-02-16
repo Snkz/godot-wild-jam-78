@@ -121,6 +121,23 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qgf83")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_efity")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c7pso")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jq7pt")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_aaexp"]
@@ -138,7 +155,7 @@ material = SubResource("ShaderMaterial_30h38")
 position = Vector2(0, -40)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_7r80j")
-animation = &"dust"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

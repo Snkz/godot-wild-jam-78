@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dxc5kh782tlm4"]
+[gd_scene load_steps=15 format=3 uid="uid://dxc5kh782tlm4"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_wjevb"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_d17i1"]
@@ -25,6 +25,22 @@ region = Rect2(48, 0, 24, 24)
 atlas = ExtResource("2_o2mid")
 region = Rect2(72, 0, 24, 24)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_pedyw"]
+atlas = ExtResource("2_o2mid")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ehyy"]
+atlas = ExtResource("2_o2mid")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0sr8p"]
+atlas = ExtResource("2_o2mid")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uakkq"]
+atlas = ExtResource("2_o2mid")
+region = Rect2(72, 24, 24, 24)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_q53y4"]
 animations = [{
 "frames": [{
@@ -49,13 +65,13 @@ animations = [{
 "texture": SubResource("AtlasTexture_4ja1i")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bwv6x")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_u757l")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_47on3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwv6x")
 }],
 "loop": false,
 "name": &"dust",
@@ -66,16 +82,33 @@ animations = [{
 "texture": SubResource("AtlasTexture_4ja1i")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bwv6x")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_u757l")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_47on3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwv6x")
 }],
 "loop": true,
 "name": &"idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pedyw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ehyy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0sr8p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uakkq")
+}],
+"loop": true,
+"name": &"run",
 "speed": 10.0
 }]
 
@@ -98,7 +131,7 @@ material = SubResource("ShaderMaterial_30h38")
 position = Vector2(-1, -2)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"idle"
+animation = &"caught"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

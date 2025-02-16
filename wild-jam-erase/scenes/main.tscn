@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://yxis2j80giwn"]
+[gd_scene load_steps=13 format=3 uid="uid://yxis2j80giwn"]
 
 [ext_resource type="PackedScene" uid="uid://dewg4bjcsybcx" path="res://scenes/player.tscn" id="1_bdlqp"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_w64oe"]
@@ -6,8 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://dxc5kh782tlm4" path="res://scenes/bird.tscn" id="3_3u1q3"]
 [ext_resource type="PackedScene" uid="uid://b4qcfxfu18v6d" path="res://scenes/gameover.tscn" id="3_80ec5"]
 [ext_resource type="PackedScene" uid="uid://dgxjem5f4j2ci" path="res://scenes/eddie.tscn" id="3_bysk2"]
+[ext_resource type="PackedScene" uid="uid://dk71ddkyy7hlf" path="res://scenes/ghost.tscn" id="4_2bbtr"]
 [ext_resource type="Texture2D" uid="uid://b1f8sxn6nn28q" path="res://assets/background.png" id="4_31bdv"]
 [ext_resource type="PackedScene" uid="uid://bp2s3n2m5gb46" path="res://scenes/foreground.tscn" id="4_g3e8d"]
+[ext_resource type="PackedScene" path="res://scenes/dog.tscn" id="6_md2jr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bnkbg"]
 size = Vector2(1280, 27.25)
@@ -17,15 +19,16 @@ size = Vector2(28, 960)
 
 [node name="main" type="Node2D"]
 process_mode = 1
+y_sort_enabled = true
 script = ExtResource("1_w64oe")
 grid_height = 7
 grid_width = 8
 playable_area_offset = Vector2(0, 16)
 green_creature_scene = ExtResource("2_panp8")
 red_creature_scene = ExtResource("3_bysk2")
-blue_creature_scene = ExtResource("2_panp8")
+blue_creature_scene = ExtResource("4_2bbtr")
 white_creature_scene = ExtResource("3_3u1q3")
-yellow_creature_scene = ExtResource("3_3u1q3")
+yellow_creature_scene = ExtResource("6_md2jr")
 
 [node name="timer" type="Timer" parent="."]
 autostart = true
@@ -43,6 +46,9 @@ layer = 1
 
 [node name="entity_layer" type="CanvasLayer" parent="."]
 layer = 0
+
+[node name="ysort" type="Node2D" parent="entity_layer"]
+y_sort_enabled = true
 
 [node name="background" type="Sprite2D" parent="."]
 position = Vector2(640, 480)
