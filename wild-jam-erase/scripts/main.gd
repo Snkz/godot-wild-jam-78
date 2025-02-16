@@ -167,6 +167,8 @@ func generate_creatures() -> void:
 				continue
 			
 			var creature = info.creature_scene.instantiate()
+			var creature_layer = CanvasLayer.new()
+			creature_layer.layer = 0
 			creature.name = "creature " + str(info.index)
 			creature.index = info.index
 			creature.position = info.position
@@ -177,7 +179,8 @@ func generate_creatures() -> void:
 			creature.add_to_group("creatures")
 
 			var ysort = self.get_node("creatures/" + info.layer + "/ysort")
-			ysort.add_child(creature)
+			creature_layer.add_child(creature)
+			ysort.add_child(creature_layer)
 
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	for c in creatures: 

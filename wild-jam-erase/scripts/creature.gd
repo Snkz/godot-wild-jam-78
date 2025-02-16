@@ -76,6 +76,7 @@ func _on_nearest_creature_highlighted(state) -> void:
 	if current_behaviour == BehaviourState.REVEAL:
 		clear_reveal()
 	
+	
 	if (state): 
 		$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
 		if tween_hover and tween_hover.is_running():
@@ -84,6 +85,8 @@ func _on_nearest_creature_highlighted(state) -> void:
 		tween_hover.tween_property(self, "scale", Vector2(1.1, 1.1), 0.6)
 
 func _on_creature_matched(node, selected, matched) -> void:
+	var creature_layer = get_parent()
+	creature_layer.layer = 0
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	if selected:
 		if reveal_colour_on_click and not matched:
@@ -92,20 +95,28 @@ func _on_creature_matched(node, selected, matched) -> void:
 			start_dust()
 		else:
 			$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
+			creature_layer.layer = 2
+
 	
 	if (selected and matched):
 		start_dust()
 
 func start_reveal() -> void:
-	var canvas = self.get_parent().get_parent()
-	assert(canvas.layer != null)
+	var canvas = self.get_parent().get_parent().get_parent()
+	var ysort = self.get_parent().get_parent()
+	for child in ysort.get_children():
+		child.layer = 2
+		
 	canvas.layer = 2;
 	current_behaviour = BehaviourState.REVEAL
 	timer.start(base_reveal_time + randf_range(-time_variation, time_variation))
 
 func clear_reveal() -> void:
-	var canvas = self.get_parent().get_parent()
-	assert(canvas.layer != null)
+	var canvas = self.get_parent().get_parent().get_parent()
+	var ysort = self.get_parent().get_parent()
+	for child in ysort.get_children():
+		child.layer = 0
+	
 	canvas.layer = 0;
 	current_behaviour = BehaviourState.IDLE
 
