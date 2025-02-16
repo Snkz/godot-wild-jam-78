@@ -1,7 +1,6 @@
 extends Node2D
 
 @export var creature_scene: PackedScene
-@export var gameover_scene: PackedScene
 @export var grid_height: int
 @export var grid_width: int
 @export var playable_area_offset: Vector2
@@ -22,14 +21,24 @@ var rng = RandomNumberGenerator.new()
 var creature_spawns = []
 var matched_count = 0
 
+signal gameover()
+
 func _on_creature_deleted(node, index) -> void:
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	var count = len(creatures)
-	print("CREATURED DIED: ", count, " REMAINING")
 	if count <= 0:
-		var gameover = gameover_scene.instantiate()
-		get_tree().paused = true
+		gameover.emit()
+		
+func _on_restart() -> void:
+	var creatures = get_tree().get_nodes_in_group("creatures")
+	for creature in creatures:
+		creature.queue_free()
 	
+	creature_spawns = []
+	matched_count = 0
+	generate_creatures()
+	
+
 func generate_grid() -> void:
 	var screen_res = Vector2()
 	screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
@@ -95,16 +104,8 @@ func generate_grid() -> void:
 		creature_spawn.colour = creature_colour
 	
 	print(creature_picks)
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	var screen_res = Vector2()
-	screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
-	screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
-	var max_excluded = 16
-	var exclusion_threshold = 0.35
-	var player = self.get_node("player")
-	player.connect("creature_selected", _on_creature_selected)
 	
+func generate_creatures() -> void:
 	generate_grid()
 	
 	var index = 0
@@ -130,6 +131,18 @@ func _ready() -> void:
 
 			var entity_layer = self.get_node("entity_layer")
 			entity_layer.add_child(creature)
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	var screen_res = Vector2()
+	screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
+	screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
+	var player = self.get_node("player")
+	player.connect("creature_selected", _on_creature_selected)
+	
+	var gameover = self.get_node("gameover")
+	gameover.connect("restart", _on_restart)
+	generate_creatures()
 			
 func _process(delta):
 	var window_rect = get_viewport().get_visible_rect()

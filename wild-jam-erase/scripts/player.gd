@@ -51,7 +51,8 @@ func _on_body_exited(body: Node2D) -> void:
 	if body == nearest_selection:
 		nearest_selection.emit_signal("nearest_creature_highlighted", false)
 		nearest_selection = null
-		
+	
+	
 func _physics_process(delta: float) -> void:
 	var mouse_position = get_viewport().get_mouse_position()
 	self.position = lerp(self.position, mouse_position, lerp_speed * 2 * delta)
