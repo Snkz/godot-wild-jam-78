@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_shfmo"]
 [ext_resource type="Texture2D" uid="uid://cmvliwdm4r581" path="res://assets/creature_cat.png" id="2_q16qe"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_wagvb"]
-[ext_resource type="Texture2D" uid="uid://dptnpje5udgtb" path="res://assets/bird.png" id="4_t36ri"]
+[ext_resource type="Texture2D" uid="uid://bqci0pq5syrq" path="res://assets/creature_bird.png" id="4_t36ri"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_30h38"]
 shader = ExtResource("2_wagvb")
@@ -145,7 +145,7 @@ material = SubResource("ShaderMaterial_30h38")
 position = Vector2(0, -40)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"idle"
+animation = &"caught"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
