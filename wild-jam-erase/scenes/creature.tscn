@@ -132,8 +132,9 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_swmom"]
-size = Vector2(118, 121)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mio5p"]
+radius = 31.6667
+height = 93.3333
 
 [node name="creature" type="CharacterBody2D"]
 input_pickable = true
@@ -149,8 +150,8 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 7)
+position = Vector2(0, 11)
 scale = Vector2(0.6, 0.6)
-shape = SubResource("RectangleShape2D_swmom")
+shape = SubResource("CapsuleShape2D_mio5p")
 
 [connection signal="ready" from="." to="." method="_on_ready"]

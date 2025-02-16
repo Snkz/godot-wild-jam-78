@@ -145,7 +145,7 @@ func generate_creatures() -> void:
 			creature.name = "creature " + str(info.index)
 			creature.index = info.index
 			creature.position = info.position
-			creature.modulate = info.colour
+			#creature.modulate = info.colour
 			info.node = creature
 
 			# Spawn the creature by adding it to the Main scene.

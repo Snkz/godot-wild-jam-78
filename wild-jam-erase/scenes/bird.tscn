@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dxc5kh782tlm4"]
+[gd_scene load_steps=11 format=3 uid="uid://b13q08enc4ju"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_wjevb"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_d17i1"]
@@ -79,8 +79,9 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_swmom"]
-size = Vector2(118, 121)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qn57g"]
+radius = 30.0
+height = 86.6667
 
 [node name="bird" type="CharacterBody2D"]
 input_pickable = true
@@ -100,8 +101,8 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-3, -1)
+position = Vector2(-4, -1)
 scale = Vector2(0.6, 0.6)
-shape = SubResource("RectangleShape2D_swmom")
+shape = SubResource("CapsuleShape2D_qn57g")
 
 [connection signal="ready" from="." to="." method="_on_ready"]

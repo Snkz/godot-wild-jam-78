@@ -123,8 +123,9 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_swmom"]
-size = Vector2(118, 121)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_aaexp"]
+radius = 30.0
+height = 80.0
 
 [node name="eddie" type="CharacterBody2D"]
 input_pickable = true
@@ -139,8 +140,8 @@ animation = &"dust"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -37)
+position = Vector2(-1, -26)
 scale = Vector2(0.6, 0.6)
-shape = SubResource("RectangleShape2D_swmom")
+shape = SubResource("CapsuleShape2D_aaexp")
 
 [connection signal="ready" from="." to="." method="_on_ready"]
