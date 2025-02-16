@@ -92,6 +92,8 @@ func _ready() -> void:
 	screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
 	var max_excluded = 16
 	var exclusion_threshold = 0.35
+	var player = self.get_node("player")
+	player.connect("creature_selected", _on_creature_selected)
 	
 	generate_grid()
 	
@@ -112,8 +114,6 @@ func _ready() -> void:
 
 			# Spawn the creature by adding it to the Main scene.
 			creature.add_to_group("creatures")
-			var player = self.get_node("player")
-			player.connect("creature_selected", _on_creature_selected)
 
 			var entity_layer = self.get_node("entity_layer")
 			entity_layer.add_child(creature)
@@ -137,7 +137,9 @@ func get_creature_info(index) -> Dictionary:
 
 func _on_creature_selected(node, index):
 	var node_info = get_creature_info(index)
-	var selected_info = get_creature_info(selected_creature.index) if selected_creature else {}
+	var selected_info = {}
+	if selected_creature:
+		selected_info = get_creature_info(selected_creature.index)
 	
 	if selected_creature == null:
 		node.emit_signal("creature_matched", selected_creature, true, false)
