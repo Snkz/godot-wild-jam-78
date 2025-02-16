@@ -5,9 +5,56 @@ extends Node2D
 @export var grid_width: int
 @export var playable_area_offset: Vector2
 
+@export var num_green_creatures := 6
+@export var green_noise_threshold := 0.05
+@export var num_red_creatures := 8
+@export var red_noise_threshold := 0.2
+@export var num_blue_creatures := 16
+@export var blue_noise_threshold := 0.55
+@export var num_yellow_creatures := 2
+@export var yellow_noise_threshold := 1.0
+
 var selected_creature: Creature
 var rng = RandomNumberGenerator.new()
 
+var creature_spawns = []
+func generate_grid() -> void:
+	var screen_res = Vector2()
+	screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
+	screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
+	var noise = FastNoiseLite.new()
+	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
+	var creature_picks = {"yellow": 0, "blue": 0, "green": 0, "red": 0}
+	
+	# Generate positions for all grid slots
+	for i in range(1, grid_width):
+		for j in range(1, grid_height):
+			var random_offset_scale = 5.0
+			var random_offset_x = rng.randf_range(-screen_res.x / grid_width / random_offset_scale, 
+				screen_res.x / grid_width / random_offset_scale)
+			var random_offset_y = rng.randf_range(-screen_res.y / grid_height / random_offset_scale, 
+				screen_res.y / grid_height / random_offset_scale)
+			var position = Vector2(i * screen_res.x / grid_width + playable_area_offset.x + random_offset_x,
+			 j * screen_res.y / grid_height + playable_area_offset.y + random_offset_y)
+	
+			var result = noise.get_noise_2d(position.x, position.y)
+			var creature_colour = null
+			if abs(result) < green_noise_threshold and creature_picks.green < num_green_creatures:
+				creature_colour = "green"
+				creature_picks.green += 1
+			elif abs(result) < red_noise_threshold and creature_picks.red < num_red_creatures:
+				creature_colour = "red"
+				creature_picks.red += 1
+			elif abs(result) < blue_noise_threshold and creature_picks.blue < num_blue_creatures:
+				creature_colour = "blue"
+				creature_picks.blue += 1
+			elif abs(result) < yellow_noise_threshold and creature_picks.yellow < num_yellow_creatures:
+				creature_colour = "yellow"
+				creature_picks.yellow += 1
+
+			creature_spawns = {"position" : position, "noise" : result}
+	
+	print("CREATURE", creature_picks)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var screen_res = Vector2()
@@ -15,6 +62,8 @@ func _ready() -> void:
 	screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
 	var max_excluded = 16
 	var exclusion_threshold = 0.35
+	
+	generate_grid()
 	
 	for i in range(1, grid_width):
 		for j in range(1, grid_height):
