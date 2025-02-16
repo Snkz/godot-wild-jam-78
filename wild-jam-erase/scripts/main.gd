@@ -14,7 +14,7 @@ func _ready() -> void:
 	screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
 	screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
 	var max_excluded = 16
-	var exclusion_threshold = 0.30
+	var exclusion_threshold = 0.35
 	
 	for i in range(1, grid_width):
 		for j in range(1, grid_height):
@@ -24,7 +24,15 @@ func _ready() -> void:
 				continue
 				
 			var creature = creature_scene.instantiate()
-			creature.position = Vector2(i * screen_res.x / grid_width + playable_area_offset.x, j * screen_res.y / grid_height + playable_area_offset.y)
+			var random_offset_scale = 5.0
+			
+			var random_offset_x = rng.randf_range(-screen_res.x / grid_width / random_offset_scale, 
+				screen_res.x / grid_width / random_offset_scale)
+			var random_offset_y = rng.randf_range(-screen_res.y / grid_height / random_offset_scale, 
+				screen_res.y / grid_height / random_offset_scale)
+
+			creature.position = Vector2(i * screen_res.x / grid_width + playable_area_offset.x + random_offset_x,
+			 j * screen_res.y / grid_height + playable_area_offset.y + random_offset_y)
 			creature.name = "creature " + str(i) + ":" + str(j)
 			creature.index = Vector2(i, j)
 
