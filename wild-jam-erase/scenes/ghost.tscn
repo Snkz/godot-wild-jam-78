@@ -139,15 +139,12 @@ base_reveal_time = 5.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_30h38")
-position = Vector2(5.96046e-08, 4.76837e-07)
-scale = Vector2(5, 5)
+scale = Vector2(5.45833, 5.45833)
 sprite_frames = SubResource("SpriteFrames_q53y4")
 animation = &"selected"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 11)
-scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_mio5p")
 
 [connection signal="ready" from="." to="." method="_on_ready"]

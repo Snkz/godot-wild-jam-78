@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bihdkd2udbepv"]
+[gd_scene load_steps=24 format=3 uid="uid://dano28iaqfkrk"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_3urrw"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_1y0tu"]
@@ -179,15 +179,12 @@ base_chase_time = 3.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_30h38")
-position = Vector2(5.96046e-08, 4.76837e-07)
-scale = Vector2(5, 5)
+scale = Vector2(3.45833, 3.45833)
 sprite_frames = SubResource("SpriteFrames_q53y4")
 animation = &"selected"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 11)
-scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_mio5p")
 
 [connection signal="ready" from="." to="." method="_on_ready"]

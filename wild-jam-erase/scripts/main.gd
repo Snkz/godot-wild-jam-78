@@ -223,14 +223,16 @@ func _on_creature_selected(node, index) -> void:
 	if selected_creature:
 		selected_info = get_creature_info(selected_creature.index)
 	
-	if selected_creature == null:
+	if selected_creature == null and node != null:
 		selected_creature = node
 		node.emit_signal("creature_matched", selected_creature, true, false)
 		print("NEW", index, node_info.colour)
-	elif selected_creature.index == index:
-		node.emit_signal("creature_matched", selected_creature, false, false)
+	elif selected_creature == null and node == null:
+		print("EMPTY", index)
+	elif selected_creature.index == index or node == null:
+		selected_creature.emit_signal("creature_matched", selected_creature, false, false)
 		selected_creature = null
-		print("SAME", index, node_info.colour)
+		print("SAME", index, selected_info.colour)
 	elif node_info.colour == selected_info.colour:
 		node.emit_signal("creature_matched", selected_creature, true, true)
 		selected_creature.emit_signal("creature_matched", selected_creature, true, true)

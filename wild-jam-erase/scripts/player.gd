@@ -11,6 +11,8 @@ var increased_radius = 150.0
 var lerp_speed = 10.0
 var is_increasing = false
 
+@export var mask_radius : float
+
 func _ready() -> void:
 	collision_shape = $CollisionShape2D
 
@@ -39,6 +41,8 @@ func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void
 	if event is InputEventMouse:
 		if event.is_pressed() and nearest_selection:
 			creature_selected.emit(nearest_selection, nearest_selection.index)
+		elif event.is_pressed():
+			creature_selected.emit(null, -1)
 
 func _on_body_entered(body: Node2D) -> void:
 	body.emit_signal("creature_highlighted", true)
@@ -54,7 +58,7 @@ func _on_body_exited(body: Node2D) -> void:
 	
 	
 func _physics_process(delta: float) -> void:
-	var mouse_position = get_viewport().get_mouse_position()
+	var mouse_position = get_tree().root.get_node("main").get_local_mouse_position()
 	self.position = lerp(self.position, mouse_position, lerp_speed * 2 * delta)
 	set_nearest()
 	

@@ -3,15 +3,16 @@
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_o3o8q"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_eiewv"]
-radius = 19.0263
+radius = 30.0
 
 [node name="player" type="Area2D"]
 process_mode = 3
 script = ExtResource("1_o3o8q")
+mask_radius = 200.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(5, 5)
 shape = SubResource("CircleShape2D_eiewv")
+debug_color = Color(0.985112, 0, 0.336994, 0.42)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
