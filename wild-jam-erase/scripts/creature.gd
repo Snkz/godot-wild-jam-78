@@ -93,7 +93,7 @@ func _on_creature_matched(node, selected, matched) -> void:
 	var creature_layer = get_parent()
 	creature_layer.layer = 0
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
-	start_idle()
+	
 	if selected:
 		creature_layer.layer = 2
 		if reveal_colour_on_click and not matched:
