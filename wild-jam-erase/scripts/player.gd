@@ -6,7 +6,7 @@ var nearest_selection = null
 var nearest_threshold = 1.0
 var active_bodies = []
 var collision_shape: CollisionShape2D
-var original_radius = 10.0
+var original_radius = 80.0
 var increased_radius = 150.0
 var lerp_speed = 10.0
 var is_increasing = false
