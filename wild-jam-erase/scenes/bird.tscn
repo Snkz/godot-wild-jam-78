@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dxc5kh782tlm4"]
+[gd_scene load_steps=15 format=3 uid="uid://b13q08enc4ju"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_wjevb"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_d17i1"]
@@ -131,11 +131,11 @@ material = SubResource("ShaderMaterial_30h38")
 position = Vector2(-1, -2)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"caught"
+animation = &"run"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-4, -1)
+position = Vector2(0, 10)
 scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_qn57g")
 

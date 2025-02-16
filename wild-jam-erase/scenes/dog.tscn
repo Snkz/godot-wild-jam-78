@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bihdkd2udbepv"]
+[gd_scene load_steps=23 format=3 uid="uid://bihdkd2udbepv"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_3urrw"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_1y0tu"]
@@ -53,6 +53,22 @@ region = Rect2(120, 48, 24, 24)
 [sub_resource type="AtlasTexture" id="AtlasTexture_xa6nu"]
 atlas = ExtResource("3_4mqvp")
 region = Rect2(144, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5xvl"]
+atlas = ExtResource("3_xgvbe")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ord2w"]
+atlas = ExtResource("3_xgvbe")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r1lbi"]
+atlas = ExtResource("3_xgvbe")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jyoho"]
+atlas = ExtResource("3_xgvbe")
+region = Rect2(72, 24, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q53y4"]
 animations = [{
@@ -118,20 +134,20 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_uaa0k")
+"texture": SubResource("AtlasTexture_n5xvl")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jfmx1")
+"texture": SubResource("AtlasTexture_ord2w")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_juthl")
+"texture": SubResource("AtlasTexture_r1lbi")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rip0h")
+"texture": SubResource("AtlasTexture_jyoho")
 }],
 "loop": true,
 "name": &"run",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mio5p"]
@@ -148,7 +164,7 @@ material = SubResource("ShaderMaterial_30h38")
 position = Vector2(5.96046e-08, 4.76837e-07)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"run"
+animation = &"dust"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

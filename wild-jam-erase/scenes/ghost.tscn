@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dk71ddkyy7hlf"]
+[gd_scene load_steps=19 format=3 uid="uid://bg6m51wnph64s"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_2qv5k"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_cbj4e"]
@@ -100,7 +100,7 @@ animations = [{
 "speed": 10.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 3.0,
 "texture": SubResource("AtlasTexture_8ipyu")
 }, {
 "duration": 1.0,
@@ -131,7 +131,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"run",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mio5p"]
@@ -150,7 +150,7 @@ material = SubResource("ShaderMaterial_30h38")
 position = Vector2(5.96046e-08, 4.76837e-07)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"caught"
+animation = &"run"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
