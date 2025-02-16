@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://b5ps2m82hwhgu"]
+
+[ext_resource type="Shader" path="res://shaders/mask.gdshader" id="1_dbqac"]
+[ext_resource type="Texture2D" uid="uid://b1f8sxn6nn28q" path="res://assets/background.png" id="1_yrb7o"]
+[ext_resource type="Script" path="res://scripts/mask.gd" id="2_sdhut"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c2bfv"]
+shader = ExtResource("1_dbqac")
+shader_parameter/holeCenter = null
+shader_parameter/holeRadius = null
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wihgx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_yrb7o")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="foreground" type="CanvasLayer"]
+layer = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
+material = SubResource("ShaderMaterial_c2bfv")
+position = Vector2(640, 480)
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_wihgx")
+script = ExtResource("2_sdhut")

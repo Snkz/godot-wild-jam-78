@@ -1,4 +1,4 @@
-extends ColorRect
+extends AnimatedSprite2D
 
 var player: Area2D
 var collision: CollisionShape2D
