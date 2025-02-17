@@ -115,7 +115,6 @@ func _on_creature_matched(node, selected, matched) -> void:
 			
 			current_behaviour = BehaviourState.SELECTED
 			$AnimatedSprite2D.play(&"selected")
-			timer.stop()
 	else:
 		if not matched and current_behaviour == BehaviourState.SELECTED:
 			start_idle()
