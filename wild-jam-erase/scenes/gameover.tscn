@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://b4qcfxfu18v6d"]
+[gd_scene load_steps=6 format=3 uid="uid://b4qcfxfu18v6d"]
 
 [ext_resource type="Script" path="res://scripts/gameover.gd" id="1_l5aed"]
 [ext_resource type="Texture2D" uid="uid://bva6vuuv0hhb8" path="res://assets/gameover.png" id="2_kvmbd"]
 [ext_resource type="AudioStream" uid="uid://clhdvj8q2bnjn" path="res://assets/click.wav" id="2_toajv"]
+[ext_resource type="FontFile" uid="uid://cipoo02mvwvh2" path="res://assets/fonts/retro-pixel-petty-5h.ttf" id="3_5doyi"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_duasc"]
-font_size = 50
+font = ExtResource("3_5doyi")
+font_size = 25
 font_color = Color(0.305882, 0.290196, 0.290196, 1)
 
 [node name="gameover" type="CanvasLayer"]
@@ -13,29 +15,28 @@ process_mode = 2
 layer = 2
 script = ExtResource("1_l5aed")
 
-[node name="Sprite2D2" type="Sprite2D" parent="."]
+[node name="Shadow" type="Sprite2D" parent="."]
+visible = false
 modulate = Color(0, 0, 0, 0.380392)
 position = Vector2(69, 66)
 scale = Vector2(5, 5)
 texture = ExtResource("2_kvmbd")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Panel" type="Sprite2D" parent="."]
 scale = Vector2(5, 5)
 texture = ExtResource("2_kvmbd")
 
-[node name="time" type="Label" parent="."]
-anchors_preset = -1
-anchor_left = -0.233
-anchor_right = 0.222
-anchor_bottom = 0.126
-offset_left = -3.48001
-offset_top = -17.0
-offset_right = -500.68
-offset_bottom = -84.08
-grow_horizontal = 2
-grow_vertical = 2
-text = "SCORE"
-label_settings = SubResource("LabelSettings_duasc")
+[node name="time" type="RichTextLabel" parent="."]
+offset_left = -362.0
+offset_top = -10.0
+offset_right = 367.0
+offset_bottom = 124.0
+theme_override_colors/default_color = Color(0.305882, 0.290196, 0.290196, 1)
+theme_override_fonts/normal_font = ExtResource("3_5doyi")
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+scroll_active = false
+custom_effects = [null]
 
 [node name="restart" type="Label" parent="."]
 anchors_preset = -1
@@ -43,10 +44,10 @@ anchor_left = 0.039
 anchor_top = 0.144
 anchor_right = 0.25
 anchor_bottom = 0.166
-offset_left = -383.16
-offset_top = -25.52
-offset_right = 1.0
-offset_bottom = 19.72
+offset_left = -420.16
+offset_top = 18.48
+offset_right = 6.0
+offset_bottom = 63.72
 grow_horizontal = 2
 grow_vertical = 2
 text = "Enter to restart, ESC to quit"

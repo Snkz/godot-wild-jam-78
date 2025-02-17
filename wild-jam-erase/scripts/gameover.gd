@@ -12,14 +12,21 @@ func _ready() -> void:
 func _on_gameover(matched_count, game_time) -> void:
 	get_tree().paused = true
 	
-	var minutes = int(game_time) / 60
 	var seconds = int(game_time) % 60
 	var milliseconds = int((game_time - int(game_time)) * 1000)
 
-	var formatted_time = "%02d:%02d.%03d" % [minutes, seconds, milliseconds]
+	var formatted_time = "%d.%03d" % [seconds, milliseconds]
 	
-	get_node("time").text = "TIME: " + formatted_time
+	var time_node = get_node("time")
+	time_node.text = ""
+	time_node.append_text("TIME: ")
+	time_node.append_text(formatted_time)
+	time_node.append_text("s")
+	time_node.newline()
+	time_node.append_text("SCORE: ")
+	time_node.append_text(str(matched_count))
 	visible = true
+	_typewriter(time_node)
 	
 	var audio = self.get_node("audio_gameover")
 	audio.play()
@@ -57,3 +64,7 @@ func _unhandled_input(event):
 			restart.emit()
 		if event.pressed and event.keycode == KEY_ESCAPE:
 			get_tree().quit()
+
+func _typewriter(node) -> void:
+	var tween: Tween = create_tween()
+	tween.tween_property(node, "visible_ratio", 1.0, 0.2).from(0.0)

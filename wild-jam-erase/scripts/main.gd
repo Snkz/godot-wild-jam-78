@@ -76,7 +76,6 @@ func _on_restart() -> void:
 	rotation = 0.0
 	generate_creatures()
 	
-
 func do_camera_shake(strength, seed) -> void:
 	var amount = pow(strength, 2)
 	rotation = max_camera_roll * amount * randf_range(-1.0, 1.0)
