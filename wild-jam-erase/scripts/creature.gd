@@ -126,7 +126,7 @@ func _on_creature_matched(node, selected, matched) -> void:
 
 func start_reveal() -> void:
 	var selected = get_tree().root.get_node("main/selected")	
-	var creatures = get_tree().root.get_node("main/creatures")	
+	var creatures = get_tree().root.get_node("main/creatures/ysort")	
 	var colour_node = creatures.get_node(layer)
 	
 	if colour_node:
@@ -139,7 +139,7 @@ func start_reveal() -> void:
 
 func clear_reveal() -> void:
 	var selected = get_tree().root.get_node("main/selected")	
-	var creatures = get_tree().root.get_node("main/creatures")	
+	var creatures = get_tree().root.get_node("main/creatures/ysort")	
 
 	var colour_node = selected.get_node(layer)
 	if colour_node:
@@ -148,7 +148,7 @@ func clear_reveal() -> void:
 
 func move_selected() -> void:
 	var selected = get_tree().root.get_node("main/selected")	
-	var creatures = get_tree().root.get_node("main/creatures")	
+	var creatures = get_tree().root.get_node("main/creatures/ysort")	
 	var creature_node = creatures.get_node(layer).get_node(str(name))
 	
 	if creature_node:
@@ -162,7 +162,7 @@ func move_selected() -> void:
 
 func clear_selected() -> void: 
 	var selected = get_tree().root.get_node("main/selected")	
-	var creatures = get_tree().root.get_node("main/creatures")	
+	var creatures = get_tree().root.get_node("main/creatures/ysort")	
 
 	var creature_node = selected.get_node(str(name))
 	if creature_node:

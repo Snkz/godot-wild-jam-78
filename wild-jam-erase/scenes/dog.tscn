@@ -189,8 +189,6 @@ radius = 21.0
 height = 52.0
 
 [node name="dog" type="CharacterBody2D"]
-z_index = 50
-z_as_relative = false
 collision_mask = 3
 input_pickable = true
 script = ExtResource("1_3urrw")

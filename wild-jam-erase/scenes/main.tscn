@@ -52,6 +52,7 @@ follow_viewport_enabled = true
 [node name="foreground" parent="." instance=ExtResource("4_g3e8d")]
 process_mode = 3
 layer = 1
+visible = false
 follow_viewport_enabled = true
 
 [node name="background" type="Sprite2D" parent="."]
@@ -79,23 +80,27 @@ shape = SubResource("RectangleShape2D_8wnw2")
 position = Vector2(-681, 13)
 shape = SubResource("RectangleShape2D_8wnw2")
 
-[node name="creatures" type="Node" parent="."]
-process_mode = 3
-
-[node name="blue" type="Node2D" parent="creatures"]
-y_sort_enabled = true
-
-[node name="green" type="Node2D" parent="creatures"]
-y_sort_enabled = true
-
-[node name="white" type="Node2D" parent="creatures"]
-y_sort_enabled = true
-
-[node name="yellow" type="Node2D" parent="creatures"]
-y_sort_enabled = true
-
-[node name="red" type="Node2D" parent="creatures"]
-y_sort_enabled = true
-
 [node name="audio_background" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_kri3q")
+
+[node name="creatures" type="CanvasLayer" parent="."]
+process_mode = 3
+follow_viewport_enabled = true
+
+[node name="ysort" type="Node2D" parent="creatures"]
+y_sort_enabled = true
+
+[node name="blue" type="Node2D" parent="creatures/ysort"]
+y_sort_enabled = true
+
+[node name="green" type="Node2D" parent="creatures/ysort"]
+y_sort_enabled = true
+
+[node name="white" type="Node2D" parent="creatures/ysort"]
+y_sort_enabled = true
+
+[node name="yellow" type="Node2D" parent="creatures/ysort"]
+y_sort_enabled = true
+
+[node name="red" type="Node2D" parent="creatures/ysort"]
+y_sort_enabled = true
