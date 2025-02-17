@@ -73,6 +73,7 @@ func _on_restart() -> void:
 	selected_creature = null
 	camera_shake_lifetime = 0
 	offset = Vector2(0.0, 0.0)
+	rotation = 0.0
 	generate_creatures()
 	
 
@@ -244,6 +245,7 @@ func _process(delta):
 		camera_shake_lifetime -= delta
 	else:
 		offset = Vector2(0.0, 0.0)
+		rotation = 0.0
 
 
 	if window_rect.has_point(mouse_pos):
