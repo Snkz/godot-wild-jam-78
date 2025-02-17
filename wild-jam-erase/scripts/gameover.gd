@@ -11,7 +11,14 @@ func _ready() -> void:
 
 func _on_gameover(matched_count, game_time) -> void:
 	get_tree().paused = true
-	get_node("score").text = "MATCHED: " + str(matched_count) + " TIME: " + str(game_time)
+	
+	var minutes = int(game_time) / 60
+	var seconds = int(game_time) % 60
+	var milliseconds = int((game_time - int(game_time)) * 1000)
+
+	var formatted_time = "%02d:%02d.%03d" % [minutes, seconds, milliseconds]
+	
+	get_node("time").text = "TIME: " + formatted_time
 	visible = true
 	
 	var audio = self.get_node("audio_gameover")

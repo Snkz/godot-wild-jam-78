@@ -201,13 +201,14 @@ func generate_creatures() -> void:
 			creature.index = info.index
 			creature.position = info.position
 			creature.colour = info.colour
+			creature.layer = info.layer
 			info.node = creature
 
 			# Spawn the creature by adding it to the Main scene.
 			creature.add_to_group("creatures")
 
-			var ysort = self.get_node("creatures/" + info.layer + "/ysort")
-			ysort.add_child(creature)
+			var group = self.get_node("creatures/" + info.layer)
+			group.add_child(creature)
 
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	for c in creatures: 

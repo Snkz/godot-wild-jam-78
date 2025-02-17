@@ -42,8 +42,12 @@ mask_radius = 150.0
 
 [node name="gameover" parent="." instance=ExtResource("3_80ec5")]
 visible = false
-offset = Vector2(800, 300)
-transform = Transform2D(1, 0, 0, 1, 800, 300)
+offset = Vector2(800, 500)
+transform = Transform2D(1, 0, 0, 1, 800, 500)
+
+[node name="selected" type="CanvasLayer" parent="."]
+layer = 2
+follow_viewport_enabled = true
 
 [node name="foreground" parent="." instance=ExtResource("4_g3e8d")]
 process_mode = 3
@@ -75,42 +79,22 @@ shape = SubResource("RectangleShape2D_8wnw2")
 position = Vector2(-681, 13)
 shape = SubResource("RectangleShape2D_8wnw2")
 
-[node name="creatures" type="CanvasGroup" parent="."]
+[node name="creatures" type="Node" parent="."]
 process_mode = 3
 
-[node name="blue" type="CanvasLayer" parent="creatures"]
-layer = 0
-follow_viewport_enabled = true
-
-[node name="ysort" type="Node2D" parent="creatures/blue"]
+[node name="blue" type="Node2D" parent="creatures"]
 y_sort_enabled = true
 
-[node name="green" type="CanvasLayer" parent="creatures"]
-layer = 0
-follow_viewport_enabled = true
-
-[node name="ysort" type="Node2D" parent="creatures/green"]
+[node name="green" type="Node2D" parent="creatures"]
 y_sort_enabled = true
 
-[node name="white" type="CanvasLayer" parent="creatures"]
-layer = 0
-follow_viewport_enabled = true
-
-[node name="ysort" type="Node2D" parent="creatures/white"]
+[node name="white" type="Node2D" parent="creatures"]
 y_sort_enabled = true
 
-[node name="yellow" type="CanvasLayer" parent="creatures"]
-layer = 0
-follow_viewport_enabled = true
-
-[node name="ysort" type="Node2D" parent="creatures/yellow"]
+[node name="yellow" type="Node2D" parent="creatures"]
 y_sort_enabled = true
 
-[node name="red" type="CanvasLayer" parent="creatures"]
-layer = 0
-follow_viewport_enabled = true
-
-[node name="ysort" type="Node2D" parent="creatures/red"]
+[node name="red" type="Node2D" parent="creatures"]
 y_sort_enabled = true
 
 [node name="audio_background" type="AudioStreamPlayer2D" parent="."]

@@ -10,6 +10,7 @@ signal creature_gameover()
 
 var index : int
 var colour : Color
+var layer : String
 
 enum BehaviourState { IDLE, WANDER, CAUGHT, DUST, FEAR, CHASE, REVEAL, SELECTED }
 var current_behaviour = BehaviourState.IDLE
@@ -66,7 +67,9 @@ func _on_creature_highlighted(state) -> void:
 		return
 		
 	if current_behaviour == BehaviourState.REVEAL:
-		clear_reveal()
+		if not state:
+			clear_reveal()
+			
 		return
 	
 	start_idle()
@@ -87,7 +90,8 @@ func _on_nearest_creature_highlighted(state) -> void:
 	tween_hover.tween_property(self, "scale", Vector2.ONE, 0.4)
 	
 	if current_behaviour == BehaviourState.REVEAL:
-		clear_reveal()
+		if not state:
+			clear_reveal()
 	
 	if (state): 
 		$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
@@ -97,15 +101,14 @@ func _on_nearest_creature_highlighted(state) -> void:
 		tween_hover.tween_property(self, "scale", Vector2(1.1, 1.1), 0.6)
 		
 func _on_creature_matched(node, selected, matched) -> void:
-	#var creature_layer = get_parent()
-	#creature_layer.layer = 0
+	clear_selected()
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	
 	if selected:
 		var player = self.get_tree().root.get_node("main/player")
 		var audio = player.get_node("audio_hit")
 		audio.play()
-		#creature_layer.layer = 2
+		move_selected()
 		if reveal_colour_on_click and not matched:
 			start_reveal()
 			$AnimatedSprite2D.play(&"selected")
@@ -116,20 +119,59 @@ func _on_creature_matched(node, selected, matched) -> void:
 			$AnimatedSprite2D.play(&"selected")
 	else:
 		if not matched and (current_behaviour == BehaviourState.SELECTED or current_behaviour == BehaviourState.REVEAL):
-			start_idle()
+			$AnimatedSprite2D.play(&"caught")
 
 	if (selected and matched):
 		start_dust()
 
 func start_reveal() -> void:
-	var canvas = self.get_parent().get_parent()
-	canvas.layer = 2;
+	var selected = get_tree().root.get_node("main/selected")	
+	var creatures = get_tree().root.get_node("main/creatures")	
+	var colour_node = creatures.get_node(layer)
+	
+	if colour_node:
+		creatures.remove_child(colour_node)
+		selected.add_child(colour_node)
+		
 	current_behaviour = BehaviourState.REVEAL
 	timer.start(base_reveal_time + randf_range(-time_variation, time_variation))
+	
 
 func clear_reveal() -> void:
-	var canvas = self.get_parent().get_parent()
-	canvas.layer = 0;
+	var selected = get_tree().root.get_node("main/selected")	
+	var creatures = get_tree().root.get_node("main/creatures")	
+
+	var colour_node = selected.get_node(layer)
+	if colour_node:
+		selected.remove_child(colour_node)
+		creatures.add_child(colour_node)
+
+func move_selected() -> void:
+	var selected = get_tree().root.get_node("main/selected")	
+	var creatures = get_tree().root.get_node("main/creatures")	
+	var creature_node = creatures.get_node(layer).get_node(str(name))
+	
+	if creature_node:
+		var colour_node = selected.get_node(layer)
+		if not colour_node:
+			colour_node = creatures.get_node(layer)	
+			
+		assert(colour_node)
+		colour_node.remove_child(creature_node)
+		selected.add_child(creature_node)
+
+func clear_selected() -> void: 
+	var selected = get_tree().root.get_node("main/selected")	
+	var creatures = get_tree().root.get_node("main/creatures")	
+
+	var creature_node = selected.get_node(str(name))
+	if creature_node:
+		var colour_node = selected.get_node(layer)
+		if not colour_node:
+			colour_node = creatures.get_node(layer)	
+		assert(colour_node)
+		selected.remove_child(creature_node)
+		colour_node.add_child(creature_node)
 
 func _on_timeout() -> void:
 	if current_behaviour == BehaviourState.DUST:
