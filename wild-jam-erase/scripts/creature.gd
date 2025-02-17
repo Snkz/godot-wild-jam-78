@@ -67,6 +67,20 @@ func _on_creature_highlighted(state) -> void:
 	if (state): 
 		current_behaviour = BehaviourState.CAUGHT
 		$AnimatedSprite2D.play(&"caught")
+		$AnimatedSprite2D.animation_finished.connect(_on_caught_animation_finished, CONNECT_ONE_SHOT)
+
+func _on_caught_animation_finished() -> void:
+	if current_behaviour == BehaviourState.REVEAL:
+		return
+		
+	if current_behaviour == BehaviourState.SELECTED:
+		return
+	
+	if current_behaviour == BehaviourState.DUST:
+		return
+	
+	#if current_behaviour != BehaviourState.SELECTED:
+	start_idle()
 		
 func _on_nearest_creature_highlighted(state) -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
@@ -128,7 +142,7 @@ func clear_reveal() -> void:
 			child.layer = 0
 	
 	canvas.layer = 0;
-	current_behaviour = BehaviourState.IDLE
+	current_behaviour = BehaviourState.SELECTED
 
 func _on_timeout() -> void:
 	if current_behaviour == BehaviourState.DUST:

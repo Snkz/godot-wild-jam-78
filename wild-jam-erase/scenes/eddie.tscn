@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://7totvlvqqayc"]
+[gd_scene load_steps=23 format=3 uid="uid://7totvlvqqayc"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_fx8j0"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_1sosv"]
@@ -9,21 +9,21 @@ shader = ExtResource("2_1sosv")
 shader_parameter/line_color = Color(0.909804, 0.733333, 0.0941176, 1)
 shader_parameter/line_thickness = 0.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qgf83"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0br73"]
 atlas = ExtResource("3_ixt8m")
-region = Rect2(0, 0, 24, 24)
+region = Rect2(0, 48, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_efity"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_nh1qs"]
 atlas = ExtResource("3_ixt8m")
-region = Rect2(24, 0, 24, 24)
+region = Rect2(24, 48, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_c7pso"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_4pr4v"]
 atlas = ExtResource("3_ixt8m")
-region = Rect2(48, 0, 24, 24)
+region = Rect2(48, 48, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_jq7pt"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_lur2g"]
 atlas = ExtResource("3_ixt8m")
-region = Rect2(72, 0, 24, 24)
+region = Rect2(72, 48, 24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vehlh"]
 atlas = ExtResource("3_ixt8m")
@@ -57,20 +57,48 @@ region = Rect2(144, 24, 24, 24)
 atlas = ExtResource("3_ixt8m")
 region = Rect2(168, 24, 24, 24)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_qgf83"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_efity"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c7pso"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jq7pt"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(72, 0, 24, 24)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_7r80j"]
 animations = [{
 "frames": [{
-"duration": 3.0,
-"texture": SubResource("AtlasTexture_qgf83")
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0br73")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_efity")
+"texture": SubResource("AtlasTexture_nh1qs")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_c7pso")
+"texture": SubResource("AtlasTexture_4pr4v")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jq7pt")
+"texture": SubResource("AtlasTexture_lur2g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0br73")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nh1qs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4pr4v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lur2g")
 }],
 "loop": false,
 "name": &"caught",
