@@ -72,7 +72,7 @@ func generate_grid() -> void:
 	var index = 0
 	for i in range(1, grid_width):
 		for j in range(1, grid_height):
-			var random_offset_scale = 5.0
+			var random_offset_scale = 3.0
 			var random_offset_x = rng.randf_range(-screen_res.x / grid_width / random_offset_scale, 
 				screen_res.x / grid_width / random_offset_scale)
 			var random_offset_y = rng.randf_range(-screen_res.y / grid_height / random_offset_scale, 

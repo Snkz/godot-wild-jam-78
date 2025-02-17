@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bgst6dmo3siqb"]
+[gd_scene load_steps=22 format=3 uid="uid://bwdlgjhs2b4wn"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_shfmo"]
 [ext_resource type="Texture2D" uid="uid://cmvliwdm4r581" path="res://assets/creature_cat.png" id="2_q16qe"]
@@ -25,33 +25,29 @@ region = Rect2(48, 0, 24, 24)
 atlas = ExtResource("2_q16qe")
 region = Rect2(72, 0, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ywmpv"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_8m725"]
 atlas = ExtResource("2_q16qe")
-region = Rect2(0, 48, 24, 24)
+region = Rect2(0, 72, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6fhhv"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_mjj2s"]
 atlas = ExtResource("2_q16qe")
-region = Rect2(24, 48, 24, 24)
+region = Rect2(24, 72, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2kpja"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_8t3jg"]
 atlas = ExtResource("2_q16qe")
-region = Rect2(48, 48, 24, 24)
+region = Rect2(48, 72, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_68o53"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6gg5"]
 atlas = ExtResource("2_q16qe")
-region = Rect2(72, 48, 24, 24)
+region = Rect2(72, 72, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_evook"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ym7xl"]
 atlas = ExtResource("2_q16qe")
-region = Rect2(96, 48, 24, 24)
+region = Rect2(96, 72, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lxaan"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_awjix"]
 atlas = ExtResource("2_q16qe")
-region = Rect2(120, 48, 24, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xa6nu"]
-atlas = ExtResource("2_q16qe")
-region = Rect2(144, 48, 24, 24)
+region = Rect2(120, 72, 24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3rui3"]
 atlas = ExtResource("2_q16qe")
@@ -94,25 +90,22 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ywmpv")
+"texture": SubResource("AtlasTexture_8m725")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6fhhv")
+"texture": SubResource("AtlasTexture_mjj2s")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_2kpja")
+"texture": SubResource("AtlasTexture_8t3jg")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_68o53")
+"texture": SubResource("AtlasTexture_c6gg5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_evook")
+"texture": SubResource("AtlasTexture_ym7xl")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lxaan")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xa6nu")
+"texture": SubResource("AtlasTexture_awjix")
 }],
 "loop": false,
 "name": &"dust",
@@ -178,7 +171,7 @@ fear_distance_min_threshold = 10
 material = SubResource("ShaderMaterial_30h38")
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"idle"
+animation = &"dust"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
