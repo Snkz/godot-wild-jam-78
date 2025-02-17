@@ -36,7 +36,7 @@ func set_nearest() -> void:
 
 func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouse:
-		if event.is_pressed() and nearest_selection:
+		if event.is_pressed() and is_instance_valid(nearest_selection):
 			creature_selected.emit(nearest_selection, nearest_selection.index)
 		elif event.is_pressed():
 			creature_selected.emit(null, -1)
