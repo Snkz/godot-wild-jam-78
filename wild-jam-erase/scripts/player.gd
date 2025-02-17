@@ -17,8 +17,8 @@ func set_nearest() -> void:
 	var current_selection = null
 	
 	for body in active_bodies:
-		var current_distance = nearest_selection.global_position.distance_to(self.position) if nearest_selection else 100000.0
-		var body_distance = body.global_position.distance_to(self.position)
+		var current_distance = nearest_selection.position.distance_to(self.position) if nearest_selection else 100000.0
+		var body_distance = body.position.distance_to(self.position)
 		if current_distance > (body_distance + nearest_threshold):
 			current_selection = body
 	
@@ -55,6 +55,6 @@ func _on_body_exited(body: Node2D) -> void:
 		nearest_selection = null
 
 func _physics_process(delta: float) -> void:
-	var mouse_position = get_tree().root.get_node("main").get_local_mouse_position()
+	var mouse_position = get_viewport().get_mouse_position()
 	self.position = lerp(self.position, mouse_position, lerp_speed * 2 * delta)
 	set_nearest()

@@ -1,8 +1,10 @@
-extends Node2D
+extends Camera2D
 
 @export var grid_height: int
 @export var grid_width: int
 @export var playable_area_offset: Vector2
+@export var max_camera_shake_offset = Vector2(100, 75) 
+@export var max_camera_roll = 0.1 
 
 @export_group("green", "green_")
 @export var green_num_creatures := 6
@@ -34,8 +36,12 @@ var rng = RandomNumberGenerator.new()
 var creature_spawns = []
 var matched_count = 0
 var game_time = 0.0
+var noise = null
+var camera_shake_lifetime = 0
+var camera_shake_strength = 0.2
 
 signal gameover(int, float)
+signal camera_shake(a, b)
 
 func _on_creature_deleted(node, index) -> void:
 	node.is_dying = true
@@ -48,6 +54,8 @@ func _on_creature_deleted(node, index) -> void:
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	var count = len(creatures)
 
+	camera_shake.emit(0.2, 0.1)
+	
 	if node == selected_creature:
 		selected_creature = null
 		
@@ -63,14 +71,30 @@ func _on_restart() -> void:
 	matched_count = 0
 	game_time = 0.0
 	selected_creature = null
+	camera_shake_lifetime = 0
+	offset = Vector2(0.0, 0.0)
 	generate_creatures()
 	
+
+func do_camera_shake(strength, seed) -> void:
+	var amount = pow(strength, 2)
+	rotation = max_camera_roll * amount * randf_range(-1.0, 1.0)
+	offset.x = max_camera_shake_offset.x * amount * randf_range(-1.0, 1.0)
+	offset.y = max_camera_shake_offset.y * amount * randf_range(-1.0, 1.0)
+
+func _on_camera_shake(strength, lifetime) -> void:
+	noise.seed = randi()
+	camera_shake_lifetime = lifetime
+	camera_shake_strength = strength
+	
+func _on_gameover(score, time) -> void:
+	camera_shake.emit(0.5, 0.25)
+	
 func generate_grid() -> void:
+	noise.seed = randi()
 	var screen_res = Vector2()
 	screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
 	screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
-	var noise = FastNoiseLite.new()
-	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	var creature_picks = {"yellow": 0, "blue": 0, "green": 0, "red": 0, "white": 0}
 	
 	# Generate positions for all grid slots
@@ -174,6 +198,7 @@ func generate_creatures() -> void:
 			var creature = info.creature_scene.instantiate()
 			var creature_layer = CanvasLayer.new()
 			creature_layer.layer = 0
+			creature_layer.follow_viewport_enabled = true
 			creature.name = "creature " + str(info.index)
 			creature.index = info.index
 			creature.position = info.position
@@ -194,11 +219,16 @@ func generate_creatures() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	noise = FastNoiseLite.new()
+	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
+
 	var screen_res = Vector2()
 	screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
 	screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
 	var player = self.get_node("player")
 	player.connect("creature_selected", _on_creature_selected)
+	connect("camera_shake", _on_camera_shake)
+	connect("gameover", _on_gameover)
 	
 	var gameover = self.get_node("gameover")
 	gameover.connect("restart", _on_restart)
@@ -208,6 +238,13 @@ func _process(delta):
 	var window_rect = get_viewport().get_visible_rect()
 	var mouse_pos = get_viewport().get_mouse_position()
 	game_time = game_time + delta
+	
+	if camera_shake_lifetime > 0:
+		do_camera_shake(camera_shake_strength, noise.seed)
+		camera_shake_lifetime -= delta
+	else:
+		offset = Vector2(0.0, 0.0)
+
 
 	if window_rect.has_point(mouse_pos):
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN

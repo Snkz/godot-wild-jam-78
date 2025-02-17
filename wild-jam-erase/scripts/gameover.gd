@@ -29,7 +29,7 @@ func _process(delta: float) -> void:
 	var lerp_speed = 2.0
 	player.mask_radius = lerp(player.mask_radius, original_radius + increased_radius, lerp_speed * delta)
 	
-	foreground.get_child(0).material.set_shader_parameter("holeCenter", player.global_position)
+	foreground.get_child(0).material.set_shader_parameter("holeCenter", player.position)
 	foreground.get_child(0).material.set_shader_parameter("holeRadius", player.mask_radius)
 
 func _unhandled_input(event):
@@ -39,7 +39,7 @@ func _unhandled_input(event):
 			var player = self.get_node("../player")
 			var foreground = self.get_node("../foreground")
 			player.mask_radius = 0.0
-			foreground.get_child(0).material.set_shader_parameter("holeCenter", player.global_position)
+			foreground.get_child(0).material.set_shader_parameter("holeCenter", player.position)
 			foreground.get_child(0).material.set_shader_parameter("holeRadius", player.mask_radius)
 				
 			var audio = self.get_node("audio_restart")

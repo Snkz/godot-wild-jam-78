@@ -18,9 +18,10 @@ size = Vector2(1440, 86)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8wnw2"]
 size = Vector2(80, 1080)
 
-[node name="main" type="Node2D"]
-process_mode = 1
+[node name="main" type="Camera2D"]
+process_mode = 3
 y_sort_enabled = true
+position = Vector2(720, 540)
 script = ExtResource("1_w64oe")
 grid_height = 7
 grid_width = 8
@@ -47,10 +48,10 @@ transform = Transform2D(1, 0, 0, 1, 800, 300)
 [node name="foreground" parent="." instance=ExtResource("4_g3e8d")]
 process_mode = 3
 layer = 1
+follow_viewport_enabled = true
 
 [node name="background" type="Sprite2D" parent="."]
 process_mode = 3
-position = Vector2(720, 540)
 scale = Vector2(5, 5)
 texture = ExtResource("4_31bdv")
 
@@ -59,19 +60,19 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="Top" type="CollisionShape2D" parent="border"]
-position = Vector2(720, 30)
+position = Vector2(-1, -497)
 shape = SubResource("RectangleShape2D_bnkbg")
 
 [node name="Bottom" type="CollisionShape2D" parent="border"]
-position = Vector2(720, 1037)
+position = Vector2(-1, 510)
 shape = SubResource("RectangleShape2D_bnkbg")
 
 [node name="Right" type="CollisionShape2D" parent="border"]
-position = Vector2(1400, 540)
+position = Vector2(679, 13)
 shape = SubResource("RectangleShape2D_8wnw2")
 
 [node name="Left" type="CollisionShape2D" parent="border"]
-position = Vector2(40, 540)
+position = Vector2(-681, 13)
 shape = SubResource("RectangleShape2D_8wnw2")
 
 [node name="creatures" type="CanvasGroup" parent="."]
@@ -79,35 +80,38 @@ process_mode = 3
 
 [node name="blue" type="CanvasLayer" parent="creatures"]
 layer = 0
+follow_viewport_enabled = true
 
 [node name="ysort" type="Node2D" parent="creatures/blue"]
 y_sort_enabled = true
 
 [node name="green" type="CanvasLayer" parent="creatures"]
 layer = 0
+follow_viewport_enabled = true
 
 [node name="ysort" type="Node2D" parent="creatures/green"]
 y_sort_enabled = true
 
 [node name="white" type="CanvasLayer" parent="creatures"]
 layer = 0
+follow_viewport_enabled = true
 
 [node name="ysort" type="Node2D" parent="creatures/white"]
 y_sort_enabled = true
 
 [node name="yellow" type="CanvasLayer" parent="creatures"]
 layer = 0
+follow_viewport_enabled = true
 
 [node name="ysort" type="Node2D" parent="creatures/yellow"]
 y_sort_enabled = true
 
 [node name="red" type="CanvasLayer" parent="creatures"]
 layer = 0
+follow_viewport_enabled = true
 
 [node name="ysort" type="Node2D" parent="creatures/red"]
 y_sort_enabled = true
 
 [node name="audio_background" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_kri3q")
-
-[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]

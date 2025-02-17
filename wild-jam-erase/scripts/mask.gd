@@ -21,7 +21,7 @@ func _process(delta: float) -> void:
 	else:
 		player.mask_radius = lerp(player.mask_radius, original_radius, lerp_speed * delta)
 	
-	material.set_shader_parameter("holeCenter", player.global_position)
+	material.set_shader_parameter("holeCenter", player.position)
 	material.set_shader_parameter("holeRadius", player.mask_radius)
 
 func _input(event: InputEvent) -> void:
