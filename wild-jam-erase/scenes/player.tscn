@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_o3o8q"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_eiewv"]
-radius = 30.0
+radius = 93.0484
 
 [node name="player" type="Area2D"]
 process_mode = 3

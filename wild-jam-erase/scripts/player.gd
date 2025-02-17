@@ -6,10 +6,7 @@ var nearest_selection = null
 var nearest_threshold = 1.0
 var active_bodies = []
 var collision_shape: CollisionShape2D
-var original_radius = 100.0
-var increased_radius = 150.0
 var lerp_speed = 10.0
-var is_increasing = false
 
 @export var mask_radius : float
 
@@ -55,22 +52,8 @@ func _on_body_exited(body: Node2D) -> void:
 	if body == nearest_selection:
 		nearest_selection.emit_signal("nearest_creature_highlighted", false)
 		nearest_selection = null
-	
-	
+
 func _physics_process(delta: float) -> void:
 	var mouse_position = get_tree().root.get_node("main").get_local_mouse_position()
 	self.position = lerp(self.position, mouse_position, lerp_speed * 2 * delta)
 	set_nearest()
-	
-	if is_increasing:
-		collision_shape.shape.radius = lerp(collision_shape.shape.radius, increased_radius, lerp_speed * delta)
-	elif not is_increasing:
-		collision_shape.shape.radius = lerp(collision_shape.shape.radius, original_radius, lerp_speed * delta)
-
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed:
-				is_increasing = true
-			else:
-				is_increasing = false
