@@ -67,6 +67,7 @@ func _on_creature_highlighted(state) -> void:
 		
 	if current_behaviour == BehaviourState.REVEAL:
 		clear_reveal()
+		return
 	
 	start_idle()
 	
@@ -101,22 +102,16 @@ func _on_creature_matched(node, selected, matched) -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	
 	if selected:
+		var player = self.get_tree().root.get_node("main/player")
+		var audio = player.get_node("audio_hit")
+		audio.play()
 		creature_layer.layer = 2
 		if reveal_colour_on_click and not matched:
-			current_behaviour = BehaviourState.SELECTED
-			$AnimatedSprite2D.play(&"selected")
-			var player = self.get_tree().root.get_node("main/player")
-			var audio = player.get_node("audio_hit")
-			audio.play()
-
 			start_reveal()
+			$AnimatedSprite2D.play(&"selected")
 		elif explode_on_click:
 			start_dust()
 		else:
-			var player = self.get_tree().root.get_node("main/player")
-			var audio = player.get_node("audio_hit")
-			audio.play()
-			
 			current_behaviour = BehaviourState.SELECTED
 			$AnimatedSprite2D.play(&"selected")
 	else:
@@ -144,7 +139,6 @@ func clear_reveal() -> void:
 			child.layer = 0
 	
 	canvas.layer = 0;
-	current_behaviour = BehaviourState.SELECTED
 
 func _on_timeout() -> void:
 	if current_behaviour == BehaviourState.DUST:
@@ -155,6 +149,7 @@ func _on_timeout() -> void:
 		
 	if current_behaviour == BehaviourState.REVEAL:
 		clear_reveal()
+		return
 	
 	var result = init_chase() or init_fear() or init_wander()
 	if not result:
@@ -164,6 +159,7 @@ func _on_creature_gameover() -> void:
 	start_dust()
 
 func start_idle() -> void:	
+	print("start_idle ", self.name)
 	current_behaviour = BehaviourState.IDLE
 	$AnimatedSprite2D.play(&"idle")
 	direction = Vector2.ZERO

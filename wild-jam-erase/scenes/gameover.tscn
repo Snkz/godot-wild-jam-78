@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b4qcfxfu18v6d"]
 
 [ext_resource type="Script" path="res://scripts/gameover.gd" id="1_l5aed"]
-[ext_resource type="AudioStream" path="../assets/click.wav" id="2_toajv"]
+[ext_resource type="AudioStream" uid="uid://clhdvj8q2bnjn" path="res://assets/click.wav" id="2_toajv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_duasc"]
 font_color = Color(0, 0, 0, 1)
