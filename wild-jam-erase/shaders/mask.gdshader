@@ -17,7 +17,7 @@ void vertex() {
 void fragment() {
     float gridSize = 5.0;
     vec2 gridPos = floor(p / gridSize) * gridSize;
-    float randOffset = random(gridPos) * gridSize * 10.0;
+    float randOffset = random(gridPos) * gridSize * 20.0;
     float adjustedRadius = holeRadius + randOffset - gridSize * 1.0;
 
     float dist = length(gridPos - holeCenter);
