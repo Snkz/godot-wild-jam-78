@@ -38,6 +38,10 @@ var game_time = 0.0
 signal gameover(int, float)
 
 func _on_creature_deleted(node, index) -> void:
+	var player = self.get_node("player")
+	var audio = player.get_node("audio_dust")
+	audio.play()
+	
 	matched_count = matched_count + 1
 
 	var creatures = get_tree().get_nodes_in_group("creatures")
