@@ -5,6 +5,7 @@ signal creature_highlighted(bool)
 signal nearest_creature_highlighted(bool)
 signal creature_matched(a, b, c)
 signal creature_deleted(a, b)
+signal creature_gameover()
 
 
 var index : int
@@ -44,6 +45,8 @@ func _ready() -> void:
 	connect("creature_highlighted", _on_creature_highlighted)
 	connect("nearest_creature_highlighted", _on_nearest_creature_highlighted)
 	connect("creature_matched", _on_creature_matched)
+	connect("creature_gameover", _on_creature_gameover)
+
 
 	var offset : float = randf_range(0, $AnimatedSprite2D.sprite_frames.get_frame_count($AnimatedSprite2D.animation))
 	$AnimatedSprite2D.set_frame_and_progress(offset, offset)
@@ -155,6 +158,9 @@ func _on_timeout() -> void:
 	var result = init_chase() or init_fear() or init_wander()
 	if not result:
 		start_idle()
+
+func _on_creature_gameover() -> void:
+	start_dust()
 
 func start_idle() -> void:	
 	current_behaviour = BehaviourState.IDLE

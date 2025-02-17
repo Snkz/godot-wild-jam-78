@@ -54,27 +54,28 @@ position = Vector2(720, 540)
 scale = Vector2(5, 5)
 texture = ExtResource("4_31bdv")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="border" type="StaticBody2D" parent="."]
 collision_layer = 2
 collision_mask = 2
 
-[node name="Top" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="Top" type="CollisionShape2D" parent="border"]
 position = Vector2(720, 30)
 shape = SubResource("RectangleShape2D_bnkbg")
 
-[node name="Bottom" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="Bottom" type="CollisionShape2D" parent="border"]
 position = Vector2(720, 1037)
 shape = SubResource("RectangleShape2D_bnkbg")
 
-[node name="Right" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="Right" type="CollisionShape2D" parent="border"]
 position = Vector2(1400, 540)
 shape = SubResource("RectangleShape2D_8wnw2")
 
-[node name="Left" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="Left" type="CollisionShape2D" parent="border"]
 position = Vector2(40, 540)
 shape = SubResource("RectangleShape2D_8wnw2")
 
 [node name="creatures" type="CanvasGroup" parent="."]
+process_mode = 3
 
 [node name="blue" type="CanvasLayer" parent="creatures"]
 layer = 0

@@ -15,6 +15,10 @@ func _on_gameover(matched_count, game_time) -> void:
 	get_node("score").text = "MATCHED: " + str(matched_count) + " TIME: " + str(game_time)
 	visible = true
 	
+	var creatures = get_tree().get_nodes_in_group("creatures")
+	for creature in creatures:
+		creature.emit_signal("creature_gameover")
+	
 func _process(delta: float) -> void:
 	var player = self.get_node("../player")
 	var foreground = self.get_node("../foreground")
