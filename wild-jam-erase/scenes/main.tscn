@@ -37,6 +37,7 @@ autostart = true
 
 [node name="player" parent="." instance=ExtResource("1_bdlqp")]
 top_level = true
+mask_radius = 150.0
 
 [node name="gameover" parent="." instance=ExtResource("3_80ec5")]
 visible = false
