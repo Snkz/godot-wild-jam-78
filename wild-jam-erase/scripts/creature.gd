@@ -67,8 +67,6 @@ func _on_creature_highlighted(state) -> void:
 	if (state): 
 		current_behaviour = BehaviourState.CAUGHT
 		$AnimatedSprite2D.play(&"caught")
-		await $AnimatedSprite2D.animation_finished
-		start_idle()
 		
 func _on_nearest_creature_highlighted(state) -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
@@ -79,7 +77,6 @@ func _on_nearest_creature_highlighted(state) -> void:
 	
 	if current_behaviour == BehaviourState.REVEAL:
 		clear_reveal()
-	
 	
 	if (state): 
 		$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
@@ -106,6 +103,9 @@ func _on_creature_matched(node, selected, matched) -> void:
 			current_behaviour = BehaviourState.SELECTED
 			$AnimatedSprite2D.play(&"selected")
 			timer.stop()
+	else:
+		if not matched and current_behaviour == BehaviourState.SELECTED:
+			start_idle()
 
 	if (selected and matched):
 		start_dust()
@@ -144,7 +144,7 @@ func _on_timeout() -> void:
 	if not result:
 		start_idle()
 
-func start_idle() -> void:
+func start_idle() -> void:	
 	current_behaviour = BehaviourState.IDLE
 	$AnimatedSprite2D.play(&"idle")
 	direction = Vector2.ZERO
