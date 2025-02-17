@@ -1,34 +1,37 @@
-[gd_scene load_steps=4 format=3 uid="uid://b4qcfxfu18v6d"]
+[gd_scene load_steps=5 format=3 uid="uid://b4qcfxfu18v6d"]
 
 [ext_resource type="Script" path="res://scripts/gameover.gd" id="1_l5aed"]
+[ext_resource type="Texture2D" uid="uid://bva6vuuv0hhb8" path="res://assets/gameover.png" id="2_kvmbd"]
 [ext_resource type="AudioStream" uid="uid://clhdvj8q2bnjn" path="res://assets/click.wav" id="2_toajv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_duasc"]
-font_color = Color(0, 0, 0, 1)
+font_size = 50
+font_color = Color(0.305882, 0.290196, 0.290196, 1)
 
 [node name="gameover" type="CanvasLayer"]
 process_mode = 2
 layer = 2
 script = ExtResource("1_l5aed")
 
-[node name="gameover" type="Label" parent="."]
-anchors_preset = -1
-anchor_right = 0.072
-offset_left = -15.0
-offset_right = -15.16
-offset_bottom = 23.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "GAME OVER"
-label_settings = SubResource("LabelSettings_duasc")
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.380392)
+position = Vector2(69, 66)
+scale = Vector2(5, 5)
+texture = ExtResource("2_kvmbd")
 
-[node name="score" type="Label" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(5, 5)
+texture = ExtResource("2_kvmbd")
+
+[node name="time" type="Label" parent="."]
 anchors_preset = -1
-anchor_right = 0.072
-offset_left = 10.0
-offset_top = 50.0
-offset_right = 9.84
-offset_bottom = 73.0
+anchor_left = -0.233
+anchor_right = 0.222
+anchor_bottom = 0.126
+offset_left = -3.48001
+offset_top = -17.0
+offset_right = -500.68
+offset_bottom = -84.08
 grow_horizontal = 2
 grow_vertical = 2
 text = "SCORE"
@@ -36,14 +39,17 @@ label_settings = SubResource("LabelSettings_duasc")
 
 [node name="restart" type="Label" parent="."]
 anchors_preset = -1
-anchor_right = 0.072
-offset_left = -95.0
-offset_top = 100.0
-offset_right = 94.84
-offset_bottom = 123.0
+anchor_left = 0.039
+anchor_top = 0.144
+anchor_right = 0.25
+anchor_bottom = 0.166
+offset_left = -383.16
+offset_top = -25.52
+offset_right = 1.0
+offset_bottom = 19.72
 grow_horizontal = 2
 grow_vertical = 2
-text = "press enter to restart, escape to quit"
+text = "Enter to restart, ESC to quit"
 label_settings = SubResource("LabelSettings_duasc")
 
 [node name="audio_gameover" type="AudioStreamPlayer2D" parent="."]

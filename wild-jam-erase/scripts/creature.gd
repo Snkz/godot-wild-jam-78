@@ -115,8 +115,8 @@ func _on_creature_matched(node, selected, matched) -> void:
 			current_behaviour = BehaviourState.SELECTED
 			$AnimatedSprite2D.play(&"selected")
 	else:
-		if not matched and current_behaviour == BehaviourState.SELECTED:
-			start_idle()
+		if not matched and (current_behaviour == BehaviourState.SELECTED or current_behaviour == BehaviourState.REVEAL):
+			$AnimatedSprite2D.play(&"caught")
 
 	if (selected and matched):
 		start_dust()
@@ -159,7 +159,6 @@ func _on_creature_gameover() -> void:
 	start_dust()
 
 func start_idle() -> void:	
-	print("start_idle ", self.name)
 	current_behaviour = BehaviourState.IDLE
 	$AnimatedSprite2D.play(&"idle")
 	direction = Vector2.ZERO
