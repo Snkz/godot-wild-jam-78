@@ -45,9 +45,11 @@ offset = Vector2(590, 420)
 transform = Transform2D(1, 0, 0, 1, 590, 420)
 
 [node name="foreground" parent="." instance=ExtResource("4_g3e8d")]
+process_mode = 3
 layer = 1
 
 [node name="background" type="Sprite2D" parent="."]
+process_mode = 3
 position = Vector2(720, 540)
 scale = Vector2(5, 5)
 texture = ExtResource("4_31bdv")
