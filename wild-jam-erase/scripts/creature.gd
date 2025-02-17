@@ -168,9 +168,9 @@ func start_dust() -> void:
 	current_behaviour = BehaviourState.DUST
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	$AnimatedSprite2D.play(&"dust")
+	creature_deleted.emit(self, index)
 	await $AnimatedSprite2D.animation_finished  
 	self.queue_free()
-	creature_deleted.emit(self, index)
 
 func init_wander() -> bool:
 	if current_behaviour == BehaviourState.IDLE and randf() < wander_chance:
