@@ -12,7 +12,7 @@ var index : int
 var colour : Color
 var layer : String
 
-enum BehaviourState { IDLE, WANDER, CAUGHT, DUST, FEAR, CHASE, REVEAL, SELECTED }
+enum BehaviourState { IDLE, WANDER, CAUGHT, DUST, FEAR, CHASE, REVEAL, SELECTED, TELEPORT }
 var current_behaviour = BehaviourState.IDLE
 
 @export var base_idle_time := 3.0
@@ -33,7 +33,9 @@ var current_behaviour = BehaviourState.IDLE
 @export var explode_on_click := false
 @export var reveal_colour_on_click := false
 @export var base_reveal_time := 1.0
-@export var is_dying := false
+
+var is_dying = false
+var is_highlighted = false
 
 var tween_hover: Tween
 var direction := Vector2.ZERO
@@ -61,6 +63,8 @@ func _ready() -> void:
 	start_idle()
 
 func _on_creature_highlighted(state) -> void:
+	is_highlighted = state
+	
 	if current_behaviour == BehaviourState.DUST:
 		return
 		
@@ -73,16 +77,19 @@ func _on_creature_highlighted(state) -> void:
 			
 		return
 	
-	start_idle()
+	#start_idle()
 	
-	if (state): 
+	if state and (current_behaviour == BehaviourState.WANDER or current_behaviour == BehaviourState.IDLE): 
 		current_behaviour = BehaviourState.CAUGHT
 		$AnimatedSprite2D.play(&"caught")
 
 func _on_animation_finished() -> void:
 	if ($AnimatedSprite2D.animation == &"caught"):
-		start_idle()
-		
+		if current_behaviour == BehaviourState.CAUGHT:
+			var result = init_chase() or init_fear() or init_wander()
+			if not result:
+				start_idle()		
+
 func _on_nearest_creature_highlighted(state) -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	if tween_hover and tween_hover.is_running():
@@ -219,7 +226,6 @@ func init_wander() -> bool:
 func start_wander() -> void:
 	velocity = direction * wander_speed
 	$AnimatedSprite2D.play(&"run")
-	move_and_slide()
 	if direction.x < 0:
 		$AnimatedSprite2D.flip_h = false
 	else:
@@ -243,7 +249,6 @@ func init_chase() -> bool:
 func start_chase() -> void:
 	velocity = direction * chase_speed
 	$AnimatedSprite2D.play(&"run")
-	move_and_slide()
 	if direction.x < 0:
 		$AnimatedSprite2D.flip_h = false
 	else:
@@ -253,8 +258,12 @@ func start_chase() -> void:
 	var distance = player.position.distance_to(self.position)
 	direction = (player.position - self.position).normalized()
 
-	if distance <= 1.0 or distance >= chase_distance_max_threshold + 10.0:
+	if distance < chase_distance_min_threshold or distance >= chase_distance_max_threshold + 10.0:
 		direction = Vector2.ZERO
+		velocity = Vector2.ZERO
+		current_behaviour = BehaviourState.CAUGHT
+		$AnimatedSprite2D.play(&"caught")
+		
 	
 func init_fear() -> bool:
 	if current_behaviour != BehaviourState.IDLE and current_behaviour != BehaviourState.WANDER:
@@ -273,7 +282,6 @@ func init_fear() -> bool:
 func start_fear() -> void:
 	velocity = direction * fear_speed
 	$AnimatedSprite2D.play(&"run")
-	move_and_slide()
 	if direction.x < 0:
 		$AnimatedSprite2D.flip_h = false
 	else:
@@ -282,9 +290,12 @@ func start_fear() -> void:
 	var player = self.get_tree().root.get_node("main/player")
 	var distance = player.position.distance_to(self.position)
 	direction = -1.0 * (player.position - self.position).normalized()
-
-	if distance >= chase_distance_max_threshold + 10.0:
+	
+	if distance < fear_distance_min_threshold or distance >= fear_distance_max_threshold + 10.0:
 		direction = Vector2.ZERO
+		velocity = Vector2.ZERO
+		current_behaviour = BehaviourState.CAUGHT
+		$AnimatedSprite2D.play(&"caught")
 
 func _physics_process(delta: float) -> void:
 	if current_behaviour == BehaviourState.WANDER:
@@ -295,3 +306,7 @@ func _physics_process(delta: float) -> void:
 		start_fear()
 	else:
 		velocity = Vector2.ZERO
+		
+	move_and_slide()
+	if is_highlighted and current_behaviour == BehaviourState.IDLE:
+		init_chase() or init_fear()

@@ -36,8 +36,8 @@ yellow_creature_scene = ExtResource("3_bysk2")
 
 [node name="intro" parent="." instance=ExtResource("7_o3dbp")]
 visible = false
-offset = Vector2(700, 320)
-transform = Transform2D(1, 0, 0, 1, 700, 320)
+offset = Vector2(820, 450)
+transform = Transform2D(1, 0, 0, 1, 820, 450)
 
 [node name="timer" type="Timer" parent="."]
 autostart = true

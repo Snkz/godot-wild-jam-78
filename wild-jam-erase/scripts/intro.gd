@@ -13,6 +13,9 @@ func _ready() -> void:
 	original_radius = player.mask_radius
 
 func _on_gamestart() -> void:
+	var parent = self.get_parent()
+	parent.camera_shake.emit(0.1, 0.25)
+
 	var player = self.get_node("../player")
 	player.mask_radius = 0
 	gameintro_active = true
@@ -63,6 +66,8 @@ func _unhandled_input(event):
 			
 			var audio = self.get_node("audio_restart")
 			audio.play()
+			var parent = self.get_parent()
+			parent.camera_shake.emit(0.2, 0.2)
 			
 			var last_animation = null
 			for creature in creatures:

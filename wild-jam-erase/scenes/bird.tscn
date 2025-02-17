@@ -179,11 +179,13 @@ collision_mask = 3
 input_pickable = true
 script = ExtResource("1_wjevb")
 base_idle_time = 2.0
-wander_chance = 0.5
+wander_chance = 0.75
 base_wander_time = 5.0
 chase_chance = 0.5
-chase_distance_max_threshold = 300
+chase_distance_min_threshold = 40
+chase_distance_max_threshold = 200
 chase_speed = 100.0
+base_chase_time = 0.5
 fear_chance = 0.5
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

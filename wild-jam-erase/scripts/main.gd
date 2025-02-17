@@ -38,7 +38,7 @@ var matched_count = 0
 var game_time = 0.0
 var noise = null
 var camera_shake_lifetime = 0
-var camera_shake_strength = 0.2
+var camera_shake_strength = 0
 
 signal gameover(int, float)
 signal gamestart()
@@ -85,11 +85,12 @@ func do_camera_shake(strength, seed) -> void:
 
 func _on_camera_shake(strength, lifetime) -> void:
 	noise.seed = randi()
-	camera_shake_lifetime = lifetime
-	camera_shake_strength = strength
+	camera_shake_lifetime = max(camera_shake_lifetime, lifetime)
+	camera_shake_strength = max(camera_shake_strength, strength)
 	
 func _on_gameover(score, time) -> void:
-	camera_shake.emit(0.5, 0.25)
+	#camera_shake.emit(0.5, 0.25)
+	pass
 	
 func generate_grid() -> void:
 	noise.seed = randi()
@@ -244,6 +245,8 @@ func _process(delta):
 		do_camera_shake(camera_shake_strength, noise.seed)
 		camera_shake_lifetime -= delta
 	else:
+		camera_shake_strength = 0;
+		camera_shake_lifetime = 0;
 		offset = Vector2(0.0, 0.0)
 		rotation = 0.0
 

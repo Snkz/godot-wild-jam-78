@@ -13,6 +13,9 @@ func _ready() -> void:
 
 
 func _on_gameover(matched_count, game_time) -> void:
+	var parent = self.get_parent()
+	parent.camera_shake.emit(0.5, 0.25)
+	
 	gameover_active = true
 	get_tree().paused = true
 	
@@ -59,6 +62,9 @@ func _unhandled_input(event):
 		
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_ENTER:
+			var parent = self.get_parent()
+			parent.camera_shake.emit(0.2, 0.2)
+			
 			visible = false
 			var player = self.get_node("../player")
 			var foreground = self.get_node("../foreground")
