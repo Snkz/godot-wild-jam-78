@@ -3,13 +3,17 @@ signal restart()
 
 # Called when the node enters the scene tree for the first time.
 var original_radius = 0;
+var gameover_active = false
 func _ready() -> void:
 	var parent = self.get_parent()
 	parent.connect("gameover", _on_gameover)
 	var player = self.get_node("../player")
 	original_radius = player.mask_radius
+	gameover_active = false
+
 
 func _on_gameover(matched_count, game_time) -> void:
+	gameover_active = true
 	get_tree().paused = true
 	
 	var seconds = int(game_time) % 60
@@ -36,6 +40,9 @@ func _on_gameover(matched_count, game_time) -> void:
 		creature.emit_signal("creature_gameover")
 	
 func _process(delta: float) -> void:
+	if not gameover_active:
+		return
+		
 	var player = self.get_node("../player")
 	var foreground = self.get_node("../foreground")
 
@@ -47,6 +54,9 @@ func _process(delta: float) -> void:
 	foreground.get_child(0).material.set_shader_parameter("holeRadius", player.mask_radius)
 
 func _unhandled_input(event):
+	if not gameover_active:
+		return
+		
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_ENTER:
 			visible = false
@@ -58,7 +68,9 @@ func _unhandled_input(event):
 				
 			var audio = self.get_node("audio_restart")
 			audio.play()
+			await not audio.playing
 			
+			gameover_active = false
 			get_tree().paused = false
 			
 			restart.emit()

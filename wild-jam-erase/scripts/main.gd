@@ -41,6 +41,7 @@ var camera_shake_lifetime = 0
 var camera_shake_strength = 0.2
 
 signal gameover(int, float)
+signal gamestart()
 signal camera_shake(a, b)
 
 func _on_creature_deleted(node, index) -> void:
@@ -229,7 +230,10 @@ func _ready() -> void:
 	
 	var gameover = self.get_node("gameover")
 	gameover.connect("restart", _on_restart)
-	generate_creatures()
+	var intro = self.get_node("intro")
+	intro.connect("restart", _on_restart)
+	
+	gamestart.emit()
 			
 func _process(delta):
 	var window_rect = get_viewport().get_visible_rect()

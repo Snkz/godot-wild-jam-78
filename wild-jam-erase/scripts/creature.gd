@@ -41,9 +41,7 @@ var timer = null
 
 func _ready() -> void:
 	randomize()
-	timer = Timer.new()
-	clear_reveal()
-	
+	timer = Timer.new()	
 	connect("creature_highlighted", _on_creature_highlighted)
 	connect("nearest_creature_highlighted", _on_nearest_creature_highlighted)
 	connect("creature_matched", _on_creature_matched)
@@ -54,6 +52,9 @@ func _ready() -> void:
 	$AnimatedSprite2D.set_frame_and_progress(offset, offset)
 	$AnimatedSprite2D.material = $AnimatedSprite2D.material.duplicate()
 	$AnimatedSprite2D.animation_finished.connect(_on_animation_finished)
+	
+	$AnimatedSprite2D.play_backwards(&"dust")
+	await $AnimatedSprite2D.animation_finished
 
 	add_child(timer)
 	timer.timeout.connect(_on_timeout)
