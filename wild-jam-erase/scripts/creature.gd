@@ -32,6 +32,7 @@ var current_behaviour = BehaviourState.IDLE
 @export var explode_on_click := false
 @export var reveal_colour_on_click := false
 @export var base_reveal_time := 1.0
+@export var is_dying := false
 
 var tween_hover: Tween
 var direction := Vector2.ZERO

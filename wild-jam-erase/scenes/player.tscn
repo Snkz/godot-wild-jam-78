@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_o3o8q"]
 [ext_resource type="AudioStream" uid="uid://pbu80ngnoxvq" path="res://assets/hit.wav" id="2_pt4h6"]
-[ext_resource type="AudioStream" path="../assets/uagh.wav" id="3_7sryj"]
+[ext_resource type="AudioStream" uid="uid://dwjqa31up6ler" path="res://assets/uagh.wav" id="3_7sryj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_eiewv"]
 radius = 93.0484
@@ -18,6 +18,7 @@ debug_color = Color(0.985112, 0, 0.336994, 0.42)
 
 [node name="audio_hit" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_pt4h6")
+volume_db = -5.0
 
 [node name="audio_dust" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_7sryj")

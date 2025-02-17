@@ -38,6 +38,7 @@ var game_time = 0.0
 signal gameover(int, float)
 
 func _on_creature_deleted(node, index) -> void:
+	node.is_dying = true
 	var player = self.get_node("player")
 	var audio = player.get_node("audio_dust")
 	audio.play()
@@ -49,7 +50,7 @@ func _on_creature_deleted(node, index) -> void:
 
 	if node == selected_creature:
 		selected_creature = null
-	
+		
 	if count <= 0:
 		gameover.emit(matched_count, game_time)
 		
@@ -229,10 +230,13 @@ func get_creature_info(index) -> Dictionary:
 func _on_creature_selected(node, index) -> void:
 	var node_info = get_creature_info(index)
 	var selected_info = {}
-	if selected_creature:
+	if is_instance_valid(selected_creature):
 		selected_info = get_creature_info(selected_creature.index)
+		
+	if node and node.is_dying:
+		return
 	
-	if selected_creature == null and node != null:
+	if selected_creature == null and is_instance_valid(node):
 		selected_creature = node
 		node.emit_signal("creature_matched", selected_creature, true, false)
 		print("NEW", index, node_info.colour)
