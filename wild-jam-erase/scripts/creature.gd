@@ -97,15 +97,15 @@ func _on_nearest_creature_highlighted(state) -> void:
 		tween_hover.tween_property(self, "scale", Vector2(1.1, 1.1), 0.6)
 		
 func _on_creature_matched(node, selected, matched) -> void:
-	var creature_layer = get_parent()
-	creature_layer.layer = 0
+	#var creature_layer = get_parent()
+	#creature_layer.layer = 0
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	
 	if selected:
 		var player = self.get_tree().root.get_node("main/player")
 		var audio = player.get_node("audio_hit")
 		audio.play()
-		creature_layer.layer = 2
+		#creature_layer.layer = 2
 		if reveal_colour_on_click and not matched:
 			start_reveal()
 			$AnimatedSprite2D.play(&"selected")
@@ -115,29 +115,20 @@ func _on_creature_matched(node, selected, matched) -> void:
 			current_behaviour = BehaviourState.SELECTED
 			$AnimatedSprite2D.play(&"selected")
 	else:
-		if not matched and current_behaviour == BehaviourState.SELECTED:
+		if not matched and (current_behaviour == BehaviourState.SELECTED or current_behaviour == BehaviourState.REVEAL):
 			start_idle()
 
 	if (selected and matched):
 		start_dust()
 
 func start_reveal() -> void:
-	var canvas = self.get_parent().get_parent().get_parent()
-	var ysort = self.get_parent().get_parent()
-	for child in ysort.get_children():
-		child.layer = 2
-		
+	var canvas = self.get_parent().get_parent()
 	canvas.layer = 2;
 	current_behaviour = BehaviourState.REVEAL
 	timer.start(base_reveal_time + randf_range(-time_variation, time_variation))
 
 func clear_reveal() -> void:
-	var canvas = self.get_parent().get_parent().get_parent()
-	var ysort = self.get_parent().get_parent()
-	for child in ysort.get_children():
-		if self.get_parent() != child and current_behaviour != BehaviourState.SELECTED:
-			child.layer = 0
-	
+	var canvas = self.get_parent().get_parent()
 	canvas.layer = 0;
 
 func _on_timeout() -> void:
@@ -159,7 +150,6 @@ func _on_creature_gameover() -> void:
 	start_dust()
 
 func start_idle() -> void:	
-	print("start_idle ", self.name)
 	current_behaviour = BehaviourState.IDLE
 	$AnimatedSprite2D.play(&"idle")
 	direction = Vector2.ZERO
