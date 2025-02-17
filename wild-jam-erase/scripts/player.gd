@@ -36,10 +36,11 @@ func set_nearest() -> void:
 
 func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouse:
-		if event.is_pressed() and nearest_selection:
-			creature_selected.emit(nearest_selection, nearest_selection.index)
-		elif event.is_pressed():
-			creature_selected.emit(null, -1)
+		if not get_tree().paused:
+			if event.is_pressed() and nearest_selection:
+				creature_selected.emit(nearest_selection, nearest_selection.index)
+			elif event.is_pressed():
+				creature_selected.emit(null, -1)
 
 func _on_body_entered(body: Node2D) -> void:
 	body.emit_signal("creature_highlighted", true)

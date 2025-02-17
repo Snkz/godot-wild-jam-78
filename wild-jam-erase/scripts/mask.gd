@@ -13,6 +13,9 @@ func _ready() -> void:
 	original_radius = player.mask_radius
 
 func _process(delta: float) -> void:
+	if get_tree().paused:
+		return
+
 	if is_increasing:
 		player.mask_radius = lerp(player.mask_radius, original_radius + increased_radius, lerp_speed * delta)
 	else:
