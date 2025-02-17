@@ -10,10 +10,10 @@
 [ext_resource type="Texture2D" uid="uid://b1f8sxn6nn28q" path="res://assets/background.png" id="4_31bdv"]
 [ext_resource type="PackedScene" uid="uid://bp2s3n2m5gb46" path="res://scenes/foreground.tscn" id="4_g3e8d"]
 [ext_resource type="PackedScene" uid="uid://bihdkd2udbepv" path="res://scenes/dog.tscn" id="6_md2jr"]
-[ext_resource type="AudioStream" path="../assets/low_fi_beats.wav" id="11_kri3q"]
+[ext_resource type="AudioStream" uid="uid://iq6weps73nxy" path="res://assets/low_fi_beats.wav" id="11_kri3q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bnkbg"]
-size = Vector2(1440, 60)
+size = Vector2(1440, 86)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8wnw2"]
 size = Vector2(80, 1080)
@@ -60,7 +60,7 @@ position = Vector2(720, 30)
 shape = SubResource("RectangleShape2D_bnkbg")
 
 [node name="Bottom" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(720, 1050)
+position = Vector2(720, 1037)
 shape = SubResource("RectangleShape2D_bnkbg")
 
 [node name="Right" type="CollisionShape2D" parent="StaticBody2D"]
