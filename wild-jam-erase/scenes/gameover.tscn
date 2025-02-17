@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b4qcfxfu18v6d"]
+[gd_scene load_steps=4 format=3 uid="uid://b4qcfxfu18v6d"]
 
 [ext_resource type="Script" path="res://scripts/gameover.gd" id="1_l5aed"]
+[ext_resource type="AudioStream" path="../assets/click.wav" id="2_toajv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_duasc"]
 font_color = Color(0, 0, 0, 1)
@@ -13,7 +14,8 @@ script = ExtResource("1_l5aed")
 [node name="gameover" type="Label" parent="."]
 anchors_preset = -1
 anchor_right = 0.072
-offset_right = -0.160004
+offset_left = -15.0
+offset_right = -15.16
 offset_bottom = 23.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -43,3 +45,12 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "press enter to restart, escape to quit"
 label_settings = SubResource("LabelSettings_duasc")
+
+[node name="audio_gameover" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_toajv")
+volume_db = -5.0
+
+[node name="audio_restart" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_toajv")
+volume_db = -5.0
+pitch_scale = 1.51

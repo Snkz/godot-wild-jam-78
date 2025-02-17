@@ -1,5 +1,4 @@
 extends CanvasLayer
-
 signal restart()
 
 # Called when the node enters the scene tree for the first time.
@@ -14,6 +13,9 @@ func _on_gameover(matched_count, game_time) -> void:
 	get_tree().paused = true
 	get_node("score").text = "MATCHED: " + str(matched_count) + " TIME: " + str(game_time)
 	visible = true
+	
+	var audio = self.get_node("audio_gameover")
+	audio.play()
 	
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	for creature in creatures:
@@ -39,7 +41,12 @@ func _unhandled_input(event):
 			player.mask_radius = 0.0
 			foreground.get_child(0).material.set_shader_parameter("holeCenter", player.global_position)
 			foreground.get_child(0).material.set_shader_parameter("holeRadius", player.mask_radius)
+				
+			var audio = self.get_node("audio_restart")
+			audio.play()
+			
 			get_tree().paused = false
+			
 			restart.emit()
 		if event.pressed and event.keycode == KEY_ESCAPE:
 			get_tree().quit()
