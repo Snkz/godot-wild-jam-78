@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://dewg4bjcsybcx"]
+[gd_scene load_steps=5 format=3 uid="uid://dewg4bjcsybcx"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_o3o8q"]
+[ext_resource type="AudioStream" path="../assets/hit.wav" id="2_pt4h6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_eiewv"]
 radius = 93.0484
+
+[sub_resource type="AudioStreamWAV" id="AudioStreamWAV_dmnc1"]
+resource_name = "../assets/uagh.wav"
 
 [node name="player" type="Area2D"]
 process_mode = 3
@@ -13,6 +17,12 @@ mask_radius = 200.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_eiewv")
 debug_color = Color(0.985112, 0, 0.336994, 0.42)
+
+[node name="audio_hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_pt4h6")
+
+[node name="audio_dust" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamWAV_dmnc1")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

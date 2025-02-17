@@ -198,7 +198,6 @@ func _ready() -> void:
 	var gameover = self.get_node("gameover")
 	gameover.connect("restart", _on_restart)
 	generate_creatures()
-	get_node("audio").play()
 			
 func _process(delta):
 	var window_rect = get_viewport().get_visible_rect()
@@ -209,6 +208,11 @@ func _process(delta):
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+	var audio = get_node("audio_background")
+	if not audio.is_playing():
+		audio.play()
+
 
 func get_creature_info(index) -> Dictionary:
 	for creature_spawn in creature_spawns:

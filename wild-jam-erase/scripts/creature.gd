@@ -101,6 +101,9 @@ func _on_creature_matched(node, selected, matched) -> void:
 		if reveal_colour_on_click and not matched:
 			current_behaviour = BehaviourState.SELECTED
 			$AnimatedSprite2D.play(&"selected")
+			var player = self.get_tree().root.get_node("main/player")
+			var audio = player.get_node("audio_hit")
+			audio.play()
 
 			start_reveal()
 		elif explode_on_click:
@@ -161,6 +164,10 @@ func start_dust() -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	$AnimatedSprite2D.play(&"dust")
 	creature_deleted.emit(self, index)
+	var player = self.get_tree().root.get_node("main/player")
+	var audio = player.get_node("audio_dust")
+	audio.play()
+	
 	await $AnimatedSprite2D.animation_finished  
 	self.queue_free()
 
