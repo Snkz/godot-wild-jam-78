@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bg6m51wnph64s"]
+[gd_scene load_steps=23 format=3 uid="uid://bg6m51wnph64s"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_2qv5k"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_cbj4e"]
@@ -9,21 +9,25 @@ shader = ExtResource("2_cbj4e")
 shader_parameter/line_color = Color(0.909804, 0.733333, 0.0941176, 1)
 shader_parameter/line_thickness = 0.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8ipyu"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_8u35x"]
 atlas = ExtResource("3_i58pk")
-region = Rect2(0, 0, 24, 24)
+region = Rect2(0, 72, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ybiu8"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_k72kw"]
 atlas = ExtResource("3_i58pk")
-region = Rect2(24, 0, 24, 24)
+region = Rect2(24, 72, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_x44pq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_d6nu1"]
 atlas = ExtResource("3_i58pk")
-region = Rect2(48, 0, 24, 24)
+region = Rect2(48, 72, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_uw2ga"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_7v40m"]
 atlas = ExtResource("3_i58pk")
-region = Rect2(72, 0, 24, 24)
+region = Rect2(72, 72, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gyydn"]
+atlas = ExtResource("3_i58pk")
+region = Rect2(96, 72, 24, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yer4o"]
 atlas = ExtResource("3_i58pk")
@@ -49,6 +53,22 @@ region = Rect2(96, 48, 24, 24)
 atlas = ExtResource("3_i58pk")
 region = Rect2(120, 48, 24, 24)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ipyu"]
+atlas = ExtResource("3_i58pk")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ybiu8"]
+atlas = ExtResource("3_i58pk")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x44pq"]
+atlas = ExtResource("3_i58pk")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uw2ga"]
+atlas = ExtResource("3_i58pk")
+region = Rect2(72, 0, 24, 24)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_gp8sk"]
 atlas = ExtResource("3_i58pk")
 region = Rect2(0, 24, 24, 24)
@@ -57,16 +77,19 @@ region = Rect2(0, 24, 24, 24)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_8ipyu")
+"texture": SubResource("AtlasTexture_8u35x")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ybiu8")
+"texture": SubResource("AtlasTexture_k72kw")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_x44pq")
+"texture": SubResource("AtlasTexture_d6nu1")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_uw2ga")
+"texture": SubResource("AtlasTexture_7v40m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gyydn")
 }],
 "loop": false,
 "name": &"caught",
@@ -154,7 +177,7 @@ base_reveal_time = 5.0
 material = SubResource("ShaderMaterial_30h38")
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"idle"
+animation = &"caught"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

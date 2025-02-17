@@ -48,6 +48,8 @@ func _ready() -> void:
 	var offset : float = randf_range(0, $AnimatedSprite2D.sprite_frames.get_frame_count($AnimatedSprite2D.animation))
 	$AnimatedSprite2D.set_frame_and_progress(offset, offset)
 	$AnimatedSprite2D.material = $AnimatedSprite2D.material.duplicate()
+	$AnimatedSprite2D.animation_finished.connect(_on_animation_finished)
+
 	add_child(timer)
 	timer.timeout.connect(_on_timeout)
 	start_idle()
@@ -67,6 +69,10 @@ func _on_creature_highlighted(state) -> void:
 	if (state): 
 		current_behaviour = BehaviourState.CAUGHT
 		$AnimatedSprite2D.play(&"caught")
+
+func _on_animation_finished() -> void:
+	if ($AnimatedSprite2D.animation == &"caught"):
+		start_idle()
 		
 func _on_nearest_creature_highlighted(state) -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
@@ -128,7 +134,7 @@ func clear_reveal() -> void:
 			child.layer = 0
 	
 	canvas.layer = 0;
-	current_behaviour = BehaviourState.IDLE
+	current_behaviour = BehaviourState.SELECTED
 
 func _on_timeout() -> void:
 	if current_behaviour == BehaviourState.DUST:

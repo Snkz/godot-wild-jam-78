@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://yxis2j80giwn"]
+[gd_scene load_steps=14 format=3 uid="uid://yxis2j80giwn"]
 
 [ext_resource type="PackedScene" uid="uid://dewg4bjcsybcx" path="res://scenes/player.tscn" id="1_bdlqp"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_w64oe"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://b1f8sxn6nn28q" path="res://assets/background.png" id="4_31bdv"]
 [ext_resource type="PackedScene" uid="uid://bp2s3n2m5gb46" path="res://scenes/foreground.tscn" id="4_g3e8d"]
 [ext_resource type="PackedScene" uid="uid://bihdkd2udbepv" path="res://scenes/dog.tscn" id="6_md2jr"]
+[ext_resource type="AudioStream" path="../assets/low_fi_beats.wav" id="11_kri3q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bnkbg"]
 size = Vector2(1440, 60)
@@ -101,5 +102,8 @@ layer = 0
 
 [node name="ysort" type="Node2D" parent="creatures/red"]
 y_sort_enabled = true
+
+[node name="audio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_kri3q")
 
 [connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]

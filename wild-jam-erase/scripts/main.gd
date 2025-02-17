@@ -198,6 +198,7 @@ func _ready() -> void:
 	var gameover = self.get_node("gameover")
 	gameover.connect("restart", _on_restart)
 	generate_creatures()
+	get_node("audio").play()
 			
 func _process(delta):
 	var window_rect = get_viewport().get_visible_rect()
