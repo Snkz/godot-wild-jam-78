@@ -28,14 +28,11 @@ script = ExtResource("1_w64oe")
 grid_height = 7
 grid_width = 8
 playable_area_offset = Vector2(0, 16)
-green_num_creatures = 2
 green_creature_scene = ExtResource("2_panp8")
-red_num_creatures = 2
 red_creature_scene = ExtResource("6_md2jr")
-blue_num_creatures = 2
 blue_creature_scene = ExtResource("4_2bbtr")
-white_num_creatures = 2
 white_creature_scene = ExtResource("3_3u1q3")
+yellow_num_creatures = 3
 yellow_creature_scene = ExtResource("3_bysk2")
 
 [node name="canvas" type="Sprite2D" parent="."]
@@ -55,9 +52,8 @@ top_level = true
 mask_radius = 150.0
 
 [node name="gameover" parent="." instance=ExtResource("3_80ec5")]
-visible = false
-offset = Vector2(800, 500)
-transform = Transform2D(1, 0, 0, 1, 800, 500)
+offset = Vector2(720, 540)
+transform = Transform2D(1, 0, 0, 1, 720, 540)
 
 [node name="selected" type="CanvasLayer" parent="."]
 layer = 2
