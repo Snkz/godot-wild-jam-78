@@ -316,13 +316,12 @@ func _process(delta):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 	var audio = get_node("audio_background")
-	if not audio.is_playing():
-		if (game_started):
-			audio.volume_db = -10.0
-		else:
-			audio.volume_db = -50.0
-		if game_time > 5.0 or game_started:
-			audio.play()
+	if (game_started):
+		audio.volume_db = -10.0
+	else:
+		audio.volume_db = -50.0
+	if not audio.is_playing() and (game_time > 5.0 or game_started):
+		audio.play()
 
 
 func get_creature_info(index) -> Dictionary:
