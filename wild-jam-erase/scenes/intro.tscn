@@ -117,12 +117,13 @@ anchor_top = 0.144
 anchor_right = 0.25
 anchor_bottom = 0.166
 offset_left = -236.16
-offset_top = -455.52
+offset_top = -483.52
 offset_right = 190.0
-offset_bottom = -386.28
+offset_bottom = -318.28
 grow_horizontal = 2
 grow_vertical = 2
-text = "Click and match. 
+text = "Click and match.
+Click again to clear. 
 Stop the virus spread.
 Save the PC! "
 label_settings = SubResource("LabelSettings_1cshk")
