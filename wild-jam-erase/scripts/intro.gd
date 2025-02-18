@@ -29,9 +29,6 @@ func _on_gamestart() -> void:
 	get_tree().paused = true
 	visible = true
 	
-	var audio = self.get_node("audio_gamestart")
-	audio.play()
-	
 	var logo = get_node("logo")
 	
 	logo.play(&"default")

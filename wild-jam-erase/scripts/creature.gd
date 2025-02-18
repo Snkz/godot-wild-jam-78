@@ -75,11 +75,9 @@ func _ready() -> void:
 	$AnimatedSprite2D.animation_finished.connect(_on_animation_finished)
 	
 	$AnimatedSprite2D.play_backwards(&"dust")
-	await $AnimatedSprite2D.animation_finished
 
 	add_child(timer)
 	timer.timeout.connect(_on_timeout)
-	start_idle()
 
 func _on_creature_highlighted(state) -> void:
 	is_highlighted = state
@@ -92,8 +90,6 @@ func _on_creature_highlighted(state) -> void:
 		
 	if current_behaviour == BehaviourState.REVEAL:
 		return
-	
-	#start_idle()
 	
 	if state and (current_behaviour == BehaviourState.WANDER or current_behaviour == BehaviourState.IDLE): 
 		current_behaviour = BehaviourState.CAUGHT
@@ -112,7 +108,8 @@ func _on_animation_finished() -> void:
 				start_instant_teleport()
 			else:
 				$AnimatedSprite2D.play(&"caught")
-
+		else:
+			start_idle()
 			
 
 func _on_nearest_creature_highlighted(state) -> void:

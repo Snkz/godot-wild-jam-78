@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://c6xqlex878w5x"]
+[gd_scene load_steps=17 format=4 uid="uid://dmpqwguv62dh8"]
 
 [ext_resource type="Script" path="res://scripts/intro.gd" id="1_3i8oh"]
 [ext_resource type="FontFile" uid="uid://cipoo02mvwvh2" path="res://assets/fonts/retro-pixel-petty-5h.ttf" id="2_dmfdt"]
