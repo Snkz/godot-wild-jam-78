@@ -184,6 +184,7 @@ func clear_reveal() -> void:
 func move_selected() -> void:
 	var selected = get_tree().root.get_node("main/selected")	
 	var creatures = get_tree().root.get_node("main/creatures/ysort")	
+
 	var creature_node = creatures.get_node(layer).get_node(str(name))
 	
 	if creature_node:
