@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://b1f8sxn6nn28q" path="res://assets/background.png" id="4_31bdv"]
 [ext_resource type="PackedScene" uid="uid://bp2s3n2m5gb46" path="res://scenes/foreground.tscn" id="4_g3e8d"]
 [ext_resource type="PackedScene" uid="uid://bihdkd2udbepv" path="res://scenes/dog.tscn" id="6_md2jr"]
-[ext_resource type="PackedScene" uid="uid://dmpqwguv62dh8" path="res://scenes/intro.tscn" id="7_o3dbp"]
+[ext_resource type="PackedScene" uid="uid://c6xqlex878w5x" path="res://scenes/intro.tscn" id="7_o3dbp"]
 [ext_resource type="Texture2D" uid="uid://cr1120fmesmq2" path="res://assets/canvas.png" id="10_6c5dy"]
 [ext_resource type="AudioStream" uid="uid://iq6weps73nxy" path="res://assets/low_fi_beats.wav" id="11_kri3q"]
 
@@ -28,6 +28,7 @@ script = ExtResource("1_w64oe")
 grid_height = 7
 grid_width = 8
 playable_area_offset = Vector2(0, 16)
+respawn_rate = 15.0
 green_creature_scene = ExtResource("2_panp8")
 red_creature_scene = ExtResource("6_md2jr")
 blue_creature_scene = ExtResource("4_2bbtr")
@@ -63,6 +64,7 @@ follow_viewport_enabled = true
 [node name="foreground" parent="." instance=ExtResource("4_g3e8d")]
 process_mode = 3
 layer = 1
+visible = false
 follow_viewport_enabled = true
 
 [node name="background" type="Sprite2D" parent="."]

@@ -5,6 +5,8 @@ extends Camera2D
 @export var playable_area_offset: Vector2
 @export var max_camera_shake_offset = Vector2(100, 75) 
 @export var max_camera_roll = 0.1 
+@export var respawn_rate := 30.0
+@export var respawn_cap := 1
 
 @export_group("green", "green_")
 @export var green_num_creatures := 6
@@ -32,13 +34,16 @@ extends Camera2D
 @export var yellow_creature_scene: PackedScene
 
 var rng = RandomNumberGenerator.new()
+var creature_picks = {}
 var creature_spawns = []
 var active_selection = []
 var matched_count = 0
 var game_time = 0.0
+var respawn_time = respawn_rate
 var noise = null
 var camera_shake_lifetime = 0
 var camera_shake_strength = 0
+var creatures_generated = false
 
 signal gameover(int, float)
 signal gamestart()
@@ -51,10 +56,9 @@ func _on_creature_deleted(node, index) -> void:
 	audio.play()
 	
 	matched_count = matched_count + 1
-
+	
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	var count = len(creatures)
-
 	camera_shake.emit(0.2, 0.1)
 		
 	if count <= 0:
@@ -69,7 +73,11 @@ func _on_restart() -> void:
 	active_selection = []
 	matched_count = 0
 	game_time = 0.0
-
+	camera_shake_lifetime = 0
+	creatures_generated = false
+	respawn_time = respawn_rate
+	offset = Vector2(0.0, 0.0)
+	rotation = 0.0
 	generate_creatures()
 	
 func do_camera_shake(strength, seed) -> void:
@@ -92,7 +100,7 @@ func generate_grid() -> void:
 	var screen_res = Vector2()
 	screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
 	screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
-	var creature_picks = {"yellow": 0, "blue": 0, "green": 0, "red": 0, "white": 0}
+	creature_picks = {"yellow": 0, "blue": 0, "green": 0, "red": 0, "white": 0}
 	
 	# Generate positions for all grid slots
 	var index = 0
@@ -211,6 +219,35 @@ func generate_creatures() -> void:
 		c.connect("creature_deleted", _on_creature_deleted)
 		c.connect("creature_deselected", _on_creature_deselected)
 		
+	creatures_generated = true
+
+func respawn_creatures() -> void:	
+	var index = 0
+	var respawn_count = respawn_cap
+	creature_spawns.shuffle()
+	for info in creature_spawns:
+		if respawn_count <= 0:
+			break
+
+		if info.colour and info.node and not is_instance_valid(info.node):
+			var group = self.get_node("creatures/ysort/" + info.layer)
+			if not group:
+				continue
+
+			var creature = info.creature_scene.instantiate()
+			creature.name = "creature " + str(info.index)
+			creature.index = info.index
+			creature.position = info.position
+			creature.colour = info.colour
+			creature.layer = info.layer
+			info.node = creature
+
+			# Spawn the creature by adding it to the Main scene.
+			creature.add_to_group("creatures")
+			group.add_child(creature)
+			creature.connect("creature_deleted", _on_creature_deleted)
+			creature.connect("creature_deselected", _on_creature_deselected)
+			respawn_count -= 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -237,6 +274,12 @@ func _process(delta):
 	var window_rect = get_viewport().get_visible_rect()
 	var mouse_pos = get_viewport().get_mouse_position()
 	game_time = game_time + delta
+	
+	if creatures_generated:
+		respawn_time -= delta
+		if respawn_time < 0.0:
+			respawn_time = respawn_rate
+			respawn_creatures()
 	
 	if camera_shake_lifetime > 0:
 		do_camera_shake(camera_shake_strength, noise.seed)
