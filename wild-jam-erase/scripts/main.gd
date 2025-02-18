@@ -44,6 +44,7 @@ var noise = null
 var camera_shake_lifetime = 0
 var camera_shake_strength = 0
 var creatures_generated = false
+var game_started = false
 
 signal gameover(int, float)
 signal gamestart()
@@ -70,6 +71,7 @@ func _on_creature_deleted(node, index) -> void:
 		gameover.emit(matched_count, game_time)
 		
 func _on_restart() -> void:
+	game_started = true
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	for creature in creatures:
 		creature.queue_free()
@@ -315,7 +317,12 @@ func _process(delta):
 
 	var audio = get_node("audio_background")
 	if not audio.is_playing():
-		audio.play()
+		if (game_started):
+			audio.volume_db = -10.0
+		else:
+			audio.volume_db = -50.0
+		if game_time > 5.0 or game_started:
+			audio.play()
 
 
 func get_creature_info(index) -> Dictionary:

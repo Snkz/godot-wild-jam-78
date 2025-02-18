@@ -60,7 +60,11 @@ func _process(delta: float) -> void:
 func _unhandled_input(event):
 	if not gameintro_active:
 		return
-		
+	if event is InputEventMouse:
+		if event.is_pressed():
+			var parent = self.get_parent()
+			parent.camera_shake.emit(0.2, 0.1)
+
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_ENTER:
 			gameintro_shuttingdown = true
