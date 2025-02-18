@@ -73,6 +73,15 @@ func _on_restart() -> void:
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	for creature in creatures:
 		creature.queue_free()
+		
+	# Saftey net, restore groups
+	var selected = get_tree().root.get_node("main/selected")	
+	var creature_layer = get_tree().root.get_node("main/creatures/ysort")	
+	for layer in creature_picks:
+		var colour_node = selected.get_node(layer)
+		if colour_node:
+			selected.remove_child(colour_node)
+			creature_layer.add_child(colour_node)
 	
 	creature_spawns = []
 	active_selection = []
