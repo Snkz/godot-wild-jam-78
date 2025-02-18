@@ -69,9 +69,7 @@ func _on_restart() -> void:
 	active_selection = []
 	matched_count = 0
 	game_time = 0.0
-	camera_shake_lifetime = 0
-	offset = Vector2(0.0, 0.0)
-	rotation = 0.0
+
 	generate_creatures()
 	
 func do_camera_shake(strength, seed) -> void:

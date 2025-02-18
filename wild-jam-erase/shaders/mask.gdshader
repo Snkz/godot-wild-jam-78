@@ -19,7 +19,7 @@ void fragment() {
 	COLOR = tex_color;
 	
 	if (tex_color.a > 0.01) {
-		float gridSize = 3.0;
+		float gridSize = 5.0;
 		vec2 gridPos = floor(p / gridSize) * gridSize;
 		float randOffset = random(gridPos) * gridSize * 20.0;
 		float adjustedRadius = holeRadius + randOffset - gridSize * 1.0;

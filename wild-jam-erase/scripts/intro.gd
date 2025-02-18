@@ -6,11 +6,18 @@ var original_radius = 0;
 var gameintro_active = false
 var gameintro_shuttingdown = false;
 func _ready() -> void:
+	print("intro ready")
 	gameintro_active = false
+	
 	var parent = self.get_parent()
-	parent.connect("gamestart", _on_gamestart)
 	var player = self.get_node("../player")
+	var foreground = self.get_node("../foreground")
+	
+	parent.connect("gamestart", _on_gamestart)
 	original_radius = player.mask_radius
+	foreground.get_child(0).material.set_shader_parameter("holeCenter", player.position)
+	foreground.get_child(0).material.set_shader_parameter("holeRadius", 3000)
+	
 
 func _on_gamestart() -> void:
 	var parent = self.get_parent()
@@ -18,13 +25,27 @@ func _on_gamestart() -> void:
 
 	var player = self.get_node("../player")
 	player.mask_radius = 0
-	gameintro_active = true
+	
 	gameintro_shuttingdown = false
 	get_tree().paused = true
 	visible = true
 	
 	var audio = self.get_node("audio_gamestart")
 	audio.play()
+	
+	var logo = get_node("logo")
+	
+	logo.play(&"default")
+	await logo.animation_finished
+	var tween = create_tween()
+	tween.tween_property(logo, "modulate:a", 0.0, 0.5)
+	await tween.finished
+	
+	var background = get_node("background")
+	background.visible = false
+	logo.visible = false
+	
+	gameintro_active = true
 
 	var creatures = get_node("creatures").get_children()
 	for creature in creatures:
@@ -58,6 +79,7 @@ func _unhandled_input(event):
 		
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_ENTER:
+			print("enter")
 			gameintro_shuttingdown = true
 
 			var player = self.get_node("../player")
@@ -75,8 +97,8 @@ func _unhandled_input(event):
 				animation.play(&"dust")
 				last_animation = animation
 		
-			if  last_animation:
-				await last_animation.animation_finished  
+			#if  last_animation:
+				#await last_animation.animation_finished  
 			
 			gameintro_active = false
 			visible = false
