@@ -185,7 +185,10 @@ func move_selected() -> void:
 	var selected = get_tree().root.get_node("main/selected")	
 	var creatures = get_tree().root.get_node("main/creatures/ysort")	
 
-	var creature_node = creatures.get_node(layer).get_node(str(name))
+	var creature_colour = creatures.get_node(layer)
+	var creature_node = null
+	if creature_colour:
+		creature_node = creatures.get_node(str(name))
 	
 	if creature_node:
 		var colour_node = selected.get_node(layer)
