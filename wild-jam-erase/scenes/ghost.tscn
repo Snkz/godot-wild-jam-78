@@ -169,9 +169,13 @@ height = 50.0
 collision_mask = 3
 input_pickable = true
 script = ExtResource("1_2qv5k")
-fear_chance = 0.5
+wander_speed = 60.0
+wander_chance = 0.75
+wander_base_time = 5.0
+fear_chance = 0.25
+fear_distance_max_threshold = 100
+fear_base_time = 1.0
 reveal_colour_on_click = true
-base_reveal_time = 5.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_30h38")

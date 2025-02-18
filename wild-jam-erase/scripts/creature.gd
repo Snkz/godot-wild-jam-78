@@ -15,24 +15,42 @@ var layer : String
 enum BehaviourState { IDLE, WANDER, CAUGHT, DUST, FEAR, CHASE, REVEAL, SELECTED, TELEPORT }
 var current_behaviour = BehaviourState.IDLE
 
-@export var base_idle_time := 3.0
+@export var idle_base_time := 3.0
 @export var time_variation := 1.0
+@export var explode_on_click := false
+
+@export_group("wander", "wander_")
 @export var wander_speed := 30.0
 @export var wander_chance := 0.3
-@export var base_wander_time := 2.0
+@export var wander_base_time := 2.0
+
+@export_group("chase", "chase_")
 @export var chase_chance := 0.0
 @export var chase_distance_min_threshold := 10
 @export var chase_distance_max_threshold := 250
 @export var chase_speed := 30.0
-@export var base_chase_time := 1.0
+@export var chase_base_time := 1.0
+
+@export_group("fear", "fear_")
 @export var fear_chance := 0.0
 @export var fear_speed := 30.0
 @export var fear_distance_min_threshold := 50
 @export var fear_distance_max_threshold := 200
-@export var base_fear_time := 2.0
-@export var explode_on_click := false
+@export var fear_base_time := 2.0
+
+@export_group("reveal", "reveal_")
 @export var reveal_colour_on_click := false
-@export var base_reveal_time := 1.0
+@export var reveal_base_time := 1.0
+
+@export_group("teleport", "teleport_")
+@export var teleport_chance := 0.0
+@export var teleport_speed := 30.0
+@export var teleport_should_travel := false
+var teleport_target_position := Vector2.ZERO
+var teleport_used = true
+@export var teleport_distance_min_threshold := 50
+@export var teleport_distance_max_threshold := 200
+@export var teleport_base_time := 2.0
 
 var is_dying = false
 var is_highlighted = false
@@ -86,9 +104,18 @@ func _on_creature_highlighted(state) -> void:
 func _on_animation_finished() -> void:
 	if ($AnimatedSprite2D.animation == &"caught"):
 		if current_behaviour == BehaviourState.CAUGHT:
-			var result = init_chase() or init_fear() or init_wander()
+			var result = init_teleport() or init_chase() or init_fear() or init_wander()
 			if not result:
-				start_idle()		
+				start_idle()
+				
+	if ($AnimatedSprite2D.animation == &"dust"):
+		if current_behaviour == BehaviourState.TELEPORT:
+			if not teleport_used:
+				start_instant_teleport()
+			else:
+				$AnimatedSprite2D.play(&"caught")
+
+			
 
 func _on_nearest_creature_highlighted(state) -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
@@ -142,7 +169,7 @@ func start_reveal() -> void:
 		selected.add_child(colour_node)
 		
 	current_behaviour = BehaviourState.REVEAL
-	timer.start(base_reveal_time + randf_range(-time_variation, time_variation))
+	timer.start(reveal_base_time + randf_range(-time_variation, time_variation))
 	
 
 func clear_reveal() -> void:
@@ -192,7 +219,7 @@ func _on_timeout() -> void:
 		clear_reveal()
 		return
 	
-	var result = init_chase() or init_fear() or init_wander()
+	var result = init_teleport() or init_chase() or init_fear() or init_wander()
 	if not result:
 		start_idle()
 
@@ -203,7 +230,7 @@ func start_idle() -> void:
 	current_behaviour = BehaviourState.IDLE
 	$AnimatedSprite2D.play(&"idle")
 	direction = Vector2.ZERO
-	timer.start(base_idle_time + randf_range(-time_variation, time_variation))
+	timer.start(idle_base_time + randf_range(-time_variation, time_variation))
 
 func start_dust() -> void:
 	current_behaviour = BehaviourState.DUST
@@ -218,14 +245,14 @@ func init_wander() -> bool:
 	if current_behaviour == BehaviourState.IDLE and randf() < wander_chance:
 		current_behaviour = BehaviourState.WANDER
 		direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
-		timer.start(base_wander_time + randf_range(-time_variation, time_variation))
+		timer.start(wander_base_time + randf_range(-time_variation, time_variation))
+		$AnimatedSprite2D.play(&"run")
 		return true
 	
 	return false
 	
 func start_wander() -> void:
 	velocity = direction * wander_speed
-	$AnimatedSprite2D.play(&"run")
 	if direction.x < 0:
 		$AnimatedSprite2D.flip_h = false
 	else:
@@ -241,30 +268,29 @@ func init_chase() -> bool:
 	if distance > chase_distance_min_threshold and distance < chase_distance_max_threshold and randf() < chase_chance:
 		current_behaviour = BehaviourState.CHASE
 		direction = (player.position - self.position).normalized()
-		timer.start(base_chase_time + randf_range(-time_variation, time_variation))
+		timer.start(chase_base_time + randf_range(-time_variation, time_variation))
+		$AnimatedSprite2D.play(&"run")
 		return true
 		
 	return false
 	
 func start_chase() -> void:
-	velocity = direction * chase_speed
-	$AnimatedSprite2D.play(&"run")
-	if direction.x < 0:
-		$AnimatedSprite2D.flip_h = false
-	else:
-		$AnimatedSprite2D.flip_h = true
-	
 	var player = self.get_tree().root.get_node("main/player")
-	var distance = player.position.distance_to(self.position)
 	direction = (player.position - self.position).normalized()
-
+	var distance = player.position.distance_to(self.position)
 	if distance < chase_distance_min_threshold or distance >= chase_distance_max_threshold + 10.0:
 		direction = Vector2.ZERO
 		velocity = Vector2.ZERO
 		current_behaviour = BehaviourState.CAUGHT
 		$AnimatedSprite2D.play(&"caught")
-		
 	
+	velocity = direction * chase_speed
+	if direction.x < 0:
+		$AnimatedSprite2D.flip_h = false
+	else:
+		$AnimatedSprite2D.flip_h = true
+
+		
 func init_fear() -> bool:
 	if current_behaviour != BehaviourState.IDLE and current_behaviour != BehaviourState.WANDER:
 		return false
@@ -274,28 +300,82 @@ func init_fear() -> bool:
 	if distance > fear_distance_min_threshold and distance < fear_distance_max_threshold and randf() < fear_chance:
 		current_behaviour = BehaviourState.FEAR
 		direction = -1.0 * (player.position - self.position).normalized()
-		timer.start(base_fear_time + randf_range(-time_variation, time_variation))
+		timer.start(fear_base_time + randf_range(-time_variation, time_variation))
+		$AnimatedSprite2D.play(&"run")
+
 		return true
 		
 	return false
 	
 func start_fear() -> void:
+	var player = self.get_tree().root.get_node("main/player")
+	direction = -1.0 * (player.position - self.position).normalized()
 	velocity = direction * fear_speed
-	$AnimatedSprite2D.play(&"run")
+
 	if direction.x < 0:
 		$AnimatedSprite2D.flip_h = false
 	else:
 		$AnimatedSprite2D.flip_h = true
 	
-	var player = self.get_tree().root.get_node("main/player")
 	var distance = player.position.distance_to(self.position)
-	direction = -1.0 * (player.position - self.position).normalized()
-	
 	if distance < fear_distance_min_threshold or distance >= fear_distance_max_threshold + 10.0:
 		direction = Vector2.ZERO
 		velocity = Vector2.ZERO
 		current_behaviour = BehaviourState.CAUGHT
 		$AnimatedSprite2D.play(&"caught")
+		
+
+func init_teleport() -> bool:
+	if current_behaviour != BehaviourState.IDLE and current_behaviour != BehaviourState.WANDER:
+		return false
+	
+	var player = self.get_tree().root.get_node("main/player")
+	var distance = player.position.distance_to(self.position)
+	if distance > teleport_distance_min_threshold and distance < teleport_distance_max_threshold and randf() < teleport_chance:
+		current_behaviour = BehaviourState.TELEPORT
+		var screen_res = Vector2()
+		screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
+		screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
+		var edge_buffer = Vector2(40, 40)
+		teleport_target_position = Vector2(randf_range(edge_buffer.x, screen_res.x - edge_buffer.y), 
+			randf_range(edge_buffer.y, screen_res.y - edge_buffer.y))
+		
+		if teleport_should_travel:
+			direction = -1.0 * (teleport_target_position - self.position).normalized()
+			$AnimatedSprite2D.play(&"run")
+		else:
+			$AnimatedSprite2D.play(&"dust")
+		
+		teleport_used = false
+		timer.start(teleport_base_time + randf_range(-time_variation, time_variation))
+		return true
+		
+	return false
+	
+func start_teleport() -> void:
+	var player = self.get_tree().root.get_node("main/player")
+	
+	# We handle the instant teleport at the end of animation
+	if teleport_should_travel:
+		direction = 1.0 * (teleport_target_position - self.position).normalized()
+		velocity = direction * teleport_speed
+		if direction.x < 0:
+			$AnimatedSprite2D.flip_h = false
+		else:
+			$AnimatedSprite2D.flip_h = true
+	
+		var distance = teleport_target_position.distance_to(self.position)
+		if distance < teleport_distance_min_threshold:
+			direction = Vector2.ZERO
+			velocity = Vector2.ZERO
+			current_behaviour = BehaviourState.CAUGHT
+			$AnimatedSprite2D.play(&"caught")
+
+func start_instant_teleport() -> void:
+	if not teleport_should_travel:
+		position = teleport_target_position
+		teleport_used = true;
+		$AnimatedSprite2D.play_backwards(&"dust")
 
 func _physics_process(delta: float) -> void:
 	if current_behaviour == BehaviourState.WANDER:
@@ -304,9 +384,11 @@ func _physics_process(delta: float) -> void:
 		start_chase()
 	elif current_behaviour == BehaviourState.FEAR:
 		start_fear()
+	elif current_behaviour == BehaviourState.TELEPORT:
+		start_teleport()
 	else:
 		velocity = Vector2.ZERO
 		
 	move_and_slide()
 	if is_highlighted and current_behaviour == BehaviourState.IDLE:
-		init_chase() or init_fear()
+		init_teleport() or init_chase() or init_fear()

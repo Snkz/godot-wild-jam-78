@@ -176,8 +176,11 @@ height = 48.0
 collision_mask = 3
 input_pickable = true
 script = ExtResource("1_fx8j0")
-fear_chance = 0.25
 explode_on_click = true
+wander_chance = 0.0
+fear_chance = 0.25
+teleport_chance = 1.0
+teleport_distance_min_threshold = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_30h38")
