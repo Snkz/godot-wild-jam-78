@@ -56,6 +56,9 @@ func _on_creature_deleted(node, index) -> void:
 	var audio = player.get_node("audio_dust")
 	audio.play()
 	
+	creature_picks[node.layer] -= 1
+	assert(creature_picks[node.layer] >=0)
+
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	var count = 0
 	for creature in creatures:
@@ -230,10 +233,12 @@ func respawn_creatures() -> void:
 	for info in creature_spawns:
 		if respawn_count <= 0:
 			break
-
 		if info.colour and info.node and not is_instance_valid(info.node):
 			var group = self.get_node("creatures/ysort/" + info.layer)
 			if not group:
+				continue
+				
+			if creature_picks[info.layer] == 0:
 				continue
 
 			var creature = info.creature_scene.instantiate()
@@ -243,6 +248,7 @@ func respawn_creatures() -> void:
 			creature.colour = info.colour
 			creature.layer = info.layer
 			info.node = creature
+			creature_picks[info.layer] += 1
 
 			# Spawn the creature by adding it to the Main scene.
 			creature.add_to_group("creatures")
