@@ -6,7 +6,6 @@ var original_radius = 0;
 var gameintro_active = false
 var gameintro_shuttingdown = false;
 func _ready() -> void:
-	print("intro ready")
 	gameintro_active = false
 	
 	var parent = self.get_parent()
@@ -60,18 +59,6 @@ func _process(delta: float) -> void:
 	var player = self.get_node("../player")
 	var foreground = self.get_node("../foreground")
 
-	var increased_radius = 3000
-	var lerp_speed = 1.0
-
-	if not gameintro_shuttingdown:
-		player.mask_radius = lerp(player.mask_radius, original_radius + increased_radius, lerp_speed * delta)
-		foreground.get_child(0).material.set_shader_parameter("holeCenter", player.position)
-		foreground.get_child(0).material.set_shader_parameter("holeRadius", player.mask_radius)
-	else:
-		lerp_speed = 10
-		player.mask_radius = lerp(player.mask_radius, original_radius, lerp_speed * delta)
-		foreground.get_child(0).material.set_shader_parameter("holeCenter", get_viewport().get_mouse_position())
-		foreground.get_child(0).material.set_shader_parameter("holeRadius", player.mask_radius)
 		
 func _unhandled_input(event):
 	if not gameintro_active:
@@ -79,7 +66,6 @@ func _unhandled_input(event):
 		
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_ENTER:
-			print("enter")
 			gameintro_shuttingdown = true
 
 			var player = self.get_node("../player")
@@ -102,8 +88,9 @@ func _unhandled_input(event):
 			
 			gameintro_active = false
 			visible = false
-			player.mask_radius = original_radius
 			get_tree().paused = false
+			
+			player.mask_radius = 3000
 			
 			restart.emit()
 		if event.pressed and event.keycode == KEY_ESCAPE:

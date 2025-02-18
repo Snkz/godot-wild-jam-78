@@ -53,8 +53,10 @@ func _on_creature_deleted(node, index) -> void:
 	matched_count = matched_count + 1
 
 	var creatures = get_tree().get_nodes_in_group("creatures")
-	var count = len(creatures)
-
+	var count = 0
+	for creature in creatures:
+		if not creature.is_dying:
+			count += 1
 	camera_shake.emit(0.2, 0.1)
 		
 	if count <= 0:
