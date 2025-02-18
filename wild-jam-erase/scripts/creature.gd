@@ -188,7 +188,7 @@ func move_selected() -> void:
 	var creature_colour = creatures.get_node(layer)
 	var creature_node = null
 	if creature_colour:
-		creature_node = creatures.get_node(str(name))
+		creature_node = creature_colour.get_node(str(name))
 	
 	if creature_node:
 		var colour_node = selected.get_node(layer)
