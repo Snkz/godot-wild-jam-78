@@ -54,8 +54,8 @@ mask_radius = 150.0
 
 [node name="gameover" parent="." instance=ExtResource("3_80ec5")]
 visible = false
-offset = Vector2(800, 500)
-transform = Transform2D(1, 0, 0, 1, 800, 500)
+offset = Vector2(720, 540)
+transform = Transform2D(1, 0, 0, 1, 720, 540)
 
 [node name="selected" type="CanvasLayer" parent="."]
 layer = 2

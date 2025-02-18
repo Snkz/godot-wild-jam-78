@@ -50,17 +50,19 @@ signal gamestart()
 signal camera_shake(a, b)
 
 func _on_creature_deleted(node, index) -> void:	
+	camera_shake.emit(0.2, 0.1)
 	node.is_dying = true
 	var player = self.get_node("player")
 	var audio = player.get_node("audio_dust")
 	audio.play()
 	
-	matched_count = matched_count + 1
-	
 	var creatures = get_tree().get_nodes_in_group("creatures")
-	var count = len(creatures)
-	camera_shake.emit(0.2, 0.1)
-		
+	var count = 0
+	for creature in creatures:
+		if not creature.is_dying:
+			count += 1
+			
+	matched_count = matched_count + 1
 	if count <= 0:
 		gameover.emit(matched_count, game_time)
 		

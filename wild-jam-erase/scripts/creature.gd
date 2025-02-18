@@ -69,7 +69,6 @@ func _ready() -> void:
 	connect("creature_matched", _on_creature_matched)
 	connect("creature_gameover", _on_creature_gameover)
 
-
 	var offset : float = randf_range(0, $AnimatedSprite2D.sprite_frames.get_frame_count($AnimatedSprite2D.animation))
 	$AnimatedSprite2D.set_frame_and_progress(offset, offset)
 	$AnimatedSprite2D.material = $AnimatedSprite2D.material.duplicate()
@@ -239,6 +238,8 @@ func start_idle() -> void:
 	timer.start(idle_base_time + randf_range(-time_variation, time_variation))
 
 func start_dust() -> void:
+	if is_dying:
+		return
 	current_behaviour = BehaviourState.DUST
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	$AnimatedSprite2D.play(&"dust")
