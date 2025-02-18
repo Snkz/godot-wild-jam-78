@@ -31,9 +31,9 @@ extends Camera2D
 @export var yellow_noise_threshold := 1.0
 @export var yellow_creature_scene: PackedScene
 
-var selected_creature: Creature
 var rng = RandomNumberGenerator.new()
 var creature_spawns = []
+var active_selection = []
 var matched_count = 0
 var game_time = 0.0
 var noise = null
@@ -44,7 +44,7 @@ signal gameover(int, float)
 signal gamestart()
 signal camera_shake(a, b)
 
-func _on_creature_deleted(node, index) -> void:
+func _on_creature_deleted(node, index) -> void:	
 	node.is_dying = true
 	var player = self.get_node("player")
 	var audio = player.get_node("audio_dust")
@@ -56,9 +56,6 @@ func _on_creature_deleted(node, index) -> void:
 	var count = len(creatures)
 
 	camera_shake.emit(0.2, 0.1)
-	
-	if node == selected_creature:
-		selected_creature = null
 		
 	if count <= 0:
 		gameover.emit(matched_count, game_time)
@@ -69,9 +66,9 @@ func _on_restart() -> void:
 		creature.queue_free()
 	
 	creature_spawns = []
+	active_selection = []
 	matched_count = 0
 	game_time = 0.0
-	selected_creature = null
 	camera_shake_lifetime = 0
 	offset = Vector2(0.0, 0.0)
 	rotation = 0.0
@@ -214,6 +211,7 @@ func generate_creatures() -> void:
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	for c in creatures: 
 		c.connect("creature_deleted", _on_creature_deleted)
+		c.connect("creature_deselected", _on_creature_deselected)
 		
 
 # Called when the node enters the scene tree for the first time.
@@ -226,6 +224,7 @@ func _ready() -> void:
 	screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
 	var player = self.get_node("player")
 	player.connect("creature_selected", _on_creature_selected)
+
 	connect("camera_shake", _on_camera_shake)
 	connect("gameover", _on_gameover)
 	
@@ -264,44 +263,57 @@ func _process(delta):
 func get_creature_info(index) -> Dictionary:
 	for creature_spawn in creature_spawns:
 		if creature_spawn.index == index:
-			print("CREATURE FOUND: ", index, " ", creature_spawn)
 			return creature_spawn
 			
 	return {index: null}
-
+	
+	
+# Do not call this while iterating, only exploding clicks should use
+func _on_creature_deselected(node, index) -> void:
+	active_selection.erase(node)
+	
 func _on_creature_selected(node, index) -> void:
-	var node_info = get_creature_info(index)
+	var node_info = get_creature_info(index)	
+	if node and node.is_dying:
+		return
+	 
+	# We clicked empty space
+	if not node:
+		for active in active_selection:
+			active.emit_signal("creature_matched", active, false, len(active_selection) > 1, len(active_selection))
+	
+		active_selection.clear()
+		return
+
+	var selected_creature = active_selection.back()
+	if not active_selection.has(node):
+		active_selection.push_back(node)
+	
 	var selected_info = {}
 	if is_instance_valid(selected_creature):
 		selected_info = get_creature_info(selected_creature.index)
+
+	# First selection click
+	if len(active_selection) == 1 and is_instance_valid(node):
+		node.emit_signal("creature_matched", node, true, false, len(active_selection))
+	else:		
+		# We clicked the same guy twice
+		if selected_creature.index == index or active_selection.find(node) < active_selection.size() - 1:
+			for active in active_selection:
+				active.emit_signal("creature_matched", active, false, len(active_selection) > 1, len(active_selection))
+			active_selection.clear()
 		
-	if node and node.is_dying:
-		return
-	
-	if selected_creature == null and is_instance_valid(node):
-		selected_creature = node
-		node.emit_signal("creature_matched", selected_creature, true, false)
-		print("NEW", index, node_info.colour)
-	elif selected_creature == null and node == null:
-		print("EMPTY", index)
-	elif selected_creature.index == index or node == null:
-		selected_creature.emit_signal("creature_matched", selected_creature, false, false)
-		selected_creature = null
-		print("SAME", index, selected_info.colour)
-	elif node_info.colour == selected_info.colour:
-		node.emit_signal("creature_matched", selected_creature, true, true)
-		selected_creature.emit_signal("creature_matched", selected_creature, true, true)
-		selected_creature = null
-		print("MATCH", index, node_info.colour, selected_info.index, selected_info.colour)
-	elif node_info.colour != selected_info.colour:
-		selected_creature.emit_signal("creature_matched", selected_creature, false, false)
-		node.emit_signal("creature_matched", selected_creature, false, false)
-		selected_creature = null
-		print("NO MATCH", index, node_info.colour, " ", selected_info.colour)
-		gameover.emit(matched_count, game_time)
-	else:
-		assert(false)
-	
+		# New guy of our type was selected
+		elif node_info.colour == selected_info.colour:
+			node.emit_signal("creature_matched", selected_creature, true, true, len(active_selection))
+		# Picked a guy that doesnt match our type
+		elif node_info.colour != selected_info.colour:
+			for active in active_selection:
+				active.emit_signal("creature_matched", active, false, false, len(active_selection))
+			
+			active_selection.clear()
+			gameover.emit(matched_count, game_time)
+
 func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_ESCAPE:

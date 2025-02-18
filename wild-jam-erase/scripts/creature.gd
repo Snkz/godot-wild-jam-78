@@ -3,8 +3,9 @@ extends CharacterBody2D
 
 signal creature_highlighted(bool)
 signal nearest_creature_highlighted(bool)
-signal creature_matched(a, b, c)
+signal creature_matched(a, b, c, d)
 signal creature_deleted(a, b)
+signal creature_deselected(a, b)
 signal creature_gameover()
 
 
@@ -62,6 +63,7 @@ var timer = null
 func _ready() -> void:
 	randomize()
 	timer = Timer.new()	
+	timer.one_shot = true
 	connect("creature_highlighted", _on_creature_highlighted)
 	connect("nearest_creature_highlighted", _on_nearest_creature_highlighted)
 	connect("creature_matched", _on_creature_matched)
@@ -90,9 +92,6 @@ func _on_creature_highlighted(state) -> void:
 		return
 		
 	if current_behaviour == BehaviourState.REVEAL:
-		if not state:
-			clear_reveal()
-			
 		return
 	
 	#start_idle()
@@ -124,10 +123,6 @@ func _on_nearest_creature_highlighted(state) -> void:
 	tween_hover = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
 	tween_hover.tween_property(self, "scale", Vector2.ONE, 0.4)
 	
-	if current_behaviour == BehaviourState.REVEAL:
-		if not state:
-			clear_reveal()
-	
 	if (state): 
 		$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 1)
 		if tween_hover and tween_hover.is_running():
@@ -135,29 +130,37 @@ func _on_nearest_creature_highlighted(state) -> void:
 		tween_hover = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
 		tween_hover.tween_property(self, "scale", Vector2(1.1, 1.1), 0.6)
 		
-func _on_creature_matched(node, selected, matched) -> void:
-	clear_selected()
+func _on_creature_matched(node, selected, matched, count) -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
 	
 	if selected:
+		# Clear states here before changing what happens, avoid else block to allow visible deaths
+		clear_selected()
+		clear_reveal()
+		
 		var player = self.get_tree().root.get_node("main/player")
 		var audio = player.get_node("audio_hit")
 		audio.play()
 		move_selected()
-		if reveal_colour_on_click and not matched:
+		if reveal_colour_on_click and count == 1:
 			start_reveal()
 			$AnimatedSprite2D.play(&"selected")
+			current_behaviour = BehaviourState.REVEAL
 		elif explode_on_click:
+			creature_deselected.emit(self, index)
 			start_dust()
 		else:
 			current_behaviour = BehaviourState.SELECTED
 			$AnimatedSprite2D.play(&"selected")
 	else:
-		if not matched and (current_behaviour == BehaviourState.SELECTED or current_behaviour == BehaviourState.REVEAL):
-			$AnimatedSprite2D.play(&"caught")
-
-	if (selected and matched):
-		start_dust()
+		if current_behaviour == BehaviourState.SELECTED or current_behaviour == BehaviourState.REVEAL:
+			if matched:
+				start_dust()
+			else:
+				$AnimatedSprite2D.play(&"caught")
+				current_behaviour = BehaviourState.CAUGHT
+				clear_selected()
+				clear_reveal()
 
 func start_reveal() -> void:
 	var selected = get_tree().root.get_node("main/selected")	
@@ -168,8 +171,7 @@ func start_reveal() -> void:
 		creatures.remove_child(colour_node)
 		selected.add_child(colour_node)
 		
-	current_behaviour = BehaviourState.REVEAL
-	timer.start(reveal_base_time + randf_range(-time_variation, time_variation))
+	timer.start(reveal_base_time)
 	
 
 func clear_reveal() -> void:
@@ -272,7 +274,7 @@ func init_chase() -> bool:
 	if distance > chase_distance_min_threshold and distance < chase_distance_max_threshold and randf() < chase_chance:
 		current_behaviour = BehaviourState.CHASE
 		direction = (player.position - self.position).normalized()
-		timer.start(chase_base_time + randf_range(-time_variation, time_variation))
+		timer.start(chase_base_time)
 		$AnimatedSprite2D.play(&"run")
 		return true
 		
@@ -304,7 +306,7 @@ func init_fear() -> bool:
 	if distance > fear_distance_min_threshold and distance < fear_distance_max_threshold and randf() < fear_chance:
 		current_behaviour = BehaviourState.FEAR
 		direction = -1.0 * (player.position - self.position).normalized()
-		timer.start(fear_base_time + randf_range(-time_variation, time_variation))
+		timer.start(fear_base_time)
 		$AnimatedSprite2D.play(&"run")
 
 		return true
@@ -351,7 +353,7 @@ func init_teleport() -> bool:
 			$AnimatedSprite2D.play(&"dust")
 		
 		teleport_used = false
-		timer.start(teleport_base_time + randf_range(-time_variation, time_variation))
+		timer.start(teleport_base_time)
 		return true
 		
 	return false
