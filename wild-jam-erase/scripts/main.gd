@@ -379,6 +379,9 @@ func _on_creature_selected(node, index) -> void:
 			gameover.emit(matched_count, game_time)
 
 func _unhandled_input(event):
+	if OS.get_name() == "Web":
+		return
+		
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_ESCAPE:
 			get_tree().quit()

@@ -82,7 +82,7 @@ func _unhandled_input(event):
 			get_tree().paused = false
 			
 			restart.emit()
-		if event.pressed and event.keycode == KEY_ESCAPE:
+		if event.pressed and not OS.get_name() == "Web" and event.keycode == KEY_ESCAPE:
 			get_tree().quit()
 
 func _typewriter(node) -> void:

@@ -94,5 +94,5 @@ func _unhandled_input(event):
 			player.mask_radius = 3000
 			
 			restart.emit()
-		if event.pressed and event.keycode == KEY_ESCAPE:
+		if event.pressed and not OS.get_name() == "Web" and event.keycode == KEY_ESCAPE:
 			get_tree().quit()
