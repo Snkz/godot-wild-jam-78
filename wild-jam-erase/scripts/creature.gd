@@ -7,7 +7,7 @@ signal creature_matched(a, b, c, d)
 signal creature_deleted(a, b)
 signal creature_deselected(a, b)
 signal creature_gameover()
-
+signal creature_matchmade()
 
 var index : int
 var colour : Color
@@ -143,6 +143,7 @@ func _on_creature_matched(node, selected, matched, count) -> void:
 			$AnimatedSprite2D.play(&"selected")
 			current_behaviour = BehaviourState.REVEAL
 		elif explode_on_click:
+			creature_matchmade.emit()
 			creature_deselected.emit(self, index)
 			start_dust()
 		else:
@@ -151,6 +152,7 @@ func _on_creature_matched(node, selected, matched, count) -> void:
 	else:
 		if current_behaviour == BehaviourState.SELECTED or current_behaviour == BehaviourState.REVEAL:
 			if matched:
+				creature_matchmade.emit()
 				start_dust()
 			else:
 				$AnimatedSprite2D.play(&"caught")

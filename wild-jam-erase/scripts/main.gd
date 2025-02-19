@@ -66,7 +66,6 @@ func _on_creature_deleted(node, index) -> void:
 		if not creature.is_dying:
 			count += 1
 			
-	matched_count = matched_count + 1
 	if count <= 0:
 		gameover.emit(matched_count, game_time)
 		
@@ -110,7 +109,10 @@ func _on_camera_shake(strength, lifetime) -> void:
 func _on_gameover(score, time) -> void:
 	#camera_shake.emit(0.5, 0.25)
 	pass
-	
+
+func _on_matchmade() -> void:
+	matched_count += 1 * active_selection.size() # combos scale score
+
 func generate_grid() -> void:
 	noise.seed = randi()
 	var screen_res = Vector2()
@@ -234,6 +236,7 @@ func generate_creatures() -> void:
 	for c in creatures: 
 		c.connect("creature_deleted", _on_creature_deleted)
 		c.connect("creature_deselected", _on_creature_deselected)
+		c.connect("creature_matchmade", _on_matchmade)
 		
 	creatures_generated = true
 
@@ -319,7 +322,7 @@ func _process(delta):
 	if (game_started):
 		audio.volume_db = -10.0
 	else:
-		audio.volume_db = -10.0 - 85.0 * clamp(1.0 - pow(game_time / 2.0, 3.0), 0.0, 1.0)
+		audio.volume_db = -10.0 - 55.0 * clamp(1.0 - pow(game_time / 2.0, 3.0), 0.0, 1.0)
 	if not audio.is_playing():
 		audio.play()
 
