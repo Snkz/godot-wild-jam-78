@@ -1,14 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4qcfxfu18v6d"]
+[gd_scene load_steps=5 format=3 uid="uid://b4qcfxfu18v6d"]
 
 [ext_resource type="Script" path="res://scripts/gameover.gd" id="1_l5aed"]
 [ext_resource type="Texture2D" uid="uid://bva6vuuv0hhb8" path="res://assets/gameover.png" id="2_kvmbd"]
 [ext_resource type="AudioStream" uid="uid://clhdvj8q2bnjn" path="res://assets/click.wav" id="2_toajv"]
 [ext_resource type="FontFile" uid="uid://cipoo02mvwvh2" path="res://assets/fonts/retro-pixel-petty-5h.ttf" id="3_5doyi"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_duasc"]
-font = ExtResource("3_5doyi")
-font_size = 25
-font_color = Color(0.305882, 0.290196, 0.290196, 1)
 
 [node name="gameover" type="CanvasLayer"]
 process_mode = 2
@@ -37,21 +32,6 @@ theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
 scroll_active = false
 custom_effects = [null]
-
-[node name="restart" type="Label" parent="."]
-anchors_preset = -1
-anchor_left = 0.039
-anchor_top = 0.144
-anchor_right = 0.25
-anchor_bottom = 0.166
-offset_left = -420.16
-offset_top = 18.48
-offset_right = 6.0
-offset_bottom = 63.72
-grow_horizontal = 2
-grow_vertical = 2
-text = "Enter to restart, ESC to quit"
-label_settings = SubResource("LabelSettings_duasc")
 
 [node name="audio_gameover" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_toajv")

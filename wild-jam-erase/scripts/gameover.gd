@@ -23,6 +23,7 @@ func _on_gameover(matched_count, game_time) -> void:
 	var milliseconds = int((game_time - int(game_time)) * 1000)
 
 	var formatted_time = "%d.%03d" % [seconds, milliseconds]
+	visible = true
 	
 	var time_node = get_node("time")
 	time_node.text = ""
@@ -32,7 +33,8 @@ func _on_gameover(matched_count, game_time) -> void:
 	time_node.newline()
 	time_node.append_text("SCORE: ")
 	time_node.append_text(str(matched_count))
-	visible = true
+	time_node.newline()
+	time_node.append_text("Press ENTER to restart")
 	_typewriter(time_node)
 	
 	var audio = self.get_node("audio_gameover")

@@ -34,8 +34,8 @@ func set_nearest() -> void:
 			nearest_selection.emit_signal("nearest_creature_highlighted", false)
 		nearest_selection = null
 
-func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
-	if event is InputEventMouse:
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
 		if not get_tree().paused:
 			if event.is_pressed() and nearest_selection:
 				creature_selected.emit(nearest_selection, nearest_selection.index)
