@@ -18,10 +18,11 @@ debug_color = Color(0.985112, 0, 0.336994, 0.42)
 
 [node name="audio_hit" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_pt4h6")
-volume_db = -5.0
+volume_db = -8.0
 
 [node name="audio_dust" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_7sryj")
+volume_db = -5.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
