@@ -249,6 +249,7 @@ func init_wander() -> bool:
 	if current_behaviour == BehaviourState.IDLE and randf() < wander_chance:
 		current_behaviour = BehaviourState.WANDER
 		direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
+		
 		timer.start(wander_base_time + randf_range(-time_variation, time_variation))
 		$AnimatedSprite2D.play(&"run")
 		return true
@@ -315,7 +316,7 @@ func start_fear() -> void:
 	var player = self.get_tree().root.get_node("main/player")
 	direction = -1.0 * (player.position - self.position).normalized()
 	velocity = direction * fear_speed
-
+	
 	if direction.x < 0:
 		$AnimatedSprite2D.flip_h = false
 	else:
@@ -340,7 +341,7 @@ func init_teleport() -> bool:
 		var screen_res = Vector2()
 		screen_res.x = ProjectSettings.get_setting("display/window/size/viewport_width")
 		screen_res.y = ProjectSettings.get_setting("display/window/size/viewport_height")
-		var edge_buffer = Vector2(40, 40)
+		var edge_buffer = Vector2(80, 60)
 		teleport_target_position = Vector2(randf_range(edge_buffer.x, screen_res.x - edge_buffer.y), 
 			randf_range(edge_buffer.y, screen_res.y - edge_buffer.y))
 		

@@ -319,7 +319,7 @@ func _process(delta):
 	if (game_started):
 		audio.volume_db = -10.0
 	else:
-		audio.volume_db = -10.0 - 90.0 * clamp(1.0 - game_time / 2.0, 0.0, 1.0)
+		audio.volume_db = -10.0 - 85.0 * clamp(1.0 - pow(game_time / 2.0, 3.0), 0.0, 1.0)
 	if not audio.is_playing():
 		audio.play()
 

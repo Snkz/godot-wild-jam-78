@@ -18,7 +18,7 @@
 size = Vector2(1440, 86)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8wnw2"]
-size = Vector2(80, 1080)
+size = Vector2(103, 1080)
 
 [node name="main" type="Camera2D"]
 process_mode = 3
@@ -86,11 +86,11 @@ position = Vector2(-1, 510)
 shape = SubResource("RectangleShape2D_bnkbg")
 
 [node name="Right" type="CollisionShape2D" parent="border"]
-position = Vector2(679, 13)
+position = Vector2(673.5, 13)
 shape = SubResource("RectangleShape2D_8wnw2")
 
 [node name="Left" type="CollisionShape2D" parent="border"]
-position = Vector2(-681, 13)
+position = Vector2(-675, 13)
 shape = SubResource("RectangleShape2D_8wnw2")
 
 [node name="audio_background" type="AudioStreamPlayer2D" parent="."]
