@@ -56,10 +56,10 @@ var teleport_used = true
 
 @export_group("mimic", "mimic_")
 @export var mimic_chance := 0.0
-@export var mimic_highlight_threshold := 3
+@export var mimic_highlight_threshold := 3.0
 var mimic_node = null
 var mimic_active = false
-var mimic_highlight_time = 0
+var mimic_highlight_time = 0.0
 
 var is_dying = false
 var is_highlighted = false

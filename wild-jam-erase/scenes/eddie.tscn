@@ -215,11 +215,21 @@ collision_mask = 3
 input_pickable = true
 script = ExtResource("1_fx8j0")
 explode_on_click = true
+wander_speed = 50.0
 wander_chance = 0.25
-teleport_chance = 1.0
-teleport_distance_min_threshold = 0
+wander_base_time = 1.0
+fear_chance = 1.0
+fear_speed = 120.0
+fear_distance_min_threshold = 20
+fear_distance_max_threshold = 250
+fear_base_time = 1.0
+teleport_chance = 0.25
+teleport_speed = 80.0
+teleport_should_travel = true
+teleport_distance_min_threshold = 20
+teleport_base_time = 1.0
 mimic_chance = 1.0
-mimic_highlight_threshold = 0
+mimic_highlight_threshold = 0.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_30h38")
