@@ -168,6 +168,7 @@ height = 50.0
 [node name="ghost" type="CharacterBody2D"]
 collision_mask = 3
 input_pickable = true
+motion_mode = 1
 script = ExtResource("1_2qv5k")
 wander_speed = 60.0
 wander_chance = 0.75

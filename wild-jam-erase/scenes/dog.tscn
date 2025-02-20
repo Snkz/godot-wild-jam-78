@@ -191,6 +191,7 @@ height = 52.0
 [node name="dog" type="CharacterBody2D"]
 collision_mask = 3
 input_pickable = true
+motion_mode = 1
 script = ExtResource("1_3urrw")
 chase_chance = 1.0
 chase_distance_min_threshold = 20

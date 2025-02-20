@@ -319,7 +319,7 @@ func _process(delta):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 	var audio = get_node("audio_background")
-	var should_play = game_started or game_time > 1.0
+	var should_play = game_started or game_time > 0.75
 	if should_play and not audio.is_playing():
 		audio.play()
 
