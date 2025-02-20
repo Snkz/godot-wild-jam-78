@@ -152,6 +152,44 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_vehlh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s0gj7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wgbn4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cd6jk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfn7k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s3o1v")
+}],
+"loop": false,
+"name": &"mimic",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"mimic_caught",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"mimic_dust",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": false,
+"name": &"mimic_idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_qgf83")
 }, {
 "duration": 1.0,
@@ -177,16 +215,17 @@ collision_mask = 3
 input_pickable = true
 script = ExtResource("1_fx8j0")
 explode_on_click = true
-wander_chance = 0.0
-fear_chance = 0.25
+wander_chance = 0.25
 teleport_chance = 1.0
 teleport_distance_min_threshold = 0
+mimic_chance = 1.0
+mimic_highlight_threshold = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_30h38")
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_7r80j")
-animation = &"caught"
+animation = &"mimic"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

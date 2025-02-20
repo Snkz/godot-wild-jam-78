@@ -13,7 +13,7 @@ var index : int
 var colour : Color
 var layer : String
 
-enum BehaviourState { IDLE, WANDER, CAUGHT, DUST, FEAR, CHASE, REVEAL, SELECTED, TELEPORT }
+enum BehaviourState { IDLE, WANDER, CAUGHT, DUST, FEAR, CHASE, REVEAL, SELECTED, TELEPORT, MIMIC }
 var current_behaviour = BehaviourState.IDLE
 
 @export var idle_base_time := 3.0
@@ -52,6 +52,13 @@ var teleport_used = true
 @export var teleport_distance_min_threshold := 50
 @export var teleport_distance_max_threshold := 200
 @export var teleport_base_time := 2.0
+
+@export_group("mimic", "mimic_")
+@export var mimic_chance := 0.0
+@export var mimic_highlight_threshold := 3
+var mimic_node = null
+var mimic_active = false
+var mimic_highlight_time = 0
 
 var is_dying = false
 var is_highlighted = false
@@ -110,7 +117,22 @@ func _on_animation_finished() -> void:
 				$AnimatedSprite2D.play(&"caught")
 		else:
 			start_idle()
-			
+				
+	if current_behaviour == BehaviourState.MIMIC:
+		if ($AnimatedSprite2D.animation == &"mimic"):
+			if (mimic_active):
+				start_instant_mimic()
+			else:
+				start_instant_mimic_fail_free()
+		elif ($AnimatedSprite2D.animation == &"mimic_caught"):
+			start_instant_mimic_fail()
+		elif ($AnimatedSprite2D.animation == &"mimic_dust"):
+			if (mimic_active):
+				$AnimatedSprite2D.play(&"mimic_idle")
+			else:
+				$AnimatedSprite2D.play_backwards(&"mimic")
+
+
 
 func _on_nearest_creature_highlighted(state) -> void:
 	$AnimatedSprite2D.material.set_shader_parameter("line_thickness", 0)
@@ -219,11 +241,14 @@ func _on_timeout() -> void:
 	if current_behaviour == BehaviourState.SELECTED:
 		return
 		
+	if current_behaviour == BehaviourState.MIMIC:
+		return
+		
 	if current_behaviour == BehaviourState.REVEAL:
 		clear_reveal()
 		return
 	
-	var result = init_teleport() or init_chase() or init_fear() or init_wander()
+	var result = init_mimic() or init_teleport() or init_chase() or init_fear() or init_wander()
 	if not result:
 		start_idle()
 
@@ -325,7 +350,7 @@ func start_fear() -> void:
 		$AnimatedSprite2D.flip_h = true
 	
 	var distance = player.position.distance_to(self.position)
-	if distance < fear_distance_min_threshold or distance >= fear_distance_max_threshold + 10.0:
+	if distance < fear_distance_min_threshold or distance >= fear_distance_max_threshold:
 		direction = Vector2.ZERO
 		velocity = Vector2.ZERO
 		current_behaviour = BehaviourState.CAUGHT
@@ -358,7 +383,83 @@ func init_teleport() -> bool:
 		return true
 		
 	return false
+
+func init_mimic() -> bool:
+	if current_behaviour != BehaviourState.IDLE and current_behaviour != BehaviourState.WANDER:
+		return false
 	
+	var player = self.get_tree().root.get_node("main/player")
+	var main = self.get_tree().root.get_node("main")
+	if (main.active_selection.size() >= 1 and not is_highlighted) and randf() < mimic_chance:
+		current_behaviour = BehaviourState.MIMIC
+		mimic_node = main.active_selection.back()
+		mimic_active = true
+		mimic_highlight_time = mimic_highlight_threshold
+	
+		# Copy over animation info
+		var animation = mimic_node.get_node("AnimatedSprite2D")
+		$AnimatedSprite2D.sprite_frames.clear(&"mimic_dust")
+		$AnimatedSprite2D.sprite_frames.set_animation_loop(&"mimic_dust", animation.sprite_frames.get_animation_loop(&"dust"))
+		$AnimatedSprite2D.sprite_frames.set_animation_speed(&"mimic_dust", animation.sprite_frames.get_animation_speed(&"idle"))
+		for i in range(animation.sprite_frames.get_frame_count(&"dust")):
+			var frame = animation.sprite_frames.get_frame_texture(&"dust", i)	
+			var duration = animation.sprite_frames.get_frame_duration(&"dust", i)	
+			$AnimatedSprite2D.sprite_frames.add_frame(&"mimic_dust", frame, duration, i)
+
+		$AnimatedSprite2D.sprite_frames.clear(&"mimic_idle")
+		$AnimatedSprite2D.sprite_frames.set_animation_loop(&"mimic_idle", animation.sprite_frames.get_animation_loop(&"idle"))
+		$AnimatedSprite2D.sprite_frames.set_animation_speed(&"mimic_idle", animation.sprite_frames.get_animation_speed(&"idle"))
+		for i in range(animation.sprite_frames.get_frame_count(&"idle")):
+			var frame = animation.sprite_frames.get_frame_texture(&"idle", i)	
+			var duration = animation.sprite_frames.get_frame_duration(&"idle", i)	
+			$AnimatedSprite2D.sprite_frames.add_frame(&"mimic_idle", frame, duration, i)
+		
+		$AnimatedSprite2D.sprite_frames.clear(&"mimic_caught")
+		$AnimatedSprite2D.sprite_frames.set_animation_loop(&"mimic_caught", animation.sprite_frames.get_animation_loop(&"caught"))
+		$AnimatedSprite2D.sprite_frames.set_animation_speed(&"mimic_caught", animation.sprite_frames.get_animation_speed(&"caught"))
+		for i in range(animation.sprite_frames.get_frame_count(&"caught")):
+			var frame = animation.sprite_frames.get_frame_texture(&"caught", i)	
+			var duration = animation.sprite_frames.get_frame_duration(&"caught", i)	
+			$AnimatedSprite2D.sprite_frames.add_frame(&"mimic_caught", frame, duration, i)
+
+		$AnimatedSprite2D.play(&"mimic")
+		return true
+		
+	return false
+	
+func start_mimic(delta) -> bool:
+	var player = self.get_tree().root.get_node("main/player")
+	var main = self.get_tree().root.get_node("main")
+	var distance = player.position.distance_to(self.position)
+	
+	if is_highlighted:
+		mimic_highlight_time -= delta
+	else:
+		mimic_highlight_time = mimic_highlight_threshold
+		
+	if mimic_active and (main.active_selection.size() == 0 or mimic_highlight_time < 0):
+		mimic_active = false
+		$AnimatedSprite2D.play(&"mimic_caught")
+		return false
+	
+	return true
+	
+func start_instant_mimic() -> void:
+	assert(mimic_node)
+	$AnimatedSprite2D.play_backwards(&"mimic_dust")
+
+
+func start_instant_mimic_fail() -> void:
+	assert(mimic_node)		
+	mimic_node = null
+
+	$AnimatedSprite2D.play(&"mimic_dust")
+
+func start_instant_mimic_fail_free() -> void:
+	assert(not mimic_node)
+	current_behaviour = BehaviourState.CAUGHT
+	$AnimatedSprite2D.play(&"caught")
+
 func start_teleport() -> void:
 	var player = self.get_tree().root.get_node("main/player")
 	
@@ -393,9 +494,14 @@ func _physics_process(delta: float) -> void:
 		start_fear()
 	elif current_behaviour == BehaviourState.TELEPORT:
 		start_teleport()
+	elif current_behaviour == BehaviourState.MIMIC:
+		start_mimic(delta)
 	else:
 		velocity = Vector2.ZERO
 		
 	move_and_slide()
 	if is_highlighted and current_behaviour == BehaviourState.IDLE:
 		init_teleport() or init_chase() or init_fear()
+		
+	if current_behaviour == BehaviourState.IDLE or current_behaviour == BehaviourState.WANDER:
+		init_mimic()

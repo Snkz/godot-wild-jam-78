@@ -176,12 +176,15 @@ fear_chance = 0.25
 fear_distance_max_threshold = 100
 fear_base_time = 1.0
 reveal_colour_on_click = true
+teleport_chance = 1.0
+teleport_distance_min_threshold = 0
+teleport_base_time = 1.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_30h38")
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_q53y4")
-animation = &"caught"
+animation = &"dust"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
