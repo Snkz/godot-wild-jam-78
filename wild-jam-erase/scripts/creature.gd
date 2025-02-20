@@ -8,6 +8,7 @@ signal creature_deleted(a, b)
 signal creature_deselected(a, b)
 signal creature_gameover()
 signal creature_matchmade()
+signal creature_won()
 
 var index : int
 var colour : Color
@@ -62,6 +63,7 @@ var mimic_highlight_time = 0
 
 var is_dying = false
 var is_highlighted = false
+var is_winner = false
 
 var tween_hover: Tween
 var direction := Vector2.ZERO
@@ -75,6 +77,8 @@ func _ready() -> void:
 	connect("nearest_creature_highlighted", _on_nearest_creature_highlighted)
 	connect("creature_matched", _on_creature_matched)
 	connect("creature_gameover", _on_creature_gameover)
+	connect("creature_won", _on_creature_won)
+
 
 	var offset : float = randf_range(0, $AnimatedSprite2D.sprite_frames.get_frame_count($AnimatedSprite2D.animation))
 	$AnimatedSprite2D.set_frame_and_progress(offset, offset)
@@ -175,6 +179,7 @@ func _on_creature_matched(node, selected, matched, count) -> void:
 		if current_behaviour == BehaviourState.SELECTED or current_behaviour == BehaviourState.REVEAL:
 			if matched:
 				creature_matchmade.emit()
+				move_selected()
 				start_dust()
 			else:
 				$AnimatedSprite2D.play(&"caught")
@@ -253,8 +258,16 @@ func _on_timeout() -> void:
 		start_idle()
 
 func _on_creature_gameover() -> void:
+	if is_winner:
+		return
 	start_dust()
 
+func _on_creature_won() -> void:
+	is_winner = true
+	start_reveal()
+	$AnimatedSprite2D.play(&"caught")
+	
+	
 func start_idle() -> void:	
 	current_behaviour = BehaviourState.IDLE
 	$AnimatedSprite2D.play(&"idle")

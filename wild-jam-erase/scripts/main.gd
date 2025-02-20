@@ -319,7 +319,7 @@ func _process(delta):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 	var audio = get_node("audio_background")
-	var should_play = game_started or game_time > 1.5
+	var should_play = game_started or game_time > 1.0
 	if should_play and not audio.is_playing():
 		audio.play()
 
@@ -376,6 +376,7 @@ func _on_creature_selected(node, index) -> void:
 				active.emit_signal("creature_matched", active, false, false, len(active_selection))
 			
 			active_selection.clear()
+			node.emit_signal("creature_won")
 			gameover.emit(matched_count, game_time)
 
 func _unhandled_input(event):
