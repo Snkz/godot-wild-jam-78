@@ -95,6 +95,7 @@ shape = SubResource("RectangleShape2D_8wnw2")
 
 [node name="audio_background" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_kri3q")
+volume_db = -10.0
 
 [node name="creatures" type="CanvasLayer" parent="."]
 process_mode = 3
