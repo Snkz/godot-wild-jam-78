@@ -14,7 +14,7 @@ var index : int
 var colour : Color
 var layer : String
 
-enum BehaviourState { IDLE, WANDER, CAUGHT, DUST, FEAR, CHASE, REVEAL, SELECTED, TELEPORT, MIMIC }
+enum BehaviourState { IDLE, WANDER, CAUGHT, DUST, FEAR, CHASE, REVEAL, SELECTED, TELEPORT, MIMIC, WON }
 var current_behaviour = BehaviourState.IDLE
 
 @export var idle_base_time := 3.0
@@ -93,6 +93,9 @@ func _ready() -> void:
 func _on_creature_highlighted(state) -> void:
 	is_highlighted = state
 	
+	if current_behaviour == BehaviourState.WON:
+		return
+		
 	if current_behaviour == BehaviourState.DUST:
 		return
 		
@@ -240,6 +243,9 @@ func clear_selected() -> void:
 		colour_node.add_child(creature_node)
 
 func _on_timeout() -> void:
+	if current_behaviour == BehaviourState.WON:
+		return
+
 	if current_behaviour == BehaviourState.DUST:
 		return
 		
@@ -265,6 +271,7 @@ func _on_creature_gameover() -> void:
 func _on_creature_won() -> void:
 	is_winner = true
 	start_reveal()
+	current_behaviour = BehaviourState.WON
 	$AnimatedSprite2D.play(&"caught")
 	
 	
