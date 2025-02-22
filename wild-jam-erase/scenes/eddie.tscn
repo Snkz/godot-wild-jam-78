@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://7totvlvqqayc"]
+[gd_scene load_steps=28 format=3 uid="uid://7totvlvqqayc"]
 
 [ext_resource type="Script" path="res://scripts/creature.gd" id="1_fx8j0"]
 [ext_resource type="Shader" path="res://shaders/creature.gdshader" id="2_1sosv"]
@@ -72,6 +72,26 @@ region = Rect2(48, 0, 24, 24)
 [sub_resource type="AtlasTexture" id="AtlasTexture_jq7pt"]
 atlas = ExtResource("3_ixt8m")
 region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krxql"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(0, 72, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_15rdq"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(24, 72, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uhc50"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(48, 72, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7eq56"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(72, 72, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ariar"]
+atlas = ExtResource("3_ixt8m")
+region = Rect2(96, 72, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7r80j"]
 animations = [{
@@ -190,16 +210,19 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qgf83")
+"texture": SubResource("AtlasTexture_krxql")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_efity")
+"texture": SubResource("AtlasTexture_15rdq")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_c7pso")
+"texture": SubResource("AtlasTexture_uhc50")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jq7pt")
+"texture": SubResource("AtlasTexture_7eq56")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ariar")
 }],
 "loop": true,
 "name": &"run",
@@ -220,7 +243,7 @@ wander_speed = 50.0
 wander_chance = 0.25
 wander_base_time = 1.0
 fear_chance = 1.0
-fear_speed = 120.0
+fear_speed = 150.0
 fear_distance_min_threshold = 20
 fear_distance_max_threshold = 250
 fear_base_time = 1.0
