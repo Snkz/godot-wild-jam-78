@@ -31,17 +31,25 @@ func _on_gameover(matched_count, game_time, win) -> void:
 	
 	panel.visible = true		
 	
-	var time_node = get_node("time")
+	var text_node = get_node("text")
+	text_node.visible = true
+	
+	var time_node = get_node("text/time")
 	time_node.text = ""
 	time_node.append_text("TIME: ")
 	time_node.append_text(formatted_time)
-	time_node.append_text("s")
+	time_node.append_text(" seconds")
 	time_node.newline()
 	time_node.append_text("SCORE: ")
 	time_node.append_text(str(matched_count))
 	time_node.newline()
-	time_node.append_text("Press ENTER to restart")
-	_typewriter(time_node)
+	_typewriter(time_node, 0.75)
+
+	
+	var restart_node = get_node("text/restart")
+	restart_node.text = ""
+	restart_node.append_text("Press ENTER to restart")
+	_typewriter(restart_node, 0.05)
 	
 	var audio = self.get_node("audio_gameover")
 	audio.play()
@@ -74,6 +82,8 @@ func _unhandled_input(event):
 			parent.camera_shake.emit(0.2, 0.2)
 			
 			visible = false
+			var text_node = get_node("text")
+			text_node.visible = false
 			var player = self.get_node("../player")
 			var foreground = self.get_node("../foreground")
 			player.mask_radius = 0.0
@@ -87,6 +97,6 @@ func _unhandled_input(event):
 		if event.pressed and not OS.get_name() == "Web" and event.keycode == KEY_ESCAPE:
 			get_tree().quit()
 
-func _typewriter(node) -> void:
+func _typewriter(node, duration) -> void:
 	var tween: Tween = create_tween()
-	tween.tween_property(node, "visible_ratio", 1.0, 0.2).from(0.0)
+	tween.tween_property(node, "visible_ratio", 1.0, duration).from(0.0)

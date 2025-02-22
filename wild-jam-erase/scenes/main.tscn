@@ -38,6 +38,7 @@ blue_creature_scene = ExtResource("4_2bbtr")
 white_creature_scene = ExtResource("3_3u1q3")
 yellow_num_creatures = 3
 yellow_creature_scene = ExtResource("3_bysk2")
+metadata/_edit_group_ = true
 
 [node name="canvas" type="Sprite2D" parent="."]
 scale = Vector2(5, 5)
