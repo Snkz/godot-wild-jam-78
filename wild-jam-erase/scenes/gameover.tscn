@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://b4qcfxfu18v6d"]
+[gd_scene load_steps=6 format=3 uid="uid://b4qcfxfu18v6d"]
 
 [ext_resource type="Script" path="res://scripts/gameover.gd" id="1_l5aed"]
 [ext_resource type="Texture2D" uid="uid://bva6vuuv0hhb8" path="res://assets/gameover.png" id="2_kvmbd"]
-[ext_resource type="AudioStream" uid="uid://clhdvj8q2bnjn" path="res://assets/click.wav" id="2_toajv"]
 [ext_resource type="FontFile" uid="uid://cipoo02mvwvh2" path="res://assets/fonts/retro-pixel-petty-5h.ttf" id="3_5doyi"]
+[ext_resource type="Texture2D" uid="uid://jy15awd63e8k" path="res://assets/game_cleared.png" id="3_fuuj0"]
+[ext_resource type="AudioStream" uid="uid://dp4uqo65gcuo" path="res://assets/audio/arcade_11.wav" id="4_cn85s"]
 
 [node name="gameover" type="CanvasLayer"]
 process_mode = 2
@@ -17,9 +18,15 @@ position = Vector2(69, 66)
 scale = Vector2(5, 5)
 texture = ExtResource("2_kvmbd")
 
-[node name="Panel" type="Sprite2D" parent="."]
+[node name="lose_panel" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(5, 5)
 texture = ExtResource("2_kvmbd")
+
+[node name="win_panel" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(5, 5)
+texture = ExtResource("3_fuuj0")
 
 [node name="time" type="RichTextLabel" parent="."]
 offset_left = -362.0
@@ -34,10 +41,4 @@ scroll_active = false
 custom_effects = [null]
 
 [node name="audio_gameover" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("2_toajv")
-volume_db = -5.0
-
-[node name="audio_restart" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("2_toajv")
-volume_db = -5.0
-pitch_scale = 1.51
+stream = ExtResource("4_cn85s")

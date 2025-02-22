@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://yxis2j80giwn"]
+[gd_scene load_steps=19 format=3 uid="uid://yxis2j80giwn"]
 
 [ext_resource type="PackedScene" uid="uid://dewg4bjcsybcx" path="res://scenes/player.tscn" id="1_bdlqp"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_w64oe"]
@@ -12,7 +12,10 @@
 [ext_resource type="PackedScene" uid="uid://bihdkd2udbepv" path="res://scenes/dog.tscn" id="6_md2jr"]
 [ext_resource type="PackedScene" uid="uid://c6xqlex878w5x" path="res://scenes/intro.tscn" id="7_o3dbp"]
 [ext_resource type="Texture2D" uid="uid://cr1120fmesmq2" path="res://assets/canvas.png" id="10_6c5dy"]
+[ext_resource type="FontFile" uid="uid://cipoo02mvwvh2" path="res://assets/fonts/retro-pixel-petty-5h.ttf" id="10_sciym"]
 [ext_resource type="AudioStream" uid="uid://iq6weps73nxy" path="res://assets/low_fi_beats.wav" id="11_kri3q"]
+[ext_resource type="AudioStream" uid="uid://dnojs07sff71y" path="res://assets/audio/arcade_2.wav" id="14_7eqvi"]
+[ext_resource type="AudioStream" uid="uid://deqxfctoh3i1r" path="res://assets/audio/arcade_5.wav" id="14_74u20"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bnkbg"]
 size = Vector2(1440, 86)
@@ -95,7 +98,13 @@ shape = SubResource("RectangleShape2D_8wnw2")
 
 [node name="audio_background" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_kri3q")
-volume_db = -10.0
+volume_db = -30.0
+
+[node name="audio_deselect" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("14_7eqvi")
+
+[node name="audio_restart" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("14_74u20")
 
 [node name="creatures" type="CanvasLayer" parent="."]
 process_mode = 3
@@ -119,3 +128,26 @@ y_sort_enabled = true
 
 [node name="red" type="Node2D" parent="creatures/ysort"]
 y_sort_enabled = true
+
+[node name="ui" type="CanvasLayer" parent="."]
+layer = 3
+follow_viewport_enabled = true
+
+[node name="score" type="RichTextLabel" parent="ui"]
+visible = false
+top_level = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1340.0
+offset_bottom = -1030.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(0.305882, 0.290196, 0.290196, 1)
+theme_override_colors/font_outline_color = Color(0.921569, 0.917647, 0.901961, 1)
+theme_override_constants/outline_size = 15
+theme_override_fonts/normal_font = ExtResource("10_sciym")
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+text = "[center]000[/center]"
+scroll_active = false

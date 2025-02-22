@@ -68,9 +68,12 @@ func _on_creature_deleted(node, index) -> void:
 			count += 1
 			
 	if count <= 0:
-		gameover.emit(matched_count, game_time)
+		gameover.emit(matched_count, game_time, true)
 		
 func _on_restart() -> void:
+	var audio = self.get_node("audio_restart")
+	audio.play()
+	
 	game_started = true
 	var creatures = get_tree().get_nodes_in_group("creatures")
 	for creature in creatures:
@@ -111,8 +114,29 @@ func _on_gameover(score, time) -> void:
 	#camera_shake.emit(0.5, 0.25)
 	pass
 
-func _on_matchmade() -> void:
-	matched_count += 1 * active_selection.size() # combos scale score
+func _on_matchmade(node) -> void:
+	var score = active_selection.size() * active_selection.size() # combos scale exponentially
+	matched_count += 1 * active_selection.size() 
+	
+	var current_position = node.position
+	var label = self.get_node("ui/score")
+	label.visible = true
+	label.text = "[center]%d[/center]" % score
+	
+	label.position = current_position + Vector2(-50, -50)
+	var scale = 1.2 + min(0.1 * log(score + 1), 1.8)
+	label.scale = Vector2(scale, scale)
+	label.set_indexed("modulate:a", 1)
+
+	var tween = create_tween().set_ease(Tween.EASE_OUT)
+	
+	tween.parallel().tween_property(label, "position", current_position + Vector2(-50, -100), 1.0)
+	tween.parallel().tween_property(label, "scale", Vector2(0.8, 0.8), 1.0)
+	tween.parallel().tween_property(label, "modulate:a", 0, 1.0)
+	
+	tween.tween_callback(func():
+		label.visible = false
+	)
 
 func generate_grid() -> void:
 	noise.seed = randi()
@@ -358,6 +382,8 @@ func _on_creature_selected(node, index) -> void:
 			active.emit_signal("creature_matched", active, false, len(active_selection) > 1, len(active_selection))
 	
 		active_selection.clear()
+		var audio = self.get_node("audio_deselect")
+		audio.play()
 		return
 
 	var selected_creature = active_selection.back()
@@ -388,7 +414,7 @@ func _on_creature_selected(node, index) -> void:
 			
 			active_selection.clear()
 			node.emit_signal("creature_won")
-			gameover.emit(matched_count, game_time)
+			gameover.emit(matched_count, game_time, false)
 
 func _unhandled_input(event):
 	if OS.get_name() == "Web":

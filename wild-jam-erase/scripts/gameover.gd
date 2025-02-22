@@ -12,7 +12,7 @@ func _ready() -> void:
 	gameover_active = false
 
 
-func _on_gameover(matched_count, game_time) -> void:
+func _on_gameover(matched_count, game_time, win) -> void:
 	var parent = self.get_parent()
 	parent.camera_shake.emit(0.5, 0.25)
 	
@@ -24,6 +24,12 @@ func _on_gameover(matched_count, game_time) -> void:
 
 	var formatted_time = "%d.%03d" % [seconds, milliseconds]
 	visible = true
+	
+	var panel = self.get_node("lose_panel")
+	if win:
+		panel = self.get_node("win_panel")
+	
+	panel.visible = true		
 	
 	var time_node = get_node("time")
 	time_node.text = ""
@@ -73,10 +79,6 @@ func _unhandled_input(event):
 			player.mask_radius = 0.0
 			foreground.get_child(0).material.set_shader_parameter("holeCenter", player.position)
 			foreground.get_child(0).material.set_shader_parameter("holeRadius", player.mask_radius)
-				
-			var audio = self.get_node("audio_restart")
-			audio.play()
-			await not audio.playing
 			
 			gameover_active = false
 			get_tree().paused = false

@@ -73,8 +73,6 @@ func _unhandled_input(event):
 			var foreground = self.get_node("../foreground")
 			var creatures = get_node("creatures").get_children()
 			
-			var audio = self.get_node("audio_restart")
-			audio.play()
 			var parent = self.get_parent()
 			parent.camera_shake.emit(0.2, 0.2)
 			

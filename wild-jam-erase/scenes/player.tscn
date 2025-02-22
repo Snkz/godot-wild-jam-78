@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://dewg4bjcsybcx"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_o3o8q"]
-[ext_resource type="AudioStream" uid="uid://pbu80ngnoxvq" path="res://assets/hit.wav" id="2_pt4h6"]
-[ext_resource type="AudioStream" uid="uid://dwjqa31up6ler" path="res://assets/uagh.wav" id="3_7sryj"]
+[ext_resource type="AudioStream" uid="uid://dksk6qs3j7rk8" path="res://assets/audio/arcade_8.wav" id="2_0hqjw"]
+[ext_resource type="AudioStream" uid="uid://dyh11u60qgq1q" path="res://assets/audio/arcade_12.wav" id="3_4et0e"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_eiewv"]
 radius = 93.0484
@@ -17,12 +17,10 @@ shape = SubResource("CircleShape2D_eiewv")
 debug_color = Color(0.985112, 0, 0.336994, 0.42)
 
 [node name="audio_hit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("2_pt4h6")
-volume_db = -8.0
+stream = ExtResource("2_0hqjw")
 
 [node name="audio_dust" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_7sryj")
-volume_db = -5.0
+stream = ExtResource("3_4et0e")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
