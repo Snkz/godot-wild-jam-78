@@ -243,6 +243,7 @@ func generate_creatures() -> void:
 func respawn_creatures() -> void:	
 	var index = 0
 	var respawn_count = respawn_cap
+	var spawned_mimic = false
 	creature_spawns.shuffle()
 	for info in creature_spawns:
 		if respawn_count <= 0:
@@ -254,6 +255,14 @@ func respawn_creatures() -> void:
 				
 			if creature_picks[info.layer] == 0:
 				continue
+
+			# Check if should turn this creature into mimic, its okay if we turn the mimic into a mimic also
+			# TODO: Adjust colour, currently we just hardcoding yellow
+			if creature_picks[info.layer] > 1 and creature_picks[info.layer] % 2 == 0 and not spawned_mimic:
+				info.colour = Color(1.0, 1.0, 0.0)
+				info.creature_scene = yellow_creature_scene
+				info.layer = "yellow"
+				spawned_mimic = true
 
 			var creature = info.creature_scene.instantiate()
 			creature.name = "creature " + str(info.index)
@@ -319,7 +328,7 @@ func _process(delta):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 	var audio = get_node("audio_background")
-	var should_play = game_started or game_time > 0.75
+	var should_play = game_started or game_time > 0.6
 	if should_play and not audio.is_playing():
 		audio.play()
 
