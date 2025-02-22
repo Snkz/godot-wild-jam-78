@@ -93,14 +93,10 @@ texture = ExtResource("2_oajou")
 
 [node name="start" type="Label" parent="."]
 anchors_preset = -1
-anchor_left = 0.039
-anchor_top = 0.144
-anchor_right = 0.25
-anchor_bottom = 0.166
-offset_left = 43.84
-offset_top = -155.52
-offset_right = 470.0
-offset_bottom = -110.28
+offset_left = 120.28
+offset_top = -20.56
+offset_right = 490.28
+offset_bottom = 24.44
 grow_horizontal = 2
 grow_vertical = 2
 text = "Enter to START"
@@ -108,14 +104,11 @@ label_settings = SubResource("LabelSettings_d3ktg")
 
 [node name="instructions" type="Label" parent="."]
 anchors_preset = -1
-anchor_left = 0.039
-anchor_top = 0.144
-anchor_right = 0.25
-anchor_bottom = 0.166
-offset_left = -236.16
-offset_top = -483.52
-offset_right = 190.0
-offset_bottom = -318.28
+anchor_right = 0.382
+offset_left = -160.0
+offset_top = -300.18
+offset_right = -160.08
+offset_bottom = -111.18
 grow_horizontal = 2
 grow_vertical = 2
 text = "Click and match.
