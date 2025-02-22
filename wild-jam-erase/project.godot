@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Help my pc is infected with cute viruses and they keep respawning!"
+config/name="Help! My program is infected with cute viruses and they keep respawning!"
 config/description="Match ANY game. Clear the viruses. Save the PC!"
 config/version="1.0.0"
 run/main_scene="res://scenes/main.tscn"
