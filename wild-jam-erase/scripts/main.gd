@@ -256,8 +256,8 @@ func respawn_creatures() -> void:
 			if creature_picks[info.layer] == 0:
 				continue
 
-			# Check if should turn this creature into mimic, its okay if we turn the mimic into a mimic also
 			# TODO: Adjust colour, currently we just hardcoding yellow
+			# Check if should turn this creature into mimic, its okay if we turn the mimic into a mimic also
 			if creature_picks[info.layer] > 1 and creature_picks[info.layer] % 2 == 0 and not spawned_mimic:
 				info.colour = Color(1.0, 1.0, 0.0)
 				info.creature_scene = yellow_creature_scene
