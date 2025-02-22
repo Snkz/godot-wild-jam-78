@@ -7,6 +7,7 @@ extends Camera2D
 @export var max_camera_roll = 0.1 
 @export var respawn_rate := 30.0
 @export var respawn_cap := 1
+@export var respawn_as_mimic_chance := 0.5
 
 @export_group("green", "green_")
 @export var green_num_creatures := 6
@@ -259,10 +260,11 @@ func respawn_creatures() -> void:
 			# TODO: Adjust colour, currently we just hardcoding yellow
 			# Check if should turn this creature into mimic, its okay if we turn the mimic into a mimic also
 			if creature_picks[info.layer] > 1 and creature_picks[info.layer] % 2 == 0 and not spawned_mimic:
-				info.colour = Color(1.0, 1.0, 0.0)
-				info.creature_scene = yellow_creature_scene
-				info.layer = "yellow"
-				spawned_mimic = true
+				if randf() < respawn_as_mimic_chance:
+					info.colour = Color(1.0, 1.0, 0.0)
+					info.creature_scene = yellow_creature_scene
+					info.layer = "yellow"
+					spawned_mimic = true
 
 			var creature = info.creature_scene.instantiate()
 			creature.name = "creature " + str(info.index)
