@@ -114,28 +114,32 @@ func _on_gameover(score, time) -> void:
 	#camera_shake.emit(0.5, 0.25)
 	pass
 
-func _on_matchmade(node) -> void:
+func _on_creature_matchmade(node) -> void:
 	var score = active_selection.size() * active_selection.size() # combos scale exponentially
 	matched_count += 1 * active_selection.size() 
 	
-	var current_position = node.position
-	var label = self.get_node("ui/score")
-	label.visible = true
-	label.text = "[center]%d[/center]" % score
+	var container = self.get_node("ui")
+	var base = self.get_node("ui/score")
+	var current_position = node.position + Vector2(-base.size.x/2, -75)
 	
-	label.position = current_position + Vector2(-50, -50)
-	var scale = 1.2 + min(0.1 * log(score + 1), 1.8)
-	label.scale = Vector2(scale, scale)
+	var label = base.duplicate(DUPLICATE_USE_INSTANTIATION)
+	label.visible = true
+	label.text = "[center]%d[/center]" % active_selection.size()
+	label.position = current_position
+	
+	var scale = 1.0 + min(0.1 * log(score + 1), 2.0) # scale dynamically based on score
 	label.set_indexed("modulate:a", 1)
+	
+	container.add_child(label)
 
 	var tween = create_tween().set_ease(Tween.EASE_OUT)
 	
-	tween.parallel().tween_property(label, "position", current_position + Vector2(-50, -100), 1.0)
-	tween.parallel().tween_property(label, "scale", Vector2(0.8, 0.8), 1.0)
-	tween.parallel().tween_property(label, "modulate:a", 0, 1.0)
+	tween.parallel().tween_property(label, "position", current_position + Vector2(-10, -50), 0.5).set_trans(Tween.TRANS_ELASTIC)
+	tween.parallel().tween_property(label, "scale", Vector2(scale, scale), 0.5).set_trans(Tween.TRANS_ELASTIC)
+	tween.parallel().tween_property(label, "modulate:a", 0, 0.25).set_delay(0.25)
 	
 	tween.tween_callback(func():
-		label.visible = false
+		label.queue_free()
 	)
 
 func generate_grid() -> void:
@@ -261,7 +265,7 @@ func generate_creatures() -> void:
 	for c in creatures: 
 		c.connect("creature_deleted", _on_creature_deleted)
 		c.connect("creature_deselected", _on_creature_deselected)
-		c.connect("creature_matchmade", _on_matchmade)
+		c.connect("creature_matchmade", _on_creature_matchmade)
 		
 	creatures_generated = true
 
@@ -381,9 +385,10 @@ func _on_creature_selected(node, index) -> void:
 		for active in active_selection:
 			active.emit_signal("creature_matched", active, false, len(active_selection) > 1, len(active_selection))
 	
+		if active_selection.size() <= 1:
+			var audio = self.get_node("audio_deselect")
+			audio.play()
 		active_selection.clear()
-		var audio = self.get_node("audio_deselect")
-		audio.play()
 		return
 
 	var selected_creature = active_selection.back()
@@ -402,6 +407,8 @@ func _on_creature_selected(node, index) -> void:
 		if selected_creature.index == index or active_selection.find(node) < active_selection.size() - 1:
 			for active in active_selection:
 				active.emit_signal("creature_matched", active, false, len(active_selection) > 1, len(active_selection))
+			var player = self.get_node("player")
+			display_kicker(player.position, active_selection.size() * active_selection.size())
 			active_selection.clear()
 		
 		# New guy of our type was selected
@@ -414,7 +421,32 @@ func _on_creature_selected(node, index) -> void:
 			
 			active_selection.clear()
 			node.emit_signal("creature_won")
+			display_kicker(node.position, "!!!")
 			gameover.emit(matched_count, game_time, false)
+
+func display_kicker(pos, text) -> void:
+	var container = self.get_node("ui")
+	var base = self.get_node("ui/score")
+	var current_position = pos + Vector2(-base.size.x/2, -75)
+	
+	var label = base.duplicate(DUPLICATE_USE_INSTANTIATION)
+	label.visible = true
+	label.text = "[center][color=#e8bb1a]%s[/color][/center]" % text
+	label.position = current_position
+
+	label.set_indexed("modulate:a", 1)
+	
+	container.add_child(label)
+
+	var tween = create_tween().set_ease(Tween.EASE_OUT)
+	
+	tween.parallel().tween_property(label, "position", current_position + Vector2(-50, -50), 1.0).set_trans(Tween.TRANS_ELASTIC)
+	tween.parallel().tween_property(label, "scale", Vector2(2.0, 2.0), 1.0).set_trans(Tween.TRANS_ELASTIC)
+	tween.parallel().tween_property(label, "modulate:a", 0, 0.5).set_delay(0.5)
+	
+	tween.tween_callback(func():
+		label.queue_free()
+	)
 
 func _unhandled_input(event):
 	if OS.get_name() == "Web":

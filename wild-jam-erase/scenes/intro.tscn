@@ -92,7 +92,6 @@ scale = Vector2(5, 5)
 texture = ExtResource("2_oajou")
 
 [node name="start" type="Label" parent="."]
-anchors_preset = -1
 offset_left = 120.28
 offset_top = -20.56
 offset_right = 490.28

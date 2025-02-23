@@ -38,7 +38,6 @@ blue_creature_scene = ExtResource("4_2bbtr")
 white_creature_scene = ExtResource("3_3u1q3")
 yellow_num_creatures = 3
 yellow_creature_scene = ExtResource("3_bysk2")
-metadata/_edit_group_ = true
 
 [node name="canvas" type="Sprite2D" parent="."]
 scale = Vector2(5, 5)
@@ -135,12 +134,20 @@ layer = 3
 follow_viewport_enabled = true
 
 [node name="score" type="RichTextLabel" parent="ui"]
-offset_right = 100.0
-offset_bottom = 50.0
+visible = false
+top_level = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1340.0
+offset_bottom = -1030.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_colors/default_color = Color(0.305882, 0.290196, 0.290196, 1)
 theme_override_colors/font_outline_color = Color(0.921569, 0.917647, 0.901961, 1)
 theme_override_constants/outline_size = 15
 theme_override_fonts/normal_font = ExtResource("10_sciym")
 theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
+text = "[center]000[/center]"
 scroll_active = false
