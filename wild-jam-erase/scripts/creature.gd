@@ -104,6 +104,9 @@ func _on_creature_highlighted(state) -> void:
 		
 	if current_behaviour == BehaviourState.REVEAL:
 		return
+		
+	if current_behaviour == BehaviourState.MIMIC:
+		return
 	
 	if state and (current_behaviour == BehaviourState.WANDER or current_behaviour == BehaviourState.IDLE): 
 		current_behaviour = BehaviourState.CAUGHT
