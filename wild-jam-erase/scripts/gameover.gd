@@ -25,11 +25,11 @@ func _on_gameover(matched_count, game_time, win) -> void:
 	var formatted_time = "%d.%03d" % [seconds, milliseconds]
 	visible = true
 	
-	var panel = self.get_node("lose_panel")
-	if win:
-		panel = self.get_node("win_panel")
+	var win_panel = self.get_node("win_panel")
+	var lose_panel = self.get_node("lose_panel")
 	
-	panel.visible = true		
+	win_panel.visible = win
+	lose_panel.visible = not win
 	
 	var text_node = get_node("text")
 	text_node.visible = true
