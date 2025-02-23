@@ -43,6 +43,20 @@ func _on_gamestart() -> void:
 	
 	gameintro_active = true
 
+	var instructions = get_node("instructions")
+	var start = get_node("start")
+	instructions.visible_ratio = 0
+	start.visible_ratio = 0
+
+	var instruction_tween = typewriter(instructions, 2.0)
+	await instruction_tween.finished
+	await get_tree().create_timer(0.25).timeout
+	var start_tween = typewriter(start, 0.5)
+	await start_tween.finished
+
+	start.visible_ratio = 0
+	blink(start, 7, 0.25)
+
 	var creatures = get_node("creatures").get_children()
 	for creature in creatures:
 		var animation = creature.get_node("AnimatedSprite2D")
@@ -94,3 +108,19 @@ func _unhandled_input(event):
 			restart.emit()
 		if event.pressed and not OS.get_name() == "Web" and event.keycode == KEY_ESCAPE:
 			get_tree().quit()
+
+func typewriter(node, duration) -> Tween:
+	var tween: Tween = create_tween()
+	tween.tween_property(node, "visible_ratio", 1.0, duration).from(0.0)
+	return tween
+	
+func blink(node, loops, duration_ms) -> void:
+	var alpha = 1.0
+	while loops > 0:
+		node.visible_ratio = alpha
+		await get_tree().create_timer(duration_ms).timeout
+		if alpha > 0.0: 
+			alpha = 0.0
+		else: 
+			alpha = 1.0
+		loops = loops - 1

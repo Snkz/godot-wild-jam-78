@@ -43,13 +43,13 @@ func _on_gameover(matched_count, game_time, win) -> void:
 	time_node.append_text("SCORE: ")
 	time_node.append_text(str(matched_count))
 	time_node.newline()
-	_typewriter(time_node, 0.75)
+	typewriter(time_node, 0.75)
 
 	
 	var restart_node = get_node("text/restart")
 	restart_node.text = ""
 	restart_node.append_text("Press ENTER to restart")
-	_typewriter(restart_node, 0.05)
+	typewriter(restart_node, 0.05)
 	
 	var audio = self.get_node("audio_gameover")
 	audio.play()
@@ -97,6 +97,6 @@ func _unhandled_input(event):
 		if event.pressed and not OS.get_name() == "Web" and event.keycode == KEY_ESCAPE:
 			get_tree().quit()
 
-func _typewriter(node, duration) -> void:
+func typewriter(node, duration) -> void:
 	var tween: Tween = create_tween()
 	tween.tween_property(node, "visible_ratio", 1.0, duration).from(0.0)

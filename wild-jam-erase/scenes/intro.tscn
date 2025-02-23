@@ -96,8 +96,6 @@ offset_left = 120.28
 offset_top = -20.56
 offset_right = 490.28
 offset_bottom = 24.44
-grow_horizontal = 2
-grow_vertical = 2
 text = "Enter to START"
 label_settings = SubResource("LabelSettings_d3ktg")
 
