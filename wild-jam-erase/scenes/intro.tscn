@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://c6xqlex878w5x"]
+[gd_scene load_steps=25 format=4 uid="uid://c6xqlex878w5x"]
 
 [ext_resource type="Script" path="res://scripts/intro.gd" id="1_3i8oh"]
 [ext_resource type="FontFile" uid="uid://cipoo02mvwvh2" path="res://assets/fonts/retro-pixel-petty-5h.ttf" id="2_dmfdt"]
@@ -89,6 +89,12 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_smb5j"]
+size = Vector2(1440, 86)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qw7y8"]
+size = Vector2(103, 1080)
+
 [node name="intro" type="CanvasLayer"]
 process_mode = 2
 script = ExtResource("1_3i8oh")
@@ -128,6 +134,7 @@ label_settings = SubResource("LabelSettings_1cshk")
 
 [node name="creatures" type="Node2D" parent="."]
 visible = false
+y_sort_enabled = true
 
 [node name="bird" parent="creatures" instance=ExtResource("5_aj2tb")]
 position = Vector2(-238, 39)
@@ -152,3 +159,24 @@ volume_db = -5.0
 position = Vector2(0, -37)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_7ugyc")
+
+[node name="border" type="StaticBody2D" parent="."]
+process_mode = 3
+collision_layer = 2
+collision_mask = 2
+
+[node name="Top" type="CollisionShape2D" parent="border"]
+position = Vector2(-1, -497)
+shape = SubResource("RectangleShape2D_smb5j")
+
+[node name="Bottom" type="CollisionShape2D" parent="border"]
+position = Vector2(-1, 510)
+shape = SubResource("RectangleShape2D_smb5j")
+
+[node name="Right" type="CollisionShape2D" parent="border"]
+position = Vector2(673.5, 13)
+shape = SubResource("RectangleShape2D_qw7y8")
+
+[node name="Left" type="CollisionShape2D" parent="border"]
+position = Vector2(-675, 13)
+shape = SubResource("RectangleShape2D_qw7y8")
