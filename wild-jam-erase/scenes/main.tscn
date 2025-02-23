@@ -45,7 +45,6 @@ scale = Vector2(5, 5)
 texture = ExtResource("10_6c5dy")
 
 [node name="intro" parent="." instance=ExtResource("7_o3dbp")]
-visible = false
 offset = Vector2(720, 540)
 transform = Transform2D(1, 0, 0, 1, 720, 540)
 follow_viewport_enabled = true

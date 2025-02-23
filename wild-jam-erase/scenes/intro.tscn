@@ -1,9 +1,15 @@
-[gd_scene load_steps=17 format=4 uid="uid://c6xqlex878w5x"]
+[gd_scene load_steps=23 format=4 uid="uid://c6xqlex878w5x"]
 
 [ext_resource type="Script" path="res://scripts/intro.gd" id="1_3i8oh"]
 [ext_resource type="FontFile" uid="uid://cipoo02mvwvh2" path="res://assets/fonts/retro-pixel-petty-5h.ttf" id="2_dmfdt"]
 [ext_resource type="Texture2D" uid="uid://bubi5f7ossujk" path="res://assets/canvas_dark.png" id="2_oajou"]
+[ext_resource type="Texture2D" uid="uid://d1hvilkwnwa86" path="res://assets/intro_bg.png" id="3_fy8eq"]
 [ext_resource type="Texture2D" uid="uid://c7q8qyg1pe07v" path="res://assets/team_dust.png" id="4_esqyl"]
+[ext_resource type="PackedScene" uid="uid://b13q08enc4ju" path="res://scenes/bird.tscn" id="5_aj2tb"]
+[ext_resource type="PackedScene" uid="uid://bihdkd2udbepv" path="res://scenes/dog.tscn" id="6_qj42s"]
+[ext_resource type="PackedScene" uid="uid://bwdlgjhs2b4wn" path="res://scenes/cat.tscn" id="7_uokfn"]
+[ext_resource type="PackedScene" uid="uid://7totvlvqqayc" path="res://scenes/eddie.tscn" id="8_d6fah"]
+[ext_resource type="PackedScene" uid="uid://bg6m51wnph64s" path="res://scenes/ghost.tscn" id="9_7nfaf"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_d3ktg"]
 font = ExtResource("2_dmfdt")
@@ -91,6 +97,12 @@ script = ExtResource("1_3i8oh")
 scale = Vector2(5, 5)
 texture = ExtResource("2_oajou")
 
+[node name="intro_bg" type="Sprite2D" parent="."]
+visible = false
+z_index = -1
+scale = Vector2(5, 5)
+texture = ExtResource("3_fy8eq")
+
 [node name="start" type="Label" parent="."]
 offset_left = 120.28
 offset_top = -20.56
@@ -115,6 +127,22 @@ Save the PC! "
 label_settings = SubResource("LabelSettings_1cshk")
 
 [node name="creatures" type="Node2D" parent="."]
+visible = false
+
+[node name="bird" parent="creatures" instance=ExtResource("5_aj2tb")]
+position = Vector2(-238, 39)
+
+[node name="dog" parent="creatures" instance=ExtResource("6_qj42s")]
+position = Vector2(129, 149)
+
+[node name="cat" parent="creatures" instance=ExtResource("7_uokfn")]
+position = Vector2(-124, -50)
+
+[node name="eddie" parent="creatures" instance=ExtResource("8_d6fah")]
+position = Vector2(-68, 54)
+
+[node name="ghost" parent="creatures" instance=ExtResource("9_7nfaf")]
+position = Vector2(386, -107)
 
 [node name="audio_gamestart" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamWAV_gdbvu")

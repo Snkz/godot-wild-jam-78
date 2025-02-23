@@ -42,11 +42,21 @@ func _on_gamestart() -> void:
 	logo.visible = false
 	
 	gameintro_active = true
-
+	
+	var intro_bg = get_node("intro_bg")
+	intro_bg.visible = true
+	
 	var instructions = get_node("instructions")
 	var start = get_node("start")
 	instructions.visible_ratio = 0
 	start.visible_ratio = 0
+
+	var creatures = get_node("creatures")
+	creatures.visible = true
+	for creature in creatures.get_children():
+		var animation = creature.get_node("AnimatedSprite2D")
+		animation.play(&"caught")
+		#await animation.animation_finished 
 
 	var instruction_tween = typewriter(instructions, 2.0)
 	await instruction_tween.finished
@@ -56,12 +66,6 @@ func _on_gamestart() -> void:
 
 	start.visible_ratio = 0
 	blink(start, 7, 0.25)
-
-	var creatures = get_node("creatures").get_children()
-	for creature in creatures:
-		var animation = creature.get_node("AnimatedSprite2D")
-		animation.play(&"caught")
-		await animation.animation_finished 
 	
 func _process(delta: float) -> void:
 	if not gameintro_active:
@@ -96,8 +100,7 @@ func _unhandled_input(event):
 				animation.play(&"dust")
 				last_animation = animation
 		
-			#if  last_animation:
-				#await last_animation.animation_finished  
+			await get_tree().create_timer(0.75).timeout
 			
 			gameintro_active = false
 			visible = false
