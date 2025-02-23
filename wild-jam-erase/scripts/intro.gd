@@ -56,6 +56,9 @@ func _on_gamestart() -> void:
 	for creature in creatures.get_children():
 		var animation = creature.get_node("AnimatedSprite2D")
 		animation.play(&"caught")
+		animation.animation_finished.connect(func():
+			creature.start_idle()
+		)
 		#await animation.animation_finished 
 
 	var instruction_tween = typewriter(instructions, 2.0)
@@ -96,11 +99,14 @@ func _unhandled_input(event):
 			
 			var last_animation = null
 			for creature in creatures:
+				creature.current_behaviour = creature.BehaviourState.WON
 				var animation = creature.get_node("AnimatedSprite2D")
 				animation.play(&"dust")
-				last_animation = animation
-		
-			await get_tree().create_timer(0.75).timeout
+				animation.animation_finished.connect(func():
+					creature.queue_free()
+				)
+			
+			await get_tree().create_timer(0.6).timeout
 			
 			gameintro_active = false
 			visible = false

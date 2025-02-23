@@ -259,7 +259,7 @@ mimic_highlight_threshold = 0.0
 material = SubResource("ShaderMaterial_30h38")
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_7r80j")
-animation = &"run"
+animation = &"dust"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

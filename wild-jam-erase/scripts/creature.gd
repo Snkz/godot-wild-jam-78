@@ -113,6 +113,10 @@ func _on_creature_highlighted(state) -> void:
 		$AnimatedSprite2D.play(&"caught")
 
 func _on_animation_finished() -> void:
+	var main = self.get_tree().root.get_node("main")
+	if not main.game_started:
+		return
+			
 	if ($AnimatedSprite2D.animation == &"caught"):
 		if current_behaviour == BehaviourState.CAUGHT:
 			var result = init_teleport() or init_chase() or init_fear() or init_wander()
