@@ -308,6 +308,7 @@ func respawn_creatures() -> void:
 			group.add_child(creature)
 			creature.connect("creature_deleted", _on_creature_deleted)
 			creature.connect("creature_deselected", _on_creature_deselected)
+			creature.connect("creature_matchmade", _on_creature_matchmade)
 			respawn_count -= 1
 
 # Called when the node enters the scene tree for the first time.
